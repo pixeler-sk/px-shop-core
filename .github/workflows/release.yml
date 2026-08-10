@@ -1,0 +1,97 @@
+name: Release
+
+# Vydanie sa spúšťa tagom: `git tag v1.0.1 && git push origin v1.0.1`.
+#
+# Workflow najprv overí, že verzia v tagu sedí so všetkými tromi miestami, kde
+# je v kóde zapísaná. Nesúlad medzi hlavičkou pluginu a `Stable tag` v readme.txt
+# je klasická tichá chyba — WordPress by ponúkol aktualizáciu, ktorá by sa
+# tvárila ako iná verzia. Radšej nech to padne tu.
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Zisti verziu z tagu
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Over, že verzie sedia
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          fail=0
+
+          header=$(sed -n 's/^ \* Version:[[:space:]]*\(.*\)$/\1/p' px-shop-core.php | head -1 | tr -d '[:space:]')
+          constant=$(sed -n "s/^define( 'PX_SHOP_CORE_VERSION', '\(.*\)' );$/\1/p" px-shop-core.php | head -1)
+          stable=$(sed -n 's/^Stable tag:[[:space:]]*\(.*\)$/\1/p' readme.txt | head -1 | tr -d '[:space:]')
+
+          for pair in "hlavička pluginu:$header" "PX_SHOP_CORE_VERSION:$constant" "readme.txt Stable tag:$stable"; do
+            name=${pair%%:*}
+            value=${pair#*:}
+            if [ "$value" != "$VERSION" ]; then
+              echo "::error::$name = '$value', ale tag je '$VERSION'"
+              fail=1
+            fi
+          done
+
+          if ! grep -q "^= ${VERSION} =$" readme.txt; then
+            echo "::error::readme.txt nemá changelog sekciu '= ${VERSION} ='"
+            fail=1
+          fi
+
+          exit $fail
+
+      - name: Zostav zip
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          # Zip musí mať na vrchu priečinok pomenovaný ako slug pluginu, inak by
+          # WordPress rozbalil aktualizáciu vedľa pôvodného priečinka.
+          mkdir -p build/px-shop-core
+          rsync -a ./ build/px-shop-core/ \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude 'build' \
+            --exclude '.gitignore' \
+            --exclude '.gitattributes' \
+            --exclude 'CLAUDE.md' \
+            --exclude 'RELEASING.md' \
+            --exclude 'README.md'
+
+          cd build && zip -rq "px-shop-core-${VERSION}.zip" px-shop-core
+
+      - name: Vytiahni changelog pre tento release
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          # Text medzi '= X.Y.Z =' a ďalším '= ' nadpisom (alebo koncom súboru).
+          awk -v v="= ${VERSION} =" '
+            $0 == v { found = 1; next }
+            found && /^= .* =$/ { exit }
+            found { print }
+          ' readme.txt > release-notes.md
+
+          if [ ! -s release-notes.md ]; then
+            echo "Vydanie ${VERSION}." > release-notes.md
+          fi
+
+      - name: Publikuj release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            "build/px-shop-core-${VERSION}.zip" \
+            --title "$GITHUB_REF_NAME" \
+            --notes-file release-notes.md

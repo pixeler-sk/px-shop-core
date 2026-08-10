@@ -1,0 +1,192 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PX Shop Core 0.1.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Domain: px-shop-core\n"
+
+#. translators: %s: brand name.
+msgid "About %s"
+msgstr "O značke %s"
+
+msgid "About the brand"
+msgstr "O značke"
+
+#. translators: %s: brand name.
+msgid "All products by %s"
+msgstr "Všetky produkty %s"
+
+#. translators: %s: formatted price.
+msgid "Lowest price in the last 30 days: %s"
+msgstr "Najnižšia cena za posledných 30 dní: %s"
+
+msgid "Product safety (GPSR)"
+msgstr "Bezpečnosť produktu (GPSR)"
+
+msgid "Safety & compliance"
+msgstr "Bezpečnosť a súlad"
+
+msgid "Manufacturer"
+msgstr "Výrobca"
+
+msgid "EU responsible person"
+msgstr "Zodpovedná osoba v EÚ"
+
+msgid "Country of origin"
+msgstr "Krajina pôvodu"
+
+msgid "Safety warnings"
+msgstr "Bezpečnostné upozornenia"
+
+msgid "Safety documentation"
+msgstr "Bezpečnostná dokumentácia"
+
+msgid "Content"
+msgstr "Obsah"
+
+msgid "Content item"
+msgstr "Položka obsahu"
+
+msgid "Add content item"
+msgstr "Pridať položku obsahu"
+
+msgid "Edit content item"
+msgstr "Upraviť položku obsahu"
+
+msgid "Search content"
+msgstr "Hľadať v obsahu"
+
+msgid "No content items found."
+msgstr "Nenašli sa žiadne položky obsahu."
+
+msgid "Reusable content blocks (banners etc.) rendered by the theme."
+msgstr "Znovupoužiteľné bloky obsahu (bannery a pod.) vykresľované témou."
+
+msgid "Content categories"
+msgstr "Kategórie obsahu"
+
+msgid "Content category"
+msgstr "Kategória obsahu"
+
+msgid "Add content category"
+msgstr "Pridať kategóriu obsahu"
+
+msgid "Edit content category"
+msgstr "Upraviť kategóriu obsahu"
+
+msgid "Search content categories"
+msgstr "Hľadať kategórie obsahu"
+
+msgid "Invalid product."
+msgstr "Neplatný produkt."
+
+msgid "Your wishlist is empty."
+msgstr "Váš zoznam želaní je prázdny."
+
+msgid "Browse products"
+msgstr "Prezrieť produkty"
+
+msgid "No products to compare yet."
+msgstr "Zatiaľ žiadne produkty na porovnanie."
+
+msgid "Remove"
+msgstr "Odstrániť"
+
+msgid "Product"
+msgstr "Produkt"
+
+msgid "Price"
+msgstr "Cena"
+
+msgid "Availability"
+msgstr "Dostupnosť"
+
+msgid "In stock"
+msgstr "Skladom"
+
+msgid "Out of stock"
+msgstr "Vypredané"
+
+msgid "Please enter a valid e-mail address."
+msgstr "Zadajte platnú e-mailovú adresu."
+
+msgid "The waitlist for this product is full."
+msgstr "Zoznam čakateľov pre tento produkt je plný."
+
+msgid "This product is already in stock."
+msgstr "Tento produkt je už skladom."
+
+msgid "Thank you! We will e-mail you as soon as the product is back in stock."
+msgstr "Ďakujeme! Hneď ako bude produkt opäť skladom, pošleme vám e-mail."
+
+msgid "%s is back in stock"
+msgstr "%s je opäť skladom"
+
+msgid "Good news - %s is available again."
+msgstr "Dobrá správa – %s je opäť dostupný."
+
+msgid "View product"
+msgstr "Zobraziť produkt"
+
+msgid "Waitlist"
+msgstr "Zoznam čakateľov"
+
+msgid "Customers waiting for this product: %d"
+msgstr "Zákazníci čakajúci na tento produkt: %d"
+
+msgid "Call to action"
+msgstr "Výzva na akciu"
+
+msgid "Button text"
+msgstr "Text tlačidla"
+
+msgid "Button link"
+msgstr "Odkaz tlačidla"
+
+msgid "Title = heading, Excerpt = intro text, Featured image = banner image. The button shows only when both fields above are filled."
+msgstr "Titulok = nadpis, Zhrnutie = perex, Náhľadový obrázok = obrázok banneru. Tlačidlo sa zobrazí, len keď sú vyplnené obe polia vyššie."
+
+msgid "Catalog mode"
+msgstr "Katalógový režim"
+
+msgid "Turn the shop into a browse-only catalog: add-to-cart buttons and the cart are hidden. Useful for showrooms or price-on-request shops."
+msgstr "Zmení e-shop na katalóg len na prezeranie: tlačidlá do košíka a samotný košík sú skryté. Vhodné pre showroomy alebo obchody s cenou na vyžiadanie."
+
+msgid "Enable catalog mode"
+msgstr "Zapnúť katalógový režim"
+
+msgid "Prices"
+msgstr "Ceny"
+
+msgid "Also hide prices"
+msgstr "Skryť aj ceny"
+
+msgid "Replacement button text"
+msgstr "Text náhradného tlačidla"
+
+msgid "Shown instead of \"Add to cart\". Empty falls back to \"View product\"."
+msgstr "Zobrazí sa namiesto „Pridať do košíka“. Prázdne použije „Zobraziť produkt“."
+
+msgid "Replacement button link"
+msgstr "Odkaz náhradného tlačidla"
+
+msgid "Where the button points. Empty links to the product page."
+msgstr "Kam tlačidlo smeruje. Prázdne odkazuje na stránku produktu."
+
+msgid "Image"
+msgstr "Obrázok"
+
+msgid "Select image"
+msgstr "Vybrať obrázok"
+
+msgid "Use image"
+msgstr "Použiť obrázok"
+
+msgid "Remove image"
+msgstr "Odstrániť obrázok"
+
+msgid "Optional image for this attribute value (swatch, logo, ...)."
+msgstr "Voliteľný obrázok pre túto hodnotu vlastnosti (vzorka, logo, ...)."
