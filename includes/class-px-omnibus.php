@@ -29,6 +29,14 @@ class PX_Omnibus {
 		// Scheduled sales flip the price without firing a save - self-heal on view.
 		add_action( 'woocommerce_before_single_product', array( __CLASS__, 'record_current_view' ) );
 
+		// Recording always runs; only the output is switchable. A shop that
+		// already displays the Omnibus price through another plugin turns the
+		// output off and still builds history, so it can switch over later
+		// without a gap.
+		if ( ! apply_filters( 'px_omnibus_display', true ) ) {
+			return;
+		}
+
 		add_action( 'woocommerce_single_product_summary', array( __CLASS__, 'render_single' ), 11 );
 		add_filter( 'woocommerce_available_variation', array( __CLASS__, 'append_to_variation' ), 10, 3 );
 	}

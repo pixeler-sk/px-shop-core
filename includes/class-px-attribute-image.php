@@ -158,6 +158,32 @@ JS;
 		}
 	}
 
+	/* ------------------------- Public accessors -------------------------- */
+
+	/**
+	 * Attachment ID of a term's image (0 when none).
+	 *
+	 * @param int $term_id Term ID.
+	 * @return int
+	 */
+	public static function image_id( $term_id ) {
+		return (int) get_term_meta( $term_id, self::META_KEY, true );
+	}
+
+	/**
+	 * <img> tag for a term's image, or '' when none.
+	 *
+	 * @param int          $term_id Term ID.
+	 * @param string|int[] $size    Image size.
+	 * @param array        $attr    Image attributes.
+	 * @return string
+	 */
+	public static function image( $term_id, $size = 'thumbnail', $attr = array() ) {
+		$image_id = self::image_id( $term_id );
+
+		return $image_id ? wp_get_attachment_image( $image_id, $size, false, $attr ) : '';
+	}
+
 	/* --------------------------- List column ----------------------------- */
 
 	public static function column_header( $columns ) {
@@ -185,14 +211,24 @@ JS;
 
 /* ------------------------------- Helpers ------------------------------- */
 
+/*
+ * The two functions below are guarded: older Pixelers shops carry a legacy
+ * mu-plugin (px-core) that declares px_get_term_image() with a different
+ * signature, and an unguarded redeclaration is a fatal error. Where that
+ * happens, use PX_Attribute_Image::image_id() / ::image() instead - those
+ * never collide.
+ */
+
 /**
  * Attachment ID of an attribute term's image (0 when none).
  *
  * @param int $term_id Term ID.
  * @return int
  */
-function px_get_term_image_id( $term_id ) {
-	return (int) get_term_meta( $term_id, PX_Attribute_Image::META_KEY, true );
+if ( ! function_exists( 'px_get_term_image_id' ) ) {
+	function px_get_term_image_id( $term_id ) {
+		return PX_Attribute_Image::image_id( $term_id );
+	}
 }
 
 /**
@@ -203,8 +239,8 @@ function px_get_term_image_id( $term_id ) {
  * @param array        $attr    Image attributes.
  * @return string
  */
-function px_get_term_image( $term_id, $size = 'thumbnail', $attr = array() ) {
-	$image_id = px_get_term_image_id( $term_id );
-
-	return $image_id ? wp_get_attachment_image( $image_id, $size, false, $attr ) : '';
+if ( ! function_exists( 'px_get_term_image' ) ) {
+	function px_get_term_image( $term_id, $size = 'thumbnail', $attr = array() ) {
+		return PX_Attribute_Image::image( $term_id, $size, $attr );
+	}
 }

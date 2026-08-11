@@ -3,7 +3,7 @@ Contributors: pixeler
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,25 @@ minimal — styling and page-level presentation belong to the active theme.
 * **Content items** — hidden CPT for reusable content blocks rendered by the theme
 
 == Changelog ==
+
+= 1.1.0 =
+* GPSR: údaje o výrobcovi a zodpovednej osobe v EÚ sa vypĺňajú na termíne
+  značky (Produkty → Značky), nie na každom produkte zvlášť.
+* Každý údaj má práve jedno miesto, bez výnimiek: polia značky sa na
+  produkte ukazujú len na čítanie aj s odkazom na značku a produktové meta
+  sa pri nich nečíta ani neukladá. Produkt s iným výrobcom dostane inú
+  značku.
+* Krajina pôvodu, bezpečnostné upozornenia a dokumentácia ostávajú na
+  produkte — tie sa kus od kusu naozaj líšia.
+* Sada polí je filterovateľná cez `px_gpsr_fields`, výber polí značky cez
+  `px_gpsr_entity_fields`.
+* Omnibus: nový filter `px_omnibus_display` vypne výpis najnižšej ceny bez
+  toho, aby prestala vznikať história — web, ktorý cenu zobrazuje iným
+  pluginom, tak môže neskôr prejsť na náš výpis bez diery v dátach.
+* Obrázky termov atribútov: `px_get_term_image_id()` a `px_get_term_image()`
+  sú chránené pred redeklaráciou (staršie weby nesú rovnomennú funkciu
+  v mu-plugine px-core, čo končilo fatal errorom). Bez rizika kolízie sa dá
+  volať `PX_Attribute_Image::image_id()` a `::image()`.
 
 = 1.0.0 =
 * Prvé vydanie z verejného repozitára s automatickými aktualizáciami

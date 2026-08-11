@@ -44,6 +44,18 @@ msgstr "Bezpečnostné upozornenia"
 msgid "Safety documentation"
 msgstr "Bezpečnostná dokumentácia"
 
+msgid "Filled in once here and shown on every product of this brand. A product overrides it only by filling the same field in its own Product safety (GPSR) tab."
+msgstr "Vyplní sa raz tu a zobrazí sa pri každom produkte tejto značky. Produkt to prebije, len ak rovnaké pole vyplní vo svojej karte Bezpečnosť produktu (GPSR)."
+
+msgid "Taken from brand %s."
+msgstr "Preberá sa zo značky %s."
+
+msgid "Edit source"
+msgstr "Upraviť zdroj"
+
+msgid "Filled in on the product brand (Products → Brands) - it is then used by every product of that brand."
+msgstr "Vypĺňa sa na značke produktu (Produkty → Značky) — použije sa potom pri každom produkte tej značky."
+
 msgid "Content"
 msgstr "Obsah"
 
