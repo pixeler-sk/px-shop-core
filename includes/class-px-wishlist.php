@@ -169,6 +169,35 @@ class PX_Wishlist {
 		return ob_get_clean();
 	}
 
+	/* ------------------------------ Settings ----------------------------- */
+
+	/**
+	 * Fields for the module's section (WooCommerce -> Settings -> PX Shop).
+	 *
+	 * @return array
+	 */
+	public static function settings_fields() {
+		return array(
+			array(
+				'title' => __( 'Wishlist', 'px-shop-core' ),
+				'type'  => 'title',
+				'desc'  => __( 'Page holding the [px_wishlist] shortcode. Themes link to it from the header icon; with no page set the link is simply not rendered.', 'px-shop-core' ),
+				'id'    => 'px_wishlist_options',
+			),
+			array(
+				'title' => __( 'Wishlist page', 'px-shop-core' ),
+				'id'    => 'px_wishlist_page_id',
+				'type'  => 'single_select_page',
+				'class' => 'wc-enhanced-select-nostd',
+				'css'   => 'min-width:300px;',
+			),
+			array(
+				'type' => 'sectionend',
+				'id'   => 'px_wishlist_options',
+			),
+		);
+	}
+
 	/* ------------------------------ Helpers ------------------------------ */
 
 	public static function url() {

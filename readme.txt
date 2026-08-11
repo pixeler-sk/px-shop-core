@@ -3,7 +3,7 @@ Contributors: pixeler
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,36 @@ minimal — styling and page-level presentation belong to the active theme.
 * **Content items** — hidden CPT for reusable content blocks rendered by the theme
 * **Size guides** — size tables in a modal, assigned per product or per product category
 
+Every feature is a module that can be switched off in WooCommerce → Settings →
+PX Shop. A module that is off is not loaded at all — no hooks, no REST routes,
+no admin screens — so `class_exists( 'PX_Wishlist' )` stays the reliable test
+for themes.
+
 == Changelog ==
+
+= 1.3.0 =
+
+Moduly a nastavenia:
+
+* Každá funkcia pluginu je teraz **modul, ktorý sa dá vypnúť** — WooCommerce →
+  Nastavenia → **PX Shop** → Modules. Vypnutý modul sa vôbec nenačíta:
+  neregistruje hooky, REST routy, admin obrazovky ani WP-CLI príkazy. Téme tak
+  ostáva `class_exists( 'PX_Wishlist' )` ako spoľahlivý test dostupnosti
+  funkcie a nepotrebuje žiadnu zmenu.
+* **Existujúce weby sa nemenia.** Stav modulov je jedna option
+  (`px_shop_core_modules`); kým ju nikto neuloží, platia defaulty z registra —
+  a tie sú nastavené na dnešné správanie, teda všetko zapnuté.
+* Uložené dáta zostávajú aj po vypnutí modulu (prihlásení na naskladnenie,
+  obľúbené, GPSR polia) a po zapnutí sa vrátia.
+* Stav modulu sa dá pripnúť v kóde filtrom `px_shop_core_module_on` — pri
+  takom module to nastavenia napíšu, nech obrazovka netvrdí niečo iné, než
+  web robí. Vlastný modul sa pridá filtrom `px_shop_core_modules` a dostane
+  prepínač aj sekciu nastavení.
+* **Nastavenia katalógového režimu sa presunuli** z Produkty → Katalógový
+  režim do WooCommerce → Nastavenia → PX Shop → Katalógový režim. Názvy
+  options sú nezmenené, takže hodnoty ostávajú.
+* Wishlist a Compare majú konečne pole na výber stránky (`px_wishlist_page_id`,
+  `px_compare_page_id`) — doteraz sa dali nastaviť len priamo v databáze.
 
 = 1.2.0 =
 

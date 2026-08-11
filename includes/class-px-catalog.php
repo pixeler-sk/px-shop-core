@@ -5,9 +5,10 @@
  * Turns the shop into a browse-only catalog: products become
  * non-purchasable, add-to-cart controls are removed and replaced by a
  * link (to the product or a custom URL), and prices can optionally be
- * hidden. Settings live in WooCommerce -> Settings -> Products -> Catalog
- * mode, so the behaviour survives a theme switch. Presentation (button
- * classes, hiding the cart UI) is left to the active theme, which reads
+ * hidden. Settings live in WooCommerce -> Settings -> PX Shop -> Catalog
+ * mode (the module registry points the section at settings_fields()), so
+ * the behaviour survives a theme switch. Presentation (button classes,
+ * hiding the cart UI) is left to the active theme, which reads
  * px_catalog_mode() and styles the neutral markup emitted here.
  *
  * @package PxShopCore
@@ -19,29 +20,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class PX_Catalog {
 
-	const SECTION = 'px_catalog';
-
 	public static function init() {
-		// Settings UI (WooCommerce -> Products -> Catalog mode).
-		add_filter( 'woocommerce_get_sections_products', array( __CLASS__, 'add_section' ) );
-		add_filter( 'woocommerce_get_settings_products', array( __CLASS__, 'get_settings' ), 10, 2 );
-
-		// Behaviour is wired only while the mode is on.
+		// Behaviour is wired only while the mode is on. The settings UI is
+		// rendered by PX_Settings from settings_fields() below.
 		add_action( 'init', array( __CLASS__, 'apply' ) );
 	}
 
 	/* ------------------------------ Settings ----------------------------- */
 
-	public static function add_section( $sections ) {
-		$sections[ self::SECTION ] = __( 'Catalog mode', 'px-shop-core' );
-		return $sections;
-	}
-
-	public static function get_settings( $settings, $current_section ) {
-		if ( self::SECTION !== $current_section ) {
-			return $settings;
-		}
-
+	/**
+	 * Fields for the module's section (option ids unchanged since 1.0).
+	 *
+	 * @return array
+	 */
+	public static function settings_fields() {
 		return array(
 			array(
 				'title' => __( 'Catalog mode', 'px-shop-core' ),

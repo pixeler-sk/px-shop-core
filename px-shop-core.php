@@ -2,7 +2,7 @@
 /**
  * Plugin Name: PX Shop Core
  * Description: WooCommerce extensions shared across Pixelers shop projects - live product search endpoint, brand product tab and future shop features. Presentation lives in the theme; this plugin only provides functionality.
- * Version: 1.2.0
+ * Version: 1.3.0
  * Author: Pixelers
  * Author URI: https://pixeler.sk/
  * Requires at least: 6.0
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'PX_SHOP_CORE_VERSION', '1.2.0' );
+define( 'PX_SHOP_CORE_VERSION', '1.3.0' );
 define( 'PX_SHOP_CORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'PX_SHOP_CORE_FILE', __FILE__ );
 
@@ -31,47 +31,62 @@ if ( file_exists( PX_SHOP_CORE_DIR . 'includes/updater.php' ) ) {
 }
 
 add_action( 'plugins_loaded', 'px_shop_core_init' );
+
+/**
+ * Loads the modules that are switched on (see includes/modules.php).
+ *
+ * A module that is off is never required, so its class does not exist -
+ * which is exactly the test themes already use before drawing its UI.
+ */
 function px_shop_core_init() {
 
 	load_plugin_textdomain( 'px-shop-core', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
-	// WooCommerce-independent features.
-	require PX_SHOP_CORE_DIR . 'includes/class-px-content.php';
-	PX_Content::init();
+	require_once PX_SHOP_CORE_DIR . 'includes/modules.php';
 
-	if ( ! class_exists( 'WooCommerce' ) ) {
-		return;
+	$has_wc = class_exists( 'WooCommerce' );
+	$is_cli = defined( 'WP_CLI' ) && WP_CLI;
+
+	foreach ( px_shop_core_modules() as $key => $module ) {
+		$needs_wc = ! isset( $module['wc'] ) || $module['wc'];
+
+		if ( ( $needs_wc && ! $has_wc ) || ! px_module_on( $key ) ) {
+			continue;
+		}
+
+		require_once PX_SHOP_CORE_DIR . $module['file'];
+		call_user_func( array( $module['class'], 'init' ) );
+
+		if ( ! $is_cli || empty( $module['cli'] ) ) {
+			continue;
+		}
+
+		// CLI commands belong to their module - a switched-off feature
+		// should not offer a command that migrates data into it.
+		foreach ( $module['cli'] as $command ) {
+			list( $file, $name, $class ) = $command;
+
+			require_once PX_SHOP_CORE_DIR . $file;
+			WP_CLI::add_command( $name, $class );
+		}
 	}
 
-	require PX_SHOP_CORE_DIR . 'includes/class-px-search.php';
-	require PX_SHOP_CORE_DIR . 'includes/class-px-brand-tab.php';
-	require PX_SHOP_CORE_DIR . 'includes/class-px-omnibus.php';
-	require PX_SHOP_CORE_DIR . 'includes/class-px-gpsr.php';
-	require PX_SHOP_CORE_DIR . 'includes/class-px-wishlist.php';
-	require PX_SHOP_CORE_DIR . 'includes/class-px-compare.php';
-	require PX_SHOP_CORE_DIR . 'includes/class-px-shipping-bar.php';
-	require PX_SHOP_CORE_DIR . 'includes/class-px-waitlist.php';
-	require PX_SHOP_CORE_DIR . 'includes/class-px-catalog.php';
-	require PX_SHOP_CORE_DIR . 'includes/class-px-attribute-image.php';
-	require PX_SHOP_CORE_DIR . 'includes/class-px-size-guide.php';
-
-	PX_Search::init();
-	PX_Brand_Tab::init();
-	PX_Omnibus::init();
-	PX_GPSR::init();
-	PX_Wishlist::init();
-	PX_Compare::init();
-	PX_Shipping_Bar::init();
-	PX_Waitlist::init();
-	PX_Catalog::init();
-	PX_Attribute_Image::init();
-	PX_Size_Guide::init();
-
-	if ( defined( 'WP_CLI' ) && WP_CLI ) {
-		require PX_SHOP_CORE_DIR . 'includes/cli/class-px-size-guide-cli.php';
-		require PX_SHOP_CORE_DIR . 'includes/cli/class-px-waitlist-cli.php';
-
-		WP_CLI::add_command( 'px size-guide', 'PX_Size_Guide_CLI' );
-		WP_CLI::add_command( 'px waitlist', 'PX_Waitlist_CLI' );
+	// Settings screen (WooCommerce -> Settings -> PX Shop).
+	if ( $has_wc && is_admin() ) {
+		add_filter( 'woocommerce_get_settings_pages', 'px_shop_core_settings_page' );
 	}
+}
+
+/**
+ * Registers the settings page with WooCommerce.
+ *
+ * @param array $pages Settings pages.
+ * @return array
+ */
+function px_shop_core_settings_page( $pages ) {
+	require_once PX_SHOP_CORE_DIR . 'includes/admin/class-px-settings.php';
+
+	$pages[] = new PX_Settings();
+
+	return $pages;
 }

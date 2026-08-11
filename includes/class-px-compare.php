@@ -232,6 +232,35 @@ class PX_Compare {
 		return apply_filters( 'px_compare_attribute_rows', $rows, $products );
 	}
 
+	/* ------------------------------ Settings ----------------------------- */
+
+	/**
+	 * Fields for the module's section (WooCommerce -> Settings -> PX Shop).
+	 *
+	 * @return array
+	 */
+	public static function settings_fields() {
+		return array(
+			array(
+				'title' => __( 'Compare', 'px-shop-core' ),
+				'type'  => 'title',
+				'desc'  => __( 'Page where the comparison table is rendered. Themes link to it from the compare counter; with no page set the link is simply not rendered.', 'px-shop-core' ),
+				'id'    => 'px_compare_options',
+			),
+			array(
+				'title' => __( 'Compare page', 'px-shop-core' ),
+				'id'    => 'px_compare_page_id',
+				'type'  => 'single_select_page',
+				'class' => 'wc-enhanced-select-nostd',
+				'css'   => 'min-width:300px;',
+			),
+			array(
+				'type' => 'sectionend',
+				'id'   => 'px_compare_options',
+			),
+		);
+	}
+
 	/* ------------------------------ Helpers ------------------------------ */
 
 	public static function url() {
