@@ -2,7 +2,7 @@
 /**
  * Plugin Name: PX Shop Core
  * Description: WooCommerce extensions shared across Pixelers shop projects - live product search endpoint, brand product tab and future shop features. Presentation lives in the theme; this plugin only provides functionality.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: Pixelers
  * Author URI: https://pixeler.sk/
  * Requires at least: 6.0
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'PX_SHOP_CORE_VERSION', '1.1.0' );
+define( 'PX_SHOP_CORE_VERSION', '1.2.0' );
 define( 'PX_SHOP_CORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'PX_SHOP_CORE_FILE', __FILE__ );
 
@@ -53,6 +53,7 @@ function px_shop_core_init() {
 	require PX_SHOP_CORE_DIR . 'includes/class-px-waitlist.php';
 	require PX_SHOP_CORE_DIR . 'includes/class-px-catalog.php';
 	require PX_SHOP_CORE_DIR . 'includes/class-px-attribute-image.php';
+	require PX_SHOP_CORE_DIR . 'includes/class-px-size-guide.php';
 
 	PX_Search::init();
 	PX_Brand_Tab::init();
@@ -64,4 +65,13 @@ function px_shop_core_init() {
 	PX_Waitlist::init();
 	PX_Catalog::init();
 	PX_Attribute_Image::init();
+	PX_Size_Guide::init();
+
+	if ( defined( 'WP_CLI' ) && WP_CLI ) {
+		require PX_SHOP_CORE_DIR . 'includes/cli/class-px-size-guide-cli.php';
+		require PX_SHOP_CORE_DIR . 'includes/cli/class-px-waitlist-cli.php';
+
+		WP_CLI::add_command( 'px size-guide', 'PX_Size_Guide_CLI' );
+		WP_CLI::add_command( 'px waitlist', 'PX_Waitlist_CLI' );
+	}
 }

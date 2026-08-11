@@ -202,3 +202,187 @@ msgstr "Odstrániť obrázok"
 
 msgid "Optional image for this attribute value (swatch, logo, ...)."
 msgstr "Voliteľný obrázok pre túto hodnotu vlastnosti (vzorka, logo, ...)."
+
+msgid "Size guides"
+msgstr "Veľkostné tabuľky"
+
+msgid "Size guide"
+msgstr "Veľkostná tabuľka"
+
+msgid "Add size guide"
+msgstr "Pridať veľkostnú tabuľku"
+
+msgid "Edit size guide"
+msgstr "Upraviť veľkostnú tabuľku"
+
+msgid "Search size guides"
+msgstr "Hľadať veľkostné tabuľky"
+
+msgid "No size guides yet."
+msgstr "Zatiaľ tu nie je žiadna veľkostná tabuľka."
+
+msgid "No size guides in the trash."
+msgstr "V koši nie je žiadna veľkostná tabuľka."
+
+msgid "Size table"
+msgstr "Tabuľka veľkostí"
+
+msgid "One row per line, cells separated by | (a table pasted from a spreadsheet works too). The first row is the header."
+msgstr "Jeden riadok tabuľky na riadok, bunky oddelené znakom | (funguje aj tabuľka vložená z tabuľkového procesora). Prvý riadok je hlavička."
+
+msgid "Hide the table and show only the content above"
+msgstr "Skryť tabuľku a zobraziť len obsah nad ňou"
+
+msgid "Assigned categories:"
+msgstr "Priradené kategórie:"
+
+msgid "Not assigned to any category yet - a guide is picked on the product, or on the product category screen."
+msgstr "Zatiaľ bez kategórie — tabuľka sa priraďuje pri produkte alebo na stránke kategórie produktov."
+
+msgid "— inherit from category —"
+msgstr "— podľa kategórie —"
+
+msgid "— do not show —"
+msgstr "— nezobrazovať —"
+
+msgid "— none —"
+msgstr "— žiadna —"
+
+msgid "Used by products in this category that do not pick a guide themselves."
+msgstr "Použije sa pri produktoch tejto kategórie, ktoré nemajú vlastnú tabuľku."
+
+msgid "do not show"
+msgstr "nezobrazovať"
+
+#. translators: %s: name of the size guide inherited from the old theme.
+msgid "Still using the guide from the old theme: %s"
+msgstr "Zatiaľ platí tabuľka zo starej témy: %s"
+
+msgid "Close"
+msgstr "Zavrieť"
+
+msgid "This link is no longer valid."
+msgstr "Tento odkaz už neplatí."
+
+msgid "Done - we will e-mail you as soon as the product is back in stock."
+msgstr "Hotovo — ozveme sa hneď, ako bude produkt opäť skladom."
+
+msgid "Done - we will not e-mail you about product availability again."
+msgstr "Hotovo — o dostupnosti produktov ti už písať nebudeme."
+
+msgid "Almost there - open the e-mail we just sent and confirm your address."
+msgstr "Ešte krok — otvor e-mail, ktorý sme práve poslali, a potvrď adresu."
+
+msgid "(not confirmed)"
+msgstr "(nepotvrdené)"
+
+msgid "Waitlist: confirm the address"
+msgstr "Sledovanie dostupnosti: potvrdenie adresy"
+
+msgid "Sent right after someone asks to be told when a product is back in stock. Until they click the link in it, they are not on the list."
+msgstr "Odchádza hneď po prihlásení na sledovanie dostupnosti. Kým zákazník neklikne na odkaz v ňom, na zozname nie je."
+
+msgid "Confirm you want to hear about {product_name}"
+msgstr "Potvrď sledovanie dostupnosti — {product_name}"
+
+msgid "One click and you are on the list"
+msgstr "Jedno kliknutie a si na zozname"
+
+msgid "Waitlist: subscription confirmed"
+msgstr "Sledovanie dostupnosti: potvrdené prihlásenie"
+
+msgid "Sent after the customer confirms the address. Carries the unsubscribe link."
+msgstr "Odchádza po potvrdení adresy. Nesie odkaz na odhlásenie."
+
+msgid "We will let you know about {product_name}"
+msgstr "Dáme vedieť, keď bude {product_name} skladom"
+
+msgid "You are on the list"
+msgstr "Si na zozname"
+
+msgid "Waitlist: product is back in stock"
+msgstr "Sledovanie dostupnosti: produkt je skladom"
+
+msgid "Sent to confirmed subscribers when the product they are waiting for is available again."
+msgstr "Odchádza potvrdeným záujemcom, keď je sledovaný produkt opäť dostupný."
+
+msgid "{product_name} is back in stock"
+msgstr "{product_name} je opäť skladom"
+
+msgid "Back in stock"
+msgstr "Opäť skladom"
+
+msgid "Waitlist: new subscriber (admin)"
+msgstr "Sledovanie dostupnosti: nový záujemca (admin)"
+
+msgid "Tells the shop that somebody is waiting for a product that is out of stock."
+msgstr "Oznámi obchodu, že niekto čaká na produkt, ktorý nie je skladom."
+
+msgid "Waitlist: somebody is waiting for {product_name}"
+msgstr "Sledovanie dostupnosti: niekto čaká na {product_name}"
+
+msgid "New waitlist subscriber"
+msgstr "Nový záujemca o naskladnenie"
+
+msgid "Recipient(s)"
+msgstr "Príjemca(ovia)"
+
+msgid "Comma separated. Defaults to %s."
+msgstr "Oddelené čiarkou. Predvolene %s."
+
+msgid "Somebody (we hope you) asked us to send an e-mail as soon as %s is available again."
+msgstr "Niekto (dúfame, že ty) nás požiadal, aby sme dali vedieť, keď bude %s opäť dostupný."
+
+msgid "Confirm the address and we will do exactly that - nothing else, no newsletter."
+msgstr "Potvrď adresu a presne to urobíme — nič iné, žiadny newsletter."
+
+msgid "Yes, let me know"
+msgstr "Áno, dajte mi vedieť"
+
+msgid "If the button does not work, open this address:"
+msgstr "Ak tlačidlo nefunguje, otvor túto adresu:"
+
+msgid "If it was not you, just ignore this message - without the click above nothing happens."
+msgstr "Ak si to nebol ty, správu pokojne ignoruj — bez kliknutia vyššie sa nič nestane."
+
+msgid "If it was not you, just ignore this message - without the link above nothing happens."
+msgstr "Ak si to nebol ty, správu pokojne ignoruj — bez odkazu vyššie sa nič nestane."
+
+msgid "Thank you - we will e-mail you as soon as %s is back in stock."
+msgstr "Ďakujeme — ozveme sa hneď, ako bude %s opäť skladom."
+
+msgid "Stop e-mailing me about availability"
+msgstr "Nechcem už e-maily o dostupnosti"
+
+msgid "Stop e-mailing me about availability:"
+msgstr "Nechcem už e-maily o dostupnosti:"
+
+msgid "Stock is limited - this message went to everybody who was waiting."
+msgstr "Zásoba je obmedzená — správa odišla všetkým, ktorí čakali."
+
+msgid "%1$s is waiting for %2$s."
+msgstr "%1$s čaká na %2$s."
+
+msgid "SKU:"
+msgstr "SKU:"
+
+msgid "Waiting in total:"
+msgstr "Čakajúcich spolu:"
+
+msgid "Edit product"
+msgstr "Upraviť produkt"
+
+msgid "Out of stock. Leave your e-mail and we will tell you when it is back."
+msgstr "Nie je skladom. Nechaj e-mail a dáme vedieť, keď bude späť."
+
+msgid "Your e-mail"
+msgstr "Tvoj e-mail"
+
+msgid "your@email.com"
+msgstr "tvoj@email.sk"
+
+msgid "Notify me"
+msgstr "Dajte mi vedieť"
+
+msgid "Something went wrong, please try again."
+msgstr "Niečo sa pokazilo, skús to prosím znova."
