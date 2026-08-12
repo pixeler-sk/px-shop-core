@@ -79,6 +79,9 @@ function px_shop_core_modules() {
 			'file'     => 'includes/class-px-wishlist.php',
 			'class'    => 'PX_Wishlist',
 			'settings' => array( 'PX_Wishlist', 'settings_fields' ),
+			'cli'      => array(
+				array( 'includes/cli/class-px-wishlist-cli.php', 'px wishlist', 'PX_Wishlist_CLI' ),
+			),
 		),
 		'compare'         => array(
 			'title'    => __( 'Compare', 'px-shop-core' ),
