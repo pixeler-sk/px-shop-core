@@ -3,7 +3,7 @@ Contributors: pixeler
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,20 @@ no admin screens — so `class_exists( 'PX_Wishlist' )` stays the reliable test
 for themes.
 
 == Changelog ==
+
+= 1.3.1 =
+
+Živé hľadanie (`pixeler/v1/search`):
+
+* Šepkávač hľadá to, čo obchod naozaj ukáže — pri zapnutom „skryť vypredané"
+  (`woocommerce_hide_out_of_stock_items`) už neponúka produkty, ktoré
+  vyhľadávacia stránka zahodí, a „Zobraziť všetkých N výsledkov" nesľubuje
+  číslo, ktoré archív nedoručí.
+* Kategórie s nulovým počtom viditeľných produktov vypadávajú — `hide_empty`
+  ich nechytí, lebo WooCommerce prepisuje počty vlastnými až po dotaze.
+  Odkaz na prázdny archív je slepá ulička.
+* Položka nesie `in_stock` — témy si nedostupné označovali, server im to
+  ale neposielal.
 
 = 1.3.0 =
 
