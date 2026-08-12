@@ -149,8 +149,50 @@ msgstr "Zoznam čakateľov"
 msgid "Customers waiting for this product: %d"
 msgstr "Zákazníci čakajúci na tento produkt: %d"
 
-msgid "Call to action"
-msgstr "Výzva na akciu"
+msgid "Banner display"
+msgstr "Zobrazenie bannera"
+
+msgid "Title = heading, Excerpt = intro text above the buttons, editor = free text, Featured image = banner image. Empty fields are simply not rendered."
+msgstr "Titulok = nadpis, Zhrnutie = perex nad tlačidlami, editor = voľný text, Náhľadový obrázok = obrázok bannera. Nevyplnené polia sa jednoducho nevykreslia."
+
+msgid "Layout"
+msgstr "Rozloženie"
+
+msgid "Text left, image right"
+msgstr "Text vľavo, obrázok vpravo"
+
+msgid "Image left, text right"
+msgstr "Obrázok vľavo, text vpravo"
+
+msgid "Image background, text over it"
+msgstr "Obrázok na pozadí, text v prekryve"
+
+msgid "Text and buttons only"
+msgstr "Len text a tlačidlá"
+
+msgid "Eyebrow"
+msgstr "Nadtitulok"
+
+msgid "Small line above the heading."
+msgstr "Krátky riadok nad nadpisom."
+
+msgid "Text alignment"
+msgstr "Zarovnanie textu"
+
+msgid "Left"
+msgstr "Vľavo"
+
+msgid "Center"
+msgstr "Na stred"
+
+msgid "Right"
+msgstr "Vpravo"
+
+msgid "Image dimming (%)"
+msgstr "Stmavenie obrázka (%)"
+
+msgid "Dark layer between image and text, so the text stays readable."
+msgstr "Tmavá vrstva medzi obrázkom a textom, aby text ostal čitateľný."
 
 msgid "Button text"
 msgstr "Text tlačidla"
@@ -158,8 +200,15 @@ msgstr "Text tlačidla"
 msgid "Button link"
 msgstr "Odkaz tlačidla"
 
-msgid "Title = heading, Excerpt = intro text, Featured image = banner image. The button shows only when both fields above are filled."
-msgstr "Titulok = nadpis, Zhrnutie = perex, Náhľadový obrázok = obrázok banneru. Tlačidlo sa zobrazí, len keď sú vyplnené obe polia vyššie."
+msgid "Second button text"
+msgstr "Text druhého tlačidla"
+
+msgid "Second button link"
+msgstr "Odkaz druhého tlačidla"
+
+#. translators: %s: shortcode example
+msgid "A button shows only when both its fields are filled. Place the banner anywhere with %s."
+msgstr "Tlačidlo sa zobrazí, len keď sú vyplnené obe jeho polia. Banner sa dá vložiť kamkoľvek cez %s."
 
 msgid "Catalog mode"
 msgstr "Katalógový režim"
@@ -386,3 +435,215 @@ msgstr "Dajte mi vedieť"
 
 msgid "Something went wrong, please try again."
 msgstr "Niečo sa pokazilo, skús to prosím znova."
+
+msgid "Sale validity"
+msgstr "Platnosť akcie"
+
+msgid "Shows until when a discounted price applies, as a date or a countdown near the end."
+msgstr "Ukáže, dokedy platí akciová cena — dátumom, tesne pred koncom odpočtom."
+
+msgid "Shows how long a discounted price applies. The date comes from the product (Sale price dates); products discounted by a plugin that sets no dates fall back to the shop-wide campaign end below."
+msgstr "Ukáže, ako dlho platí akciová cena. Dátum berie z produktu (Platnosť akciovej ceny); produkty zľavnené pluginom, ktorý dátumy nenastavuje, použijú koniec kampane pre celý obchod nižšie."
+
+msgid "Product cards"
+msgstr "Produktové karty"
+
+msgid "Show the end of the sale on product cards"
+msgstr "Zobraziť koniec akcie na produktových kartách"
+
+msgid "Product detail"
+msgstr "Detail produktu"
+
+msgid "Show the end of the sale on the product page"
+msgstr "Zobraziť koniec akcie na stránke produktu"
+
+msgid "Live countdown under"
+msgstr "Živý odpočet menej než"
+
+msgid "hours before the end. The date turns into a ticking countdown; 0 keeps the date."
+msgstr "hodín do konca. Dátum sa zmení na bežiaci odpočet; 0 nechá dátum."
+
+msgid "Hide when further away than"
+msgstr "Skryť, ak je koniec ďalej než"
+
+msgid "days. A sale running for months is not news; 0 always shows the date."
+msgstr "dní. Akcia bežiaca mesiace nie je novina; 0 zobrazí dátum vždy."
+
+msgid "Shop-wide campaign end"
+msgstr "Koniec kampane pre celý obchod"
+
+msgid "Used for products whose discount carries no date of its own - typically a sitewide discount plugin. Leave empty when every sale has its own dates."
+msgstr "Použije sa pri produktoch, ktorých zľava nemá vlastný dátum — typicky plugin s plošnou zľavou. Nechaj prázdne, keď má každá akcia vlastné dátumy."
+
+#. translators: %s: date the sale price stops applying.
+msgid "Sale price valid until %s"
+msgstr "Akciová cena platí do %s"
+
+msgid "Related categories"
+msgstr "Súvisiace kategórie"
+
+msgid "Accessories set once per product category instead of product by product (\"bicycles\" go with \"lights\" and \"bottle cages\"). Subcategories inherit from their parent."
+msgstr "Doplnky sa nastavia raz na kategórii, nie na každom produkte („bicykle“ idú so „svetlami“ a „košíkmi na fľaše“). Podkategórie dedia od rodiča."
+
+msgid "Which categories go with which is set on the category itself (Products → Categories). Subcategories inherit from their parent, so one setting usually covers a whole branch."
+msgstr "Čo s čím súvisí sa nastavuje priamo na kategórii (Produkty → Kategórie). Podkategórie dedia od rodiča, takže jedno nastavenie zvyčajne pokryje celú vetvu."
+
+msgid "Number of products"
+msgstr "Počet produktov"
+
+msgid "How many products the theme gets. They are taken in turn from each related category, so one category cannot fill the whole row."
+msgstr "Koľko produktov dostane téma. Berú sa striedavo z každej súvisiacej kategórie, takže jedna kategória nezaplní celý riadok."
+
+msgid "Which products first"
+msgstr "Ktoré produkty najskôr"
+
+msgid "Order inside each related category."
+msgstr "Poradie v rámci každej súvisiacej kategórie."
+
+msgid "Best selling"
+msgstr "Najpredávanejšie"
+
+msgid "Newest"
+msgstr "Najnovšie"
+
+msgid "Category order (menu order)"
+msgstr "Poradie v kategórii (menu order)"
+
+msgid "Heading"
+msgstr "Nadpis"
+
+msgid "Used when the category does not set its own. Empty falls back to \"Goes well with this\"."
+msgstr "Použije sa, keď kategória nemá vlastný. Prázdne znamená „Hodí sa k tomuto“."
+
+msgid "Cart"
+msgstr "Košík"
+
+msgid "Offer them in the cart as well"
+msgstr "Ponúkať ich aj v košíku"
+
+msgid "Adds them to the cart cross-sells, after the ones the products name themselves. Applies to the classic cart; the block cart draws its own."
+msgstr "Pridá ich ku krížovému predaju v košíku, za tie, ktoré majú produkty nastavené samy. Platí pre klasický košík; blokový si kreslí vlastné."
+
+msgid "Cache"
+msgstr "Cache"
+
+msgid "Hours before the product list is looked up again. 0 turns caching off (development only)."
+msgstr "Po koľkých hodinách sa zoznam produktov vyhľadá nanovo. 0 vypne cache (len pri vývoji)."
+
+msgid "Goes well with this"
+msgstr "Hodí sa k tomuto"
+
+msgid "Optional. Shown above the products instead of the default one."
+msgstr "Voliteľné. Zobrazí sa nad produktmi namiesto predvoleného."
+
+msgid "Products in this category will offer products from the categories ticked here. Subcategories inherit this, so ticking it on the top category is usually enough."
+msgstr "Produkty v tejto kategórii budú ponúkať produkty z tu zaškrtnutých kategórií. Podkategórie to dedia, takže zvyčajne stačí zaškrtnúť na najvyššej kategórii."
+
+#. translators: %s: name of the parent category the setting is inherited from.
+msgid "Nothing ticked: the list is inherited from %s."
+msgstr "Nič nie je zaškrtnuté: zoznam sa dedí z %s."
+
+msgid "No product categories yet."
+msgstr "Zatiaľ nie sú žiadne kategórie produktov."
+
+msgid "Related"
+msgstr "Súvisiace"
+
+msgid "inherited"
+msgstr "zdedené"
+
+msgid "Search categories…"
+msgstr "Hľadať kategórie…"
+
+msgid "Selected only"
+msgstr "Len vybrané"
+
+msgid "PX Shop"
+msgstr "PX Shop"
+
+msgid "Modules"
+msgstr "Moduly"
+
+msgid "Only the modules switched on here are loaded. A module that is off registers no hooks, no REST routes and no admin screens; stored data (waitlist subscribers, wishlists, GPSR fields) stays untouched and comes back with it."
+msgstr "Načítajú sa len moduly zapnuté tu. Vypnutý modul neregistruje žiadne hooky, REST cesty ani obrazovky v administrácii; uložené dáta (prihlásení na dostupnosť, obľúbené produkty, GPSR polia) ostávajú nedotknuté a vrátia sa spolu s ním."
+
+msgid "Overridden in code - the switch below has no effect."
+msgstr "Prepísané v kóde — prepínač nižšie nemá účinok."
+
+msgid "Content blocks"
+msgstr "Obsahové bloky"
+
+msgid "Non-public \"Content\" post type for reusable blocks (banners, USP strips) rendered by the theme."
+msgstr "Neverejný typ obsahu „Obsah“ pre opakovane použiteľné bloky (bannery, pásy výhod), ktoré vykresľuje téma."
+
+msgid "Live search"
+msgstr "Živé vyhľadávanie"
+
+msgid "REST endpoint behind the search field in the header."
+msgstr "REST endpoint za vyhľadávacím poľom v hlavičke."
+
+msgid "Brand tab"
+msgstr "Karta značky"
+
+msgid "Adds an \"About the brand\" product tab from the product_brand term description."
+msgstr "Pridá k produktu kartu „O značke“ z popisu značky (term product_brand)."
+
+msgid "EU Omnibus"
+msgstr "EU Omnibus"
+
+msgid "Records price history and shows the lowest price of the last 30 days on discounted products."
+msgstr "Zaznamenáva históriu cien a pri zľavnených produktoch ukazuje najnižšiu cenu za posledných 30 dní."
+
+msgid "GPSR product safety"
+msgstr "Bezpečnosť produktov (GPSR)"
+
+msgid "Manufacturer, safety warnings and instructions on products, with the data tab in admin."
+msgstr "Výrobca, bezpečnostné upozornenia a návody pri produktoch, aj s kartou údajov v administrácii."
+
+msgid "Wishlist"
+msgstr "Obľúbené produkty"
+
+msgid "Favourite products per customer (user meta, cookie for guests) with REST endpoints."
+msgstr "Obľúbené produkty pre každého zákazníka (user meta, pri neprihlásených cookie) s REST endpointmi."
+
+msgid "Compare"
+msgstr "Porovnanie produktov"
+
+msgid "Side-by-side comparison of up to four products (cookie based) with REST endpoints."
+msgstr "Porovnanie až štyroch produktov vedľa seba (na základe cookie) s REST endpointmi."
+
+msgid "Free shipping bar"
+msgstr "Pás dopravy zadarmo"
+
+msgid "Data for the \"how much is left to free shipping\" progress bar drawn by the theme."
+msgstr "Údaje pre ukazovateľ „koľko chýba do dopravy zadarmo“, ktorý kreslí téma."
+
+msgid "Back-in-stock waitlist"
+msgstr "Stráženie dostupnosti"
+
+msgid "Visitors subscribe to an out-of-stock product (double opt-in) and are mailed once it is back."
+msgstr "Návštevník sa prihlási pri vypredanom produkte (double opt-in) a dostane e-mail, keď bude opäť skladom."
+
+msgid "Size tables assigned to a product or inherited from its category."
+msgstr "Tabuľky veľkostí priradené produktu alebo zdedené z jeho kategórie."
+
+msgid "Attribute images"
+msgstr "Obrázky atribútov"
+
+msgid "Image field on every product attribute term (pa_*), used by swatches and filters."
+msgstr "Pole s obrázkom pri každom terme atribútu produktu (pa_*), používajú ho vzorkovníky a filtre."
+
+msgid "Makes a browse-only shop possible. The mode itself is switched on in this module's settings."
+msgstr "Umožní obchod len na prezeranie. Samotný režim sa zapína v nastaveniach tohto modulu."
+
+msgid "Page holding the [px_wishlist] shortcode. Themes link to it from the header icon; with no page set the link is simply not rendered."
+msgstr "Stránka so shortcode [px_wishlist]. Téma na ňu odkazuje z ikony v hlavičke; bez nastavenej stránky sa odkaz jednoducho nevykreslí."
+
+msgid "Wishlist page"
+msgstr "Stránka Obľúbené"
+
+msgid "Page where the comparison table is rendered. Themes link to it from the compare counter; with no page set the link is simply not rendered."
+msgstr "Stránka, na ktorej sa vykreslí porovnávacia tabuľka. Téma na ňu odkazuje z počítadla porovnania; bez nastavenej stránky sa odkaz jednoducho nevykreslí."
+
+msgid "Compare page"
+msgstr "Stránka Porovnanie"
