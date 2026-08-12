@@ -46,6 +46,15 @@ class PX_Search {
 
 		$limit = (int) apply_filters( 'px_shop_core_search_limit', 8 );
 
+		// Same visibility rules the shop archive runs on - otherwise the
+		// suggester offers products the search page then drops, and its
+		// "show all N results" promises a number the page cannot deliver.
+		$hidden = array( 'exclude-from-search' );
+
+		if ( 'yes' === get_option( 'woocommerce_hide_out_of_stock_items' ) ) {
+			$hidden[] = 'outofstock';
+		}
+
 		$query = new WP_Query( array(
 			'post_type'      => 'product',
 			'post_status'    => 'publish',
@@ -55,7 +64,7 @@ class PX_Search {
 				array(
 					'taxonomy' => 'product_visibility',
 					'field'    => 'name',
-					'terms'    => array( 'exclude-from-search' ),
+					'terms'    => $hidden,
 					'operator' => 'NOT IN',
 				),
 			),
@@ -71,12 +80,15 @@ class PX_Search {
 			$image_id = $product->get_image_id();
 
 			$items[] = array(
-				'type'  => 'product',
-				'id'    => $product->get_id(),
-				'title' => html_entity_decode( wp_strip_all_tags( $product->get_name() ), ENT_QUOTES, 'UTF-8' ),
-				'url'   => get_permalink( $result_post ),
-				'price' => $product->get_price_html(),
-				'image' => $image_id
+				'type'     => 'product',
+				'id'       => $product->get_id(),
+				'title'    => html_entity_decode( wp_strip_all_tags( $product->get_name() ), ENT_QUOTES, 'UTF-8' ),
+				'url'      => get_permalink( $result_post ),
+				'price'    => $product->get_price_html(),
+				// Only ever false on shops that keep sold-out products listed -
+				// the client marks those rows so they do not read as an offer.
+				'in_stock' => $product->is_in_stock(),
+				'image'    => $image_id
 					? wp_get_attachment_image_url( $image_id, 'woocommerce_gallery_thumbnail' )
 					: wc_placeholder_img_src( 'woocommerce_gallery_thumbnail' ),
 			);
@@ -87,14 +99,27 @@ class PX_Search {
 		// "total"/"viewAll" paging stays about products only.
 		$categories = array();
 		$cat_limit  = (int) apply_filters( 'px_shop_core_search_cat_limit', 4 );
-		$cat_terms  = get_terms( array(
+		// Fetched with room to spare: WooCommerce swaps in its own term counts
+		// (visible products, children included) after the query runs, so
+		// 'hide_empty' does not catch every empty branch - those are dropped
+		// below and the limit has to survive it.
+		$cat_terms = get_terms( array(
 			'taxonomy'   => 'product_cat',
 			'hide_empty' => true,
-			'number'     => $cat_limit,
+			'number'     => $cat_limit * 3,
 			'name__like' => $term,
 		) );
 		if ( ! is_wp_error( $cat_terms ) ) {
 			foreach ( $cat_terms as $cat_term ) {
+				if ( count( $categories ) >= $cat_limit ) {
+					break;
+				}
+
+				// A suggestion leading to an empty archive is a dead end.
+				if ( (int) $cat_term->count < 1 ) {
+					continue;
+				}
+
 				$link = get_term_link( $cat_term );
 				if ( is_wp_error( $link ) ) {
 					continue;
