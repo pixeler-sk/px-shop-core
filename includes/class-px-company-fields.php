@@ -552,7 +552,7 @@ class PX_Company_Fields {
 			$company = ( '' !== trim( $name . $ic . $dic . $dic_dph ) );
 		}
 
-		self::validate_required( $company, $name, $ic, $errors );
+		self::validate_required( $company, $country, $name, $ic, $errors );
 
 		if ( px_company_validate_format() ) {
 			self::validate_format( $country, $ic, $dic, $dic_dph, $errors );
@@ -587,11 +587,12 @@ class PX_Company_Fields {
 
 	/**
 	 * @param bool     $company Buying for a company.
+	 * @param string   $country Billing country.
 	 * @param string   $name    Company name.
 	 * @param string   $ic      Identification number.
 	 * @param WP_Error $errors  Collected errors.
 	 */
-	private static function validate_required( $company, $name, $ic, $errors ) {
+	private static function validate_required( $company, $country, $name, $ic, $errors ) {
 		if ( $company && px_company_required_company() && '' === $name && self::company_field_shown() ) {
 			$errors->add(
 				'required-field',
@@ -603,7 +604,20 @@ class PX_Company_Fields {
 		$rule     = px_company_required_ic();
 		$required = ( 'if_checkbox' === $rule && $company ) || ( 'if_company' === $rule && '' !== $name );
 
-		if ( $required && '' === $ic ) {
+		// IČO is a Slovak and Czech identifier. An Irish or German company
+		// simply does not have one, and demanding it would block exactly the
+		// customer the reverse charge exists for.
+		$has_number = in_array( strtoupper( (string) $country ), PX_Company_Lookup::registers(), true );
+
+		/**
+		 * Filters whether the company ID can be demanded in this country.
+		 *
+		 * @param bool   $has_number Whether the country issues a company ID we know.
+		 * @param string $country    Billing country.
+		 */
+		$has_number = (bool) apply_filters( 'px_company_country_has_ic', $has_number, $country );
+
+		if ( $required && $has_number && '' === $ic ) {
 			$errors->add(
 				'required-field',
 				/* translators: %s: field label */

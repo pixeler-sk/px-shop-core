@@ -3,7 +3,7 @@ Contributors: pixeler
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,15 @@ no admin screens — so `class_exists( 'PX_Wishlist' )` stays the reliable test
 for themes.
 
 == Changelog ==
+
+= 1.5.1 =
+
+**Firemné údaje** — IČO sa vyžaduje len tam, kde ho firmy naozaj majú.
+Pri zapnutej povinnosti IČO pokladňa odmietla každú zahraničnú firemnú
+objednávku, teda presne toho zákazníka, pre ktorého je reverse charge —
+írska či nemecká firma IČO nemá. Povinnosť teraz platí len v krajinách
+s registrom, ktorý poznáme (SK, CZ); mení sa filtrom
+`px_company_country_has_ic`.
 
 = 1.5.0 =
 
