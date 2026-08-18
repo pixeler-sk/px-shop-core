@@ -3,10 +3,11 @@
 Zdieľané WooCommerce funkcie pre Pixeler eshopy. Prezentácia žije v téme —
 tento plugin dodáva len funkcionalitu (neutrálny `px-*` markup, dáta, REST).
 
-Moduly: Omnibus (najnižšia cena za 30 dní), GPSR, live search, brand tab,
-wishlist, compare, waitlist, veľkostné tabuľky, shipping bar, katalógový
-režim, obrázky atribútov, content bloky. Podrobnosti v
-[readme.txt](readme.txt).
+Moduly: Omnibus (najnižšia cena za 30 dní), GPSR, firemné údaje
+(IČO/DIČ/IČ DPH, RPO/ARES, VIES, reverse charge), live search, brand tab,
+wishlist, compare, waitlist, veľkostné tabuľky, súvisiace kategórie,
+shipping bar, katalógový režim, obrázky atribútov, content bloky.
+Podrobnosti v [readme.txt](readme.txt).
 
 Každý modul sa dá vypnúť vo **WooCommerce → Nastavenia → PX Shop**. Vypnutý
 modul sa vôbec nenačíta — neregistruje hooky, REST routy ani admin obrazovky,

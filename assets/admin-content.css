@@ -1,0 +1,37 @@
+/* Banner box on the Content item screen. */
+
+.px-content-box__intro {
+	margin-top: 0;
+}
+
+.px-content-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 0 20px;
+	align-items: start;
+}
+
+.px-content-field {
+	margin: 0 0 14px;
+}
+
+.px-content-field label {
+	display: block;
+	margin-bottom: 4px;
+}
+
+.px-content-field select,
+.px-content-field input[type="number"] {
+	width: 100%;
+	max-width: 100%;
+}
+
+.px-content-field .description {
+	display: block;
+	margin-top: 4px;
+}
+
+.px-content-field[hidden],
+.px-content-grid[hidden] {
+	display: none;
+}

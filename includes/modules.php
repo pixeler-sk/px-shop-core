@@ -67,11 +67,26 @@ function px_shop_core_modules() {
 			'file'  => 'includes/class-px-omnibus.php',
 			'class' => 'PX_Omnibus',
 		),
+		'sale_dates'      => array(
+			'title'    => __( 'Sale validity', 'px-shop-core' ),
+			'desc'     => __( 'Shows until when a discounted price applies, as a date or a countdown near the end.', 'px-shop-core' ),
+			'file'     => 'includes/class-px-sale-dates.php',
+			'class'    => 'PX_Sale_Dates',
+			'settings' => array( 'PX_Sale_Dates', 'settings_fields' ),
+		),
 		'gpsr'            => array(
 			'title' => __( 'GPSR product safety', 'px-shop-core' ),
 			'desc'  => __( 'Manufacturer, safety warnings and instructions on products, with the data tab in admin.', 'px-shop-core' ),
 			'file'  => 'includes/class-px-gpsr.php',
 			'class' => 'PX_GPSR',
+		),
+		'company_fields'  => array(
+			'title'    => __( 'Company details', 'px-shop-core' ),
+			'desc'     => __( 'IČO, DIČ and IČ DPH on the checkout, filled in from the RPO/ARES register, VAT id verified in VIES, EU reverse charge and export outside the EU. Off by default - switch it on only once the plugin that used to handle these fields is gone, or the checkout shows them twice.', 'px-shop-core' ),
+			'file'     => 'includes/class-px-company-fields.php',
+			'class'    => 'PX_Company_Fields',
+			'default'  => 'no',
+			'settings' => array( 'PX_Company_Fields', 'settings_fields' ),
 		),
 		'wishlist'        => array(
 			'title'    => __( 'Wishlist', 'px-shop-core' ),
@@ -113,6 +128,13 @@ function px_shop_core_modules() {
 			'cli'   => array(
 				array( 'includes/cli/class-px-size-guide-cli.php', 'px size-guide', 'PX_Size_Guide_CLI' ),
 			),
+		),
+		'related_cats'    => array(
+			'title'    => __( 'Related categories', 'px-shop-core' ),
+			'desc'     => __( 'Accessories set once per product category instead of product by product ("bicycles" go with "lights" and "bottle cages"). Subcategories inherit from their parent.', 'px-shop-core' ),
+			'file'     => 'includes/class-px-related-cats.php',
+			'class'    => 'PX_Related_Cats',
+			'settings' => array( 'PX_Related_Cats', 'settings_fields' ),
 		),
 		'attribute_image' => array(
 			'title' => __( 'Attribute images', 'px-shop-core' ),

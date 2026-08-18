@@ -647,3 +647,256 @@ msgstr "Stránka, na ktorej sa vykreslí porovnávacia tabuľka. Téma na ňu od
 
 msgid "Compare page"
 msgstr "Stránka Porovnanie"
+
+msgid "PX Shop Core: the \"Company details\" module is switched on, but WPify Woo still handles IČO and DIČ. Turn off its \"IČ DIČ\" module (or deactivate the plugin) and the fields will be served by PX Shop Core - the stored data is the same and stays where it is."
+msgstr "PX Shop Core: modul „Firemné údaje“ je zapnutý, ale IČO a DIČ stále obsluhuje WPify Woo. Vypnite jeho modul „IČ DIČ“ (alebo plugin deaktivujte) a polia prevezme PX Shop Core — uložené údaje sú tie isté a zostávajú, kde sú."
+
+msgid "Checkout fields"
+msgstr "Polia v pokladni"
+
+msgid "IČO, DIČ and IČ DPH are stored as _billing_ic, _billing_dic and _billing_dic_dph, the keys invoicing plugins and exports already expect. IČ DPH is only shown for Slovak billing addresses; elsewhere the VAT id belongs in DIČ."
+msgstr "IČO, DIČ a IČ DPH sa ukladajú do kľúčov _billing_ic, _billing_dic a _billing_dic_dph, teda tam, kde ich fakturačné pluginy a exporty už hľadajú. IČ DPH sa zobrazuje len pri slovenskej fakturačnej adrese; inde patrí IČ DPH do poľa DIČ."
+
+msgid "Company checkbox"
+msgstr "Políčko „nakupujem na firmu“"
+
+msgid "Show the \"I'm buying for a company\" checkbox and keep the fields hidden until it is ticked"
+msgstr "Zobraziť políčko „Nakupujem na firmu“ a firemné polia ukázať až po jeho zaškrtnutí"
+
+msgid "Field position"
+msgstr "Umiestnenie polí"
+
+msgid "Move the company block above the name and address"
+msgstr "Presunúť firemný blok nad meno a adresu"
+
+msgid "Company customers then fill the register lookup first and get the rest of the form filled for them."
+msgstr "Firemný zákazník potom začne načítaním z registra a zvyšok formulára sa mu vyplní sám."
+
+msgid "Company name"
+msgstr "Názov firmy"
+
+msgid "Required when buying for a company"
+msgstr "Povinný pri nákupe na firmu"
+
+msgid "Identification number"
+msgstr "IČO"
+
+msgid "When is IČO required?"
+msgstr "Kedy je IČO povinné?"
+
+msgid "When the company checkbox is ticked"
+msgstr "Keď je zaškrtnuté políčko „nakupujem na firmu“"
+
+msgid "When the company name is filled in"
+msgstr "Keď je vyplnený názov firmy"
+
+msgid "Never"
+msgstr "Nikdy"
+
+msgid "Format check"
+msgstr "Kontrola formátu"
+
+msgid "Reject numbers that cannot be right before the order is placed"
+msgstr "Odmietnuť čísla, ktoré nemôžu byť správne, ešte pred odoslaním objednávky"
+
+msgid "IČO 8 digits, SK DIČ 10 digits, SK IČ DPH SK + 10 digits, other EU VAT ids country prefix + number."
+msgstr "IČO 8 číslic, SK DIČ 10 číslic, SK IČ DPH SK + 10 číslic, ostatné EÚ predpona krajiny + číslo."
+
+msgid "Public registers"
+msgstr "Verejné registre"
+
+msgid "RPO (Statistical Office) for Slovak numbers, ARES (Ministry of Finance) for Czech ones. Both are free, need no key and are queried straight from the shop; answers are cached for a week."
+msgstr "RPO (Štatistický úrad SR) pre slovenské čísla, ARES (MF ČR) pre české. Oboje je zadarmo, bez kľúča a volá sa priamo z obchodu; odpovede sa kešujú na týždeň."
+
+msgid "Fill in from the register"
+msgstr "Doplniť z registra"
+
+msgid "Offer a \"Load from register\" button next to IČO"
+msgstr "Ponúknuť pri IČO tlačidlo „Načítať z registra“"
+
+msgid "Fills the company name and registered address. The customer can still edit everything afterwards."
+msgstr "Doplní názov firmy a sídlo. Zákazník môže všetko potom upraviť."
+
+msgid "Verify the number"
+msgstr "Overiť číslo"
+
+msgid "Refuse an IČO the register does not know"
+msgstr "Odmietnuť IČO, ktoré register nepozná"
+
+msgid "Checked when the order is placed. If the register is down the order goes through - the outage is ours to log, not the customer's to solve."
+msgstr "Kontroluje sa pri odoslaní objednávky. Keď register nefunguje, objednávka prejde — výpadok je náš na zalogovanie, nie zákazníkov na riešenie."
+
+msgid "VAT id verification (VIES)"
+msgstr "Overenie IČ DPH (VIES)"
+
+msgid "VIES is the European Commission register of VAT identification numbers. It is the only evidence that a reverse-charge invoice was issued to a real VAT payer, so keep it on wherever the reverse charge is on."
+msgstr "VIES je register identifikačných čísel pre DPH Európskej komisie. Je jediným dokladom, že faktúra s prenesením daňovej povinnosti šla skutočnému platiteľovi DPH — nechajte ho preto zapnutý všade, kde je zapnuté prenesenie."
+
+msgid "VIES check"
+msgstr "Kontrola vo VIES"
+
+msgid "Off"
+msgstr "Vypnutá"
+
+msgid "Check and warn, let the order through"
+msgstr "Overiť a upozorniť, objednávku pustiť"
+
+msgid "Check and refuse an unverified VAT id"
+msgstr "Overiť a neoverené IČ DPH odmietnuť"
+
+msgid "A VIES outage never blocks an order, not even in the strict setting - only an answer saying the number is unknown does."
+msgstr "Výpadok VIES objednávku nezastaví nikdy, ani pri prísnom nastavení — zastaví ju len odpoveď, že číslo neexistuje."
+
+msgid "VAT exemption"
+msgstr "Oslobodenie od DPH"
+
+msgid "Which country decides follows the WooCommerce setting <em>Calculate tax based on</em> (%s): the shipping country for goods, the billing country for services. Leave both switches off in a shop that sells at home only."
+msgstr "Ktorá krajina rozhoduje, sa riadi nastavením WooCommerce <em>Vypočítať daň podľa</em> (%s): pri tovare dodacia krajina, pri službách fakturačná. V obchode, ktorý predáva len doma, nechajte oba prepínače vypnuté."
+
+msgid "WooCommerce → Settings → Tax"
+msgstr "WooCommerce → Nastavenia → Daň"
+
+msgid "EU reverse charge"
+msgstr "Prenesenie daňovej povinnosti (EÚ)"
+
+msgid "No VAT for a business customer in another EU country"
+msgstr "Bez DPH pre firemného zákazníka v inej krajine EÚ"
+
+msgid "The invoice has to carry the \"reverse charge\" notice and the order belongs in the EC Sales List."
+msgstr "Faktúra musí niesť poznámku „prenesenie daňovej povinnosti“ a objednávka patrí do súhrnného výkazu."
+
+msgid "Export outside the EU"
+msgstr "Vývoz mimo EÚ"
+
+msgid "No VAT when the goods leave the EU"
+msgstr "Bez DPH, keď tovar opúšťa EÚ"
+
+msgid "Applies to consumers as well as businesses. You need the customs proof of export to defend it."
+msgstr "Platí pre občanov aj firmy. Na obhájenie potrebujete colný doklad o vývoze."
+
+msgid "Proof required"
+msgstr "Vyžadovať doklad"
+
+msgid "Only drop the VAT when VIES confirms the VAT id"
+msgstr "DPH odpustiť len vtedy, keď VIES potvrdí IČ DPH"
+
+msgid "With this off, any correctly formatted VAT id is enough and the tax risk is the shop's. Turning it on with the VIES check off leaves the reverse charge inactive."
+msgstr "Pri vypnutom stačí správne naformátované IČ DPH a daňové riziko nesie obchod. So zapnutým a s vypnutou kontrolou vo VIES prenesenie daňovej povinnosti nenastane nikdy."
+
+msgid "Company ID"
+msgstr "IČO"
+
+msgid "12345678"
+msgstr "12345678"
+
+msgid "Tax ID"
+msgstr "DIČ"
+
+msgid "VAT ID"
+msgstr "IČ DPH"
+
+msgid "SK1234567890"
+msgstr "SK1234567890"
+
+msgid "I'm buying for a company"
+msgstr "Nakupujem na firmu"
+
+msgid "Load from register"
+msgstr "Načítať z registra"
+
+msgid "Loading…"
+msgstr "Načítavam…"
+
+msgid "Details filled in from the register."
+msgstr "Údaje doplnené z registra."
+
+msgid "VAT id verified in VIES."
+msgstr "IČ DPH overené vo VIES."
+
+msgid "VIES does not know this VAT id."
+msgstr "VIES toto IČ DPH nepozná."
+
+msgid "VIES did not answer, the number could not be verified."
+msgstr "VIES neodpovedal, číslo sa nepodarilo overiť."
+
+msgid "The register did not answer. Please fill the details in by hand."
+msgstr "Register neodpovedal. Vyplňte údaje, prosím, ručne."
+
+msgid "The VAT id was not found in VIES. Please check it, or leave it empty and the order will be invoiced with VAT."
+msgstr "IČ DPH sa vo VIES nenašlo. Skontrolujte ho, prosím, alebo pole nechajte prázdne a objednávka sa vyfakturuje s DPH."
+
+msgid "%s is a required field when buying for a company."
+msgstr "%s je pri nákupe na firmu povinné pole."
+
+msgid "The company ID is not in the expected format (8 digits, no spaces)."
+msgstr "IČO nie je v očakávanom formáte (8 číslic, bez medzier)."
+
+msgid "The company ID is not in the expected format."
+msgstr "IČO nie je v očakávanom formáte."
+
+msgid "The tax ID is not in the expected format (10 digits, no spaces)."
+msgstr "DIČ nie je v očakávanom formáte (10 číslic, bez medzier)."
+
+msgid "The VAT ID is not in the expected format (SK followed by 10 digits)."
+msgstr "IČ DPH nie je v očakávanom formáte (SK a 10 číslic)."
+
+msgid "The VAT ID has to be the tax ID with an SK prefix."
+msgstr "IČ DPH musí byť DIČ s predponou SK."
+
+msgid "The tax ID is not in the expected format (prefix %s followed by the number)."
+msgstr "DIČ nie je v očakávanom formáte (predpona %s a číslo)."
+
+msgid "Domestic sale, VAT charged."
+msgstr "Tuzemský predaj, DPH účtovaná."
+
+msgid "VAT charged."
+msgstr "DPH účtovaná."
+
+msgid "Export outside the EU, VAT not charged."
+msgstr "Vývoz mimo EÚ, DPH neúčtovaná."
+
+msgid "EU reverse charge, VAT not charged (VAT id verified)."
+msgstr "Prenesenie daňovej povinnosti v EÚ, DPH neúčtovaná (IČ DPH overené)."
+
+msgid "VAT id could not be verified, VAT charged."
+msgstr "IČ DPH sa nepodarilo overiť, DPH účtovaná."
+
+msgid "VAT"
+msgstr "DPH"
+
+msgid "Register lookup is switched off."
+msgstr "Načítanie z registra je vypnuté."
+
+msgid "Too many requests, please wait a moment."
+msgstr "Priveľa požiadaviek, chvíľu, prosím, počkajte."
+
+msgid "VAT id verification is switched off."
+msgstr "Overovanie IČ DPH je vypnuté."
+
+msgid "Enter an identification number first."
+msgstr "Najprv zadajte IČO."
+
+msgid "There is no register available for this country."
+msgstr "Pre túto krajinu nie je dostupný register."
+
+msgid "This company is no longer registered in RPO."
+msgstr "Táto firma už nie je v RPO zapísaná."
+
+msgid "This company is no longer registered in ARES."
+msgstr "Táto firma už nie je v ARES zapísaná."
+
+msgid "Not found in the register."
+msgstr "V registri sa nenašlo."
+
+msgid "This identification number is not in the ARES register."
+msgstr "Toto IČO nie je v registri ARES."
+
+msgid "This identification number is not in the RPO register."
+msgstr "Toto IČO nie je v registri RPO."
+
+msgid "Company details"
+msgstr "Firemné údaje"
+
+msgid "IČO, DIČ and IČ DPH on the checkout, filled in from the RPO/ARES register, VAT id verified in VIES, EU reverse charge and export outside the EU. Off by default - switch it on only once the plugin that used to handle these fields is gone, or the checkout shows them twice."
+msgstr "IČO, DIČ a IČ DPH v pokladni, doplnenie z registra RPO/ARES, overenie IČ DPH vo VIES, prenesenie daňovej povinnosti v EÚ a vývoz mimo EÚ. Predvolene vypnuté — zapnite až potom, čo je preč plugin, ktorý tieto polia obsluhoval doteraz, inak budú v pokladni dvakrát."
+

@@ -3,7 +3,7 @@ Contributors: pixeler
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.3.1
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,6 +15,7 @@ Reusable WooCommerce shop features. Markup is neutral (px-* classes) and
 minimal — styling and page-level presentation belong to the active theme.
 
 * **Omnibus** — EU "lowest price in the last 30 days" for discounted products, with automatic price history
+* **Sale validity** — until when a discounted price applies, as a date or a countdown near the end
 * **GPSR** — product safety fields (manufacturer, EU responsible person, origin, warnings, docs) with an admin tab and a frontend product tab
 * **Live search** — REST endpoint `pixeler/v1/search` (products + matching categories)
 * **Brand tab** — "About the brand" product tab from `product_brand` term description + logo
@@ -26,6 +27,8 @@ minimal — styling and page-level presentation belong to the active theme.
 * **Attribute images** — image field on product attribute terms
 * **Content items** — hidden CPT for reusable content blocks rendered by the theme
 * **Size guides** — size tables in a modal, assigned per product or per product category
+* **Related categories** — accessories set once per category (bicycles → lights, bottle cages) instead of product by product
+* **Company details** — IČO/DIČ/IČ DPH on the checkout, filled from RPO/ARES, VAT id verified in VIES, EU reverse charge and export outside the EU (off by default)
 
 Every feature is a module that can be switched off in WooCommerce → Settings →
 PX Shop. A module that is off is not loaded at all — no hooks, no REST routes,
@@ -33,6 +36,107 @@ no admin screens — so `class_exists( 'PX_Wishlist' )` stays the reliable test
 for themes.
 
 == Changelog ==
+
+= 1.4.0 =
+
+Nový modul **Firemné údaje** (`company_fields`), predvolene vypnutý:
+
+* IČO, DIČ a IČ DPH v pokladni pod voliteľným políčkom „Nakupujem na firmu",
+  s pravidlami povinnosti (podľa políčka alebo podľa vyplneného názvu firmy)
+  a kontrolou formátu (IČO 8 číslic, SK DIČ 10, SK IČ DPH `SK` + 10, ostatné
+  EÚ prefix krajiny; SK DIČ a IČ DPH si musia odpovedať).
+* **Ukladá do rovnakých kľúčov ako WPify Woo** — `_billing_ic`,
+  `_billing_dic`, `_billing_dic_dph` na objednávke, bez podčiarkovníka na
+  zákazníkovi. Prechod je teda výmena pluginu bez migrácie dát a staré
+  objednávky sa naďalej vykresľujú. Kým je modul `ic_dic` vo WPify Woo
+  zapnutý, tento sa nespustí a napíše prečo — inak by boli polia dvakrát.
+* **Doplnenie z registra:** RPO (Štatistický úrad SR) pre slovenské IČO,
+  ARES (MF ČR) pre české. Oboje zadarmo, bez kľúča, cez REST — žiadna
+  composer závislosť, žiadny SOAP. Tlačidlo „Načítať z registra" doplní
+  názov a sídlo (ARES aj DIČ). Zaniknuté subjekty sa neponúkajú a odpoveď
+  RPO sa overuje na zhodu IČO — inak by preklep vyplnil cudziu firmu.
+* **Overenie IČ DPH cez VIES** (REST Európskej komisie) v troch režimoch:
+  vypnuté, overiť a upozorniť, alebo neplatné číslo objednávku zastaví.
+  Výpadok VIES objednávku nezastaví nikdy — zastaví ju len odpoveď, že číslo
+  neexistuje.
+* **Prenesenie daňovej povinnosti** a **vývoz mimo EÚ**, každé samostatným
+  prepínačom. Ktorá krajina rozhoduje, sa riadi nastavením WooCommerce
+  „Vypočítať daň podľa" — pri tovare dodacia, pri službách fakturačná.
+  Predvolene sa DPH odpúšťa **len s IČ DPH potvrdeným vo VIES**; kto to
+  nechce, prepínač „Vyžadovať doklad" vypne a berie riziko na seba. Dôvod
+  rozhodnutia sa ukladá na objednávku (`_px_vat_exempt_reason`), vypisuje sa
+  v administrácii a ide do WC logu — VIES odpovedá len o dnešku, o rok sa už
+  nedozviete nič.
+* Odpovede sa kešujú (firma týždeň, platné IČ DPH deň, neplatné hodinu) a
+  REST endpointy `pixeler/v1/company/lookup` a `.../vat` majú limit na IP —
+  obchod nesmie byť najlacnejšia cesta, ako register vyťažiť.
+* Údaje idú do administrácie objednávky, do profilu zákazníka, do
+  formátovanej adresy a e-mailov. SuperFaktúra ich číta len keď beží WPify
+  Woo, takže sa jej podávajú cez filter `sf_client_data`.
+* Vzhľad patrí téme: skript len prepína `hidden` a nasadzuje `px-company-*`
+  triedy. Pre šablóny `px_company_order_details()` a `px_company_vat_reason()`.
+
+Nový modul **Súvisiace kategórie** (`related_cats`):
+
+* Doplnky sa nastavujú **raz na kategórii**, nie na každom produkte:
+  *Bicykle* → *Svetlá*, *Košíky na fľaše*, *Pedále*. Každý produkt
+  v kategórii potom ponúka produkty z tých kategórií.
+* Väzba je **jednosmerná** zámerne — „bicykle → svetlá" nerobí „svetlá →
+  bicykle". Svetlo k bicyklu je doplnok, bicykel k svetlu nie.
+* **Dedí sa po strome:** kategória bez vlastného nastavenia sa spýta
+  rodiča, takže celá vetva *Bicykle* sa nastaví na jednom mieste.
+  Obrazovka kategórie napíše, odkiaľ zoznam pochádza, a prehľad
+  v Produkty → Kategórie ukáže stĺpec **Súvisiace**.
+* Produkty sa berú **striedavo z každej kategórie**, nech riadok nezaplnia
+  samé pedále. Poradie v rámci kategórie je voliteľné (najpredávanejšie,
+  najnovšie, poradie v kategórii) — nie náhodné, to by znemožnilo cache.
+* **Výkon:** zoznam ID sa kešuje na *množinu kategórií*, nie na produkt —
+  všetky bicykle zdieľajú jeden záznam. Trafená cache nestojí ani jeden
+  databázový dotaz, minutá jeden indexovaný dotaz na kategóriu. Neplatní
+  ju uloženie kategórie (verzia kľúča), nie uloženie produktu — ceny
+  a sklady sa menia oveľa častejšie než zoznam doplnkov.
+* Vypredané a z katalógu vylúčené produkty sa neponúkajú (rešpektuje
+  „skryť vypredané").
+* Vykreslenie patrí téme: `PX_Related_Cats::get_product_ids()`
+  (`px_related_category_ids()`) a `::get_title()`. Filtre
+  `px_related_cats_term_ids`, `px_related_cats_product_ids`,
+  `px_related_cats_query_args` a `px_related_cats_title` majú posledné
+  slovo.
+* Voliteľne aj **v košíku**: doplnky sa pridajú ku krížovému predaju
+  (`woocommerce_cart_crosssell_ids`) za tie, ktoré má produkt nastavené
+  sám. Klasický košík; blokový si kreslí vlastné. Predvolene vypnuté.
+
+Nový modul **Platnosť akcie** (`sale_dates`):
+
+* WooCommerce koniec akcie pozná (`_sale_price_dates_to`), ale nikde ho
+  neukáže. Modul dátum vyhľadá a podá téme ako timestamp
+  (`PX_Sale_Dates::get_end()`, `px_sale_end()`).
+* Variabilný produkt dátum na sebe zvyčajne nemá — akcia končí poslednou
+  zľavnenou variáciou. Jedna zľavnená variácia bez dátumu drží akciu
+  otvorenú (nesľubujeme koniec, ktorý nenastane).
+* Obchody, ktoré zľavňujú pluginom cez cenové filtre, nemajú na produkte
+  žiadny dátum — pre ne je v nastaveniach **koniec kampane pre celý
+  obchod**. Filter `px_sale_end_date` má posledné slovo: dátum dodá aj
+  potlačí (návratom 0).
+* Nastavenia: zobrazenie na kartách a na detaile zvlášť, prah pre živý
+  odpočet v hodinách (0 = len dátum) a „skryť, ak je koniec ďalej než N
+  dní" — akcia bežiaca mesiace nie je novina.
+* Timestamp cestuje aj vo `woocommerce_available_variation`
+  (`px_sale_end`), takže téma vie pás prekresliť pri výbere variácie.
+* Znenie a značky patria téme (`get_end()`); `get_html()` je záloha pre
+  témy, ktoré si nekreslia vlastné.
+
+Omnibus:
+
+* **Oprava: pri variabilnom produkte s rovnakou cenou vo všetkých variáciách
+  zmizla po výbere variácie cena.** WooCommerce v takom prípade posiela
+  `price_html` prázdny — je to pokyn „nechaj cenu, čo je na stránke" — a
+  Omnibus doň pripájal svoj riadok. Z pokynu sa tak stal cenový blok bez
+  ceny, ktorý téma poslušne vykreslila. Do prázdneho `price_html` sa už
+  nepripája.
+* Riadok chodí aj samostatne ako `px_omnibus_html` vo dátach variácie a nový
+  filter `px_omnibus_variation_price_html` vypne pripájanie do ceny — téma,
+  ktorá má preň vlastné miesto, ho inak mala pod cenou dvakrát.
 
 = 1.3.1 =
 

@@ -183,9 +183,37 @@ class PX_Omnibus {
 
 	public static function append_to_variation( $data, $variable, $variation ) {
 		$html = self::get_html( $variation );
-		if ( $html ) {
-			$data['price_html'] .= $html;
+
+		// Themes that place the line themselves read this and switch the
+		// append below off - appending would put the same sentence twice on
+		// the page, once in their own slot and once inside the price.
+		$data['px_omnibus_html'] = $html;
+
+		if ( ! $html ) {
+			return $data;
 		}
+
+		/**
+		 * Filters whether the line is appended to the variation price HTML.
+		 *
+		 * @param bool       $append    Whether to append.
+		 * @param WC_Product $variation Variation.
+		 */
+		if ( ! apply_filters( 'px_omnibus_variation_price_html', true, $variation ) ) {
+			return $data;
+		}
+
+		// WooCommerce leaves price_html empty when every variation costs the
+		// same, and that empty string is an instruction to the theme: keep
+		// the price already on the page. Appending to it turns the
+		// instruction into a price block that holds no price - the theme
+		// dutifully renders it and the price disappears on selection.
+		if ( '' === (string) $data['price_html'] ) {
+			return $data;
+		}
+
+		$data['price_html'] .= $html;
+
 		return $data;
 	}
 }
