@@ -95,10 +95,11 @@
 	$toggle.on( 'change', function () {
 		applyToggle();
 
-		// Numbers left behind in a collapsed block would still be posted and
-		// would still decide the VAT. Closing the block clears them.
+		// Anything left behind in a collapsed block would still be posted: the
+		// numbers would still decide the VAT and the company name would still
+		// end up on a private customer's invoice. Closing the block clears it.
 		if ( ! $toggle.is( ':checked' ) ) {
-			$( '#billing_ic, #billing_dic, #billing_dic_dph' ).val( '' );
+			$( '#billing_company, #billing_ic, #billing_dic, #billing_dic_dph' ).val( '' );
 			message( rows.dic, '' );
 			message( rows.dicDph, '' );
 			refreshTotals();

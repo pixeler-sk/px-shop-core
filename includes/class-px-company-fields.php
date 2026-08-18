@@ -65,7 +65,7 @@ class PX_Company_Fields {
 		// because WooCommerce builds the checkout from the billing fields.
 		add_filter( 'woocommerce_billing_fields', array( __CLASS__, 'billing_fields' ), 10, 2 );
 		add_filter( 'woocommerce_checkout_fields', array( __CLASS__, 'checkout_fields' ) );
-		add_action( 'woocommerce_before_checkout_billing_form', array( __CLASS__, 'render_toggle' ) );
+		add_filter( 'woocommerce_form_field', array( __CLASS__, 'clean_toggle_label' ), 10, 2 );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue' ) );
 		add_action( 'woocommerce_after_checkout_validation', array( __CLASS__, 'validate' ), 10, 2 );
 
@@ -79,6 +79,14 @@ class PX_Company_Fields {
 		// Invoicing: SuperFaktúra only reads these fields when WPify Woo is
 		// the active plugin, so it has to be told about ours.
 		add_filter( 'sf_client_data', array( __CLASS__, 'superfaktura_client_data' ), 10, 2 );
+
+		// It also ships the same block of its own (checkbox, company, ID, TAX
+		// ID, VAT ID) and has it on by default - dormant only while no company
+		// field exists, which is precisely what this module puts back. Its
+		// block writes different meta and runs its own reverse charge, so two
+		// plugins would be deciding one tax. Stand it down; SuperFaktúra
+		// already does the same for WC Nastavenia SK/CZ.
+		add_filter( 'pre_option_woocommerce_sf_add_company_billing_fields', array( __CLASS__, 'silence_superfaktura_fields' ) );
 
 		add_action( 'rest_api_init', array( __CLASS__, 'rest_routes' ) );
 
@@ -131,7 +139,7 @@ class PX_Company_Fields {
 			array(
 				'title' => __( 'Checkout fields', 'px-shop-core' ),
 				'type'  => 'title',
-				'desc'  => __( 'IČO, DIČ and IČ DPH are stored as _billing_ic, _billing_dic and _billing_dic_dph, the keys invoicing plugins and exports already expect. IČ DPH is only shown for Slovak billing addresses; elsewhere the VAT id belongs in DIČ.', 'px-shop-core' ),
+				'desc'  => __( 'IČO, DIČ and IČ DPH are stored as _billing_ic, _billing_dic and _billing_dic_dph, the keys invoicing plugins and exports already expect. IČ DPH is only shown for Slovak billing addresses; elsewhere the VAT id belongs in DIČ. The company name field is part of the block even when WooCommerce is set to hide it - an invoice needs a name, not just a number.', 'px-shop-core' ),
 				'id'    => 'px_company_options',
 			),
 			array(
@@ -143,11 +151,11 @@ class PX_Company_Fields {
 			),
 			array(
 				'title'    => __( 'Field position', 'px-shop-core' ),
-				'desc'     => __( 'Move the company block above the name and address', 'px-shop-core' ),
+				'desc'     => __( 'Keep the company block together right after the name', 'px-shop-core' ),
 				'id'       => 'px_company_move_fields',
 				'type'     => 'checkbox',
 				'default'  => 'yes',
-				'desc_tip' => __( 'Company customers then fill the register lookup first and get the rest of the form filled for them.', 'px-shop-core' ),
+				'desc_tip' => __( 'Name, then the checkbox, then the company name and the numbers - all above the address, so the register lookup has somewhere to fill in. With this off the block follows wherever the company field already sits.', 'px-shop-core' ),
 			),
 			array(
 				'title'   => __( 'Company name', 'px-shop-core' ),
@@ -282,15 +290,39 @@ class PX_Company_Fields {
 	 * @return array
 	 */
 	public static function billing_fields( $fields, $country = '' ) {
+		// A shop that hid the company field in WooCommerce still needs it the
+		// moment somebody buys as a company - an invoice with an IČO and no
+		// name on it is no use to anyone. It folds away with the rest of the
+		// block, so nothing changes for private customers.
+		if ( ! isset( $fields['billing_company'] ) && self::forces_company_field() ) {
+			$fields['billing_company'] = array(
+				'label'        => __( 'Company name', 'px-shop-core' ),
+				'required'     => false,
+				'class'        => array( 'form-row-wide' ),
+				'priority'     => 30,
+				'autocomplete' => 'organization',
+			);
+		}
+
 		$company_priority = isset( $fields['billing_company']['priority'] ) ? (int) $fields['billing_company']['priority'] : 30;
 
+		// The block sits after the name, never before it: the customer first
+		// says who they are, then that they are buying for a company. Asking
+		// for an IČO above the name puts the exception before the rule.
 		if ( px_company_move_fields() ) {
-			// Above everything else, so the register lookup can fill the rest.
-			$company_priority = 5;
+			$company_priority = 22;
+		}
 
-			if ( isset( $fields['billing_company'] ) ) {
-				$fields['billing_company']['priority'] = $company_priority;
-			}
+		if ( isset( $fields['billing_company'] ) ) {
+			$fields['billing_company']['priority'] = $company_priority;
+			$fields['billing_company']['class']    = array_values(
+				array_unique(
+					array_merge(
+						isset( $fields['billing_company']['class'] ) ? (array) $fields['billing_company']['class'] : array( 'form-row-wide' ),
+						array( 'px-company-field', 'px-company-field--company' )
+					)
+				)
+			);
 		}
 
 		$fields['billing_ic'] = array(
@@ -349,7 +381,93 @@ class PX_Company_Fields {
 			}
 		}
 
+		// The checkbox is a checkout field rather than something printed above
+		// the form, so it takes its place in the priority order - directly
+		// above the block it opens, and below the name. It is never stored:
+		// WooCommerce only keeps posted fields whose key starts with billing_
+		// or shipping_, and this one deliberately does not.
+		if ( px_company_checkbox_on() ) {
+			$company_priority = isset( $fields['billing']['billing_company']['priority'] )
+				? (int) $fields['billing']['billing_company']['priority']
+				: 30;
+
+			$fields['billing'][ self::TOGGLE ] = array(
+				'type'     => 'checkbox',
+				'label'    => __( 'I\'m buying for a company', 'px-shop-core' ),
+				'required' => false,
+				'class'    => array( 'form-row-wide', 'px-company-toggle' ),
+				'priority' => $company_priority - 1,
+				// A returning company customer arrives with the fields filled
+				// in; an unticked box would look like the data was lost.
+				'default'  => self::customer_has_company_data() ? 1 : 0,
+			);
+		}
+
 		return $fields;
+	}
+
+	/**
+	 * Drops the "(optional)" suffix from the company checkbox.
+	 *
+	 * WooCommerce appends it to every field that is not required. On a
+	 * checkbox it reads as though there were a company purchase one could be
+	 * obliged to make.
+	 *
+	 * @param string $field Rendered field HTML.
+	 * @param string $key   Field key.
+	 * @return string
+	 */
+	public static function clean_toggle_label( $field, $key ) {
+		if ( self::TOGGLE !== $key ) {
+			return $field;
+		}
+
+		return preg_replace( '~(&nbsp;)?<span class="optional">.*?</span>~', '', $field );
+	}
+
+	/**
+	 * Does the customer already have company details stored?
+	 *
+	 * @return bool
+	 */
+	private static function customer_has_company_data() {
+		if ( ! WC()->customer ) {
+			return false;
+		}
+
+		$values = (string) WC()->customer->get_billing_company()
+			. (string) WC()->customer->get_meta( 'billing_ic' )
+			. (string) WC()->customer->get_meta( 'billing_dic' )
+			. (string) WC()->customer->get_meta( 'billing_dic_dph' );
+
+		return '' !== trim( $values );
+	}
+
+	/**
+	 * Does the module supply the company name field when WooCommerce is set
+	 * to hide it?
+	 *
+	 * @return bool
+	 */
+	private static function forces_company_field() {
+		/**
+		 * Filters whether the company name field is added back.
+		 *
+		 * Returning false honours the WooCommerce "Company field" setting even
+		 * for company purchases - the block then collects numbers only.
+		 *
+		 * @param bool $force Whether to add the field.
+		 */
+		return (bool) apply_filters( 'px_company_force_company_field', true );
+	}
+
+	/**
+	 * Is there a company name field to fill at all?
+	 *
+	 * @return bool
+	 */
+	private static function company_field_shown() {
+		return 'hidden' !== get_option( 'woocommerce_checkout_company_field', 'optional' ) || self::forces_company_field();
 	}
 
 	/**
@@ -367,38 +485,6 @@ class PX_Company_Fields {
 		 * @param bool $use Whether the field is used.
 		 */
 		return (bool) apply_filters( 'px_company_use_dic_dph', true );
-	}
-
-	/**
-	 * The "I'm buying for a company" checkbox.
-	 *
-	 * Rendered above the billing form rather than as a checkout field: it is
-	 * not data, nothing stores it, and it must sit above the fields it hides.
-	 *
-	 * @param WC_Checkout $checkout Checkout object.
-	 */
-	public static function render_toggle( $checkout ) {
-		if ( ! px_company_checkbox_on() ) {
-			return;
-		}
-
-		// A returning company customer arrives with the fields filled in;
-		// starting them collapsed would look like the data was lost.
-		$checked = '' !== trim(
-			(string) $checkout->get_value( 'billing_company' ) .
-			(string) $checkout->get_value( 'billing_ic' ) .
-			(string) $checkout->get_value( 'billing_dic' ) .
-			(string) $checkout->get_value( 'billing_dic_dph' )
-		);
-
-		echo '<p class="form-row form-row-wide px-company-toggle">';
-		printf(
-			'<label for="%1$s"><input type="checkbox" class="px-company-toggle__input" name="%1$s" id="%1$s" value="1" %2$s /> <span>%3$s</span></label>',
-			esc_attr( self::TOGGLE ),
-			checked( $checked, true, false ),
-			esc_html__( 'I\'m buying for a company', 'px-shop-core' )
-		);
-		echo '</p>';
 	}
 
 	/**
@@ -506,8 +592,7 @@ class PX_Company_Fields {
 	 * @param WP_Error $errors  Collected errors.
 	 */
 	private static function validate_required( $company, $name, $ic, $errors ) {
-		if ( $company && px_company_required_company() && '' === $name
-			&& 'hidden' !== get_option( 'woocommerce_checkout_company_field', 'optional' ) ) {
+		if ( $company && px_company_required_company() && '' === $name && self::company_field_shown() ) {
 			$errors->add(
 				'required-field',
 				/* translators: %s: field label */
@@ -978,6 +1063,18 @@ class PX_Company_Fields {
 		}
 
 		return $client;
+	}
+
+	/**
+	 * Keeps SuperFaktúra's own checkout company block switched off.
+	 *
+	 * Its invoices still get the numbers - through sf_client_data above.
+	 *
+	 * @param mixed $value Short-circuit value for the option.
+	 * @return string
+	 */
+	public static function silence_superfaktura_fields( $value ) {
+		return 'no';
 	}
 
 	/**

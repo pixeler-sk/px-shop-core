@@ -6,7 +6,8 @@ tento plugin dodáva len funkcionalitu (neutrálny `px-*` markup, dáta, REST).
 Moduly: Omnibus (najnižšia cena za 30 dní), GPSR, firemné údaje
 (IČO/DIČ/IČ DPH, RPO/ARES, VIES, reverse charge), live search, brand tab,
 wishlist, compare, waitlist, veľkostné tabuľky, súvisiace kategórie,
-shipping bar, katalógový režim, obrázky atribútov, content bloky.
+shipping bar, katalógový režim, obrázky atribútov, content bloky,
+Google Consent Mode v2.
 Podrobnosti v [readme.txt](readme.txt).
 
 Každý modul sa dá vypnúť vo **WooCommerce → Nastavenia → PX Shop**. Vypnutý

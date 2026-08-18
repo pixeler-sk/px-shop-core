@@ -900,3 +900,12 @@ msgstr "Firemné údaje"
 msgid "IČO, DIČ and IČ DPH on the checkout, filled in from the RPO/ARES register, VAT id verified in VIES, EU reverse charge and export outside the EU. Off by default - switch it on only once the plugin that used to handle these fields is gone, or the checkout shows them twice."
 msgstr "IČO, DIČ a IČ DPH v pokladni, doplnenie z registra RPO/ARES, overenie IČ DPH vo VIES, prenesenie daňovej povinnosti v EÚ a vývoz mimo EÚ. Predvolene vypnuté — zapnite až potom, čo je preč plugin, ktorý tieto polia obsluhoval doteraz, inak budú v pokladni dvakrát."
 
+msgid "IČO, DIČ and IČ DPH are stored as _billing_ic, _billing_dic and _billing_dic_dph, the keys invoicing plugins and exports already expect. IČ DPH is only shown for Slovak billing addresses; elsewhere the VAT id belongs in DIČ. The company name field is part of the block even when WooCommerce is set to hide it - an invoice needs a name, not just a number."
+msgstr "IČO, DIČ a IČ DPH sa ukladajú do kľúčov _billing_ic, _billing_dic a _billing_dic_dph, teda tam, kde ich fakturačné pluginy a exporty už hľadajú. IČ DPH sa zobrazuje len pri slovenskej fakturačnej adrese; inde patrí IČ DPH do poľa DIČ. Pole s názvom firmy je súčasťou bloku aj vtedy, keď ho má WooCommerce nastavené ako skryté — na faktúre treba meno, nielen číslo."
+
+msgid "Keep the company block together right after the name"
+msgstr "Držať firemný blok pohromade hneď za menom"
+
+msgid "Name, then the checkbox, then the company name and the numbers - all above the address, so the register lookup has somewhere to fill in. With this off the block follows wherever the company field already sits."
+msgstr "Meno, potom políčko, potom názov firmy a čísla — všetko nad adresou, aby malo načítanie z registra kam doplniť. Pri vypnutom ide blok tam, kde už pole „Firma\" je."
+

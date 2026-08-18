@@ -3,7 +3,7 @@ Contributors: pixeler
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.4.0
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,7 @@ minimal — styling and page-level presentation belong to the active theme.
 * **Size guides** — size tables in a modal, assigned per product or per product category
 * **Related categories** — accessories set once per category (bicycles → lights, bottle cages) instead of product by product
 * **Company details** — IČO/DIČ/IČ DPH on the checkout, filled from RPO/ARES, VAT id verified in VIES, EU reverse charge and export outside the EU (off by default)
+* **Google Consent Mode v2** — sends Google the consent signals the free Complianz build cannot; Complianz stays the CMP (off by default, needs Complianz)
 
 Every feature is a module that can be switched off in WooCommerce → Settings →
 PX Shop. A module that is off is not loaded at all — no hooks, no REST routes,
@@ -36,6 +37,58 @@ no admin screens — so `class_exists( 'PX_Wishlist' )` stays the reliable test
 for themes.
 
 == Changelog ==
+
+= 1.5.0 =
+
+Nový modul **Google Consent Mode v2** (`consent_mode`), predvolene vypnutý:
+
+* Posiela Googlu signály súhlasu, ktoré free verzia Complianzu nevie — tá má
+  pole `consent-mode` natvrdo zakázané, hoci runtime za ním žiadnu licenciu
+  nekontroluje. Complianz ostáva CMP (banner, kategórie, cookie lišta,
+  právne dokumenty), modul len prekladá jeho rozhodnutia do reči Googlu.
+* Bez neho web jazdí v režime „blokuj do súhlasu": Google nedostane od
+  neudelených súhlasov žiadny signál, takže nie je modelovanie konverzií a
+  Google Ads v EHP nepustí remarketingové publiká ani enhanced conversions.
+* `consent default` so všetkým `denied` ide do `<head>`, `consent update`
+  na eventoch Complianzu `cmplz_fire_categories` a `cmplz_revoke`. Mapovanie:
+  `preferences` → `personalization_storage`, `statistics` →
+  `analytics_storage`, `marketing` → `ad_storage`, `ad_user_data`,
+  `ad_personalization`.
+* Complianzu sa filtrom nad `option_cmplz_options` vypne vlastný GA snippet,
+  aby sa gtag nevydával dvakrát. Do DB sa nezapisuje — sprievodca Complianzu
+  vie hodnotu prepnúť späť.
+* Measurement ID sa číta z Complianzu (jeden zdroj pravdy, editovateľný
+  v admine), prebije ho filter `px_consent_mode_measurement_id`. Ďalšie
+  filtre: `px_consent_mode_wait_for_update` (500 ms),
+  `px_consent_mode_ads_data_redaction` (true),
+  `px_consent_mode_url_passthrough` (false).
+* Súhlas sa zámerne nečíta na strane PHP — výstup je pre všetkých rovnaký,
+  takže je bezpečný voči page cache.
+* **Zapnúť až vtedy**, keď na webe nič iné nevydáva gtag (napr. vlastná
+  implementácia v site plugine alebo GA vkladaný Complianzom), inak sa
+  načíta dvakrát.
+
+Firemné údaje (`company_fields`):
+
+* **Poradie polí podľa toho, ako človek rozmýšľa:** meno a priezvisko, potom
+  políčko „Nakupujem na firmu" a až za ním firemný blok. Doteraz blok sedel
+  nad menom, čo pýtalo IČO skôr, než zákazník povedal, kto vlastne je.
+  Políčko je teraz normálne pole pokladne s prioritou, nie kus HTML nad
+  formulárom, takže sa zaraďuje samo. Neukladá sa — WooCommerce si necháva
+  len polia s predponou `billing_`/`shipping_`.
+* **Názov firmy je súčasťou bloku** aj vtedy, keď je pole „Firma" vo
+  WooCommerce nastavené na skryté. Bez neho zostalo na faktúre IČO bez mena.
+  Vypne to filter `px_company_force_company_field`.
+* Doplnenie z registra vyplní aj názov firmy a odškrtnutie políčka ho spolu
+  s číslami vyčistí — inak by firma zostala na faktúre súkromnej osobe.
+* **SuperFaktúre sa vypne jej vlastný firemný blok.** Má ho predvolene
+  zapnutý, len driemal, kým v pokladni nebolo pole „Firma" — teda presne to,
+  čo tento modul vracia. Inak by v pokladni boli dve políčka „nakupujem na
+  firmu", dve sady polí do rôznych meta kľúčov a dva pluginy rozhodujúce
+  o jednej DPH. SuperFaktúra to isté robí pre WC Nastavenia SK/CZ; údaje na
+  faktúru dostáva ďalej cez `sf_client_data`.
+* Z popisu políčka zmizlo „(voliteľné)" — pri zaškrtávacom políčku to znelo,
+  akoby existoval nákup na firmu, ktorý je povinný.
 
 = 1.4.0 =
 

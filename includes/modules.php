@@ -142,6 +142,14 @@ function px_shop_core_modules() {
 			'file'  => 'includes/class-px-attribute-image.php',
 			'class' => 'PX_Attribute_Image',
 		),
+		'consent_mode'    => array(
+			'title'   => __( 'Google Consent Mode v2', 'px-shop-core' ),
+			'desc'    => __( 'Sends Google the consent signals the free Complianz build cannot. Complianz stays the consent banner, this only translates its decisions for gtag. Needs Complianz; off by default, so switch it on only once nothing else on the site emits gtag - otherwise it loads twice.', 'px-shop-core' ),
+			'file'    => 'includes/class-px-consent-mode.php',
+			'class'   => 'PX_Consent_Mode',
+			'default' => 'no',
+			'wc'      => false,
+		),
 		'catalog'         => array(
 			'title'    => __( 'Catalog mode', 'px-shop-core' ),
 			'desc'     => __( 'Makes a browse-only shop possible. The mode itself is switched on in this module\'s settings.', 'px-shop-core' ),

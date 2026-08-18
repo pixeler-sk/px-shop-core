@@ -2,7 +2,7 @@
 /**
  * Plugin Name: PX Shop Core
  * Description: WooCommerce extensions shared across Pixelers shop projects - live product search endpoint, brand product tab and future shop features. Presentation lives in the theme; this plugin only provides functionality.
- * Version: 1.4.0
+ * Version: 1.5.0
  * Author: Pixelers
  * Author URI: https://pixeler.sk/
  * Requires at least: 6.0
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'PX_SHOP_CORE_VERSION', '1.4.0' );
+define( 'PX_SHOP_CORE_VERSION', '1.5.0' );
 define( 'PX_SHOP_CORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'PX_SHOP_CORE_FILE', __FILE__ );
 
