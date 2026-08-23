@@ -85,10 +85,25 @@ class PX_Settings extends WC_Settings_Page {
 			$stored  = isset( $states[ $key ] ) ? $states[ $key ] : $default;
 			$desc    = $module['desc'];
 
-			// A site can pin the state in code; say so, otherwise the
-			// checkbox would claim something the site does not do.
+			// A site can pin the state in code; say so, otherwise the checkbox
+			// would claim something the site does not do. A module stood down
+			// by another module says so in its own words - "overridden in
+			// code" is true of the mechanism and useless to the reader.
 			if ( ( 'yes' === $stored ) !== px_module_on( $key ) ) {
-				$desc .= ' <strong>' . esc_html__( 'Overridden in code - the switch below has no effect.', 'px-shop-core' ) . '</strong>';
+				/**
+				 * Filters the explanation shown at a module whose switch has
+				 * no effect.
+				 *
+				 * @param string $reason Reason ('' falls back to the generic one).
+				 * @param string $key    Module id.
+				 */
+				$reason = (string) apply_filters( 'px_shop_core_module_off_reason', '', $key );
+
+				if ( '' === $reason ) {
+					$reason = __( 'Overridden in code - the switch below has no effect.', 'px-shop-core' );
+				}
+
+				$desc .= ' <strong>' . esc_html( $reason ) . '</strong>';
 			}
 
 			$fields[] = array(

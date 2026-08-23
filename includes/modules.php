@@ -142,6 +142,14 @@ function px_shop_core_modules() {
 			'file'  => 'includes/class-px-attribute-image.php',
 			'class' => 'PX_Attribute_Image',
 		),
+		'consent'         => array(
+			'title'    => __( 'Cookie consent', 'px-shop-core' ),
+			'desc'     => __( 'The shop\'s own consent banner: a service is asked about before it loads, the answer is kept in a first-party cookie and translated into Google Consent Mode v2 signals. Replaces Complianz and friends - it does not run next to them. Off by default; a site that keeps an external CMP leaves it off and nothing of this module is loaded.', 'px-shop-core' ),
+			'file'     => 'includes/class-px-consent.php',
+			'class'    => 'PX_Consent',
+			'default'  => 'no',
+			'settings' => array( 'PX_Consent', 'settings_fields' ),
+		),
 		'consent_mode'    => array(
 			'title'   => __( 'Google Consent Mode v2', 'px-shop-core' ),
 			'desc'    => __( 'Sends Google the consent signals the free Complianz build cannot. Complianz stays the consent banner, this only translates its decisions for gtag. Needs Complianz; off by default, so switch it on only once nothing else on the site emits gtag - otherwise it loads twice.', 'px-shop-core' ),

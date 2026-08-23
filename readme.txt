@@ -3,7 +3,7 @@ Contributors: pixeler
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.5.1
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,7 @@ minimal — styling and page-level presentation belong to the active theme.
 * **Size guides** — size tables in a modal, assigned per product or per product category
 * **Related categories** — accessories set once per category (bicycles → lights, bottle cages) instead of product by product
 * **Company details** — IČO/DIČ/IČ DPH on the checkout, filled from RPO/ARES, VAT id verified in VIES, EU reverse charge and export outside the EU (off by default)
+* **Cookie consent** — the shop's own consent banner (services, blocking, cookie policy page, Google Consent Mode v2), off by default; replaces an external CMP, never runs next to one
 * **Google Consent Mode v2** — sends Google the consent signals the free Complianz build cannot; Complianz stays the CMP (off by default, needs Complianz)
 
 Every feature is a module that can be switched off in WooCommerce → Settings →
@@ -37,6 +38,94 @@ no admin screens — so `class_exists( 'PX_Wishlist' )` stays the reliable test
 for themes.
 
 == Changelog ==
+
+= 1.6.0 =
+
+Nový modul **Súhlas s cookies** (`consent`), predvolene vypnutý — vlastná CMP
+namiesto Complianzu:
+
+* **Register služieb je jediný zdroj pravdy.** Jedna deklarácia v PHP (názov,
+  prevádzkovateľ, kategória, účel, odkaz na zásady, zoznam cookies, spôsob
+  blokovania) živí lištu, modál, stránku so zásadami aj blokovanie. Vstavaný
+  katalóg: GA4, Google Ads, Google Tag Manager, Meta Pixel, Microsoft Clarity,
+  Smartsupp, Heureka Overené zákazníkmi, YouTube, Google Maps, reCAPTCHA plus
+  vlastné cookies WordPressu, WooCommerce a PX Shop. Filter
+  `px_consent_services` pridá službu site pluginu a tá dostane riadok v modále,
+  na podstránke aj blokovanie zadarmo.
+* **Lišta v dvoch vrstvách.** V prvej *Prijať všetko / Odmietnuť všetko /
+  Nastavenia* — rovnaké tlačidlá rovnakej váhy, žiadne predznačené políčka,
+  žiadna cookie wall a nič neblokuje obsah stránky. V druhej prepínače per
+  kategória aj per službu s účelom, prevádzkovateľom a tabuľkou cookies.
+  `role="dialog"`, focus trap, ovládanie klávesnicou, Esc zatvára modál.
+* **Súhlas žije v cookie `px_consent`** (verzia zásad, čas, ID súhlasu,
+  kategórie aj služby) s platnosťou 182 dní (`px_consent_lifetime_days`).
+  Zmena poľa **Verzia zásad** v nastaveniach = lišta sa spýta znova všetkých.
+  PHP cookie nikdy nečíta — výstup stránky je pre všetkých rovnaký a plnostránková
+  cache nemá čo pokaziť.
+* **Blokovanie:** skripty služieb idú do stránky ako
+  `<script type="text/plain" data-px-consent="kategória" data-px-service="id">`
+  a JS z nich po súhlase urobí skutočné skripty. Rovnaký kontrakt môže použiť
+  ktorýkoľvek ručne vložený skript tretej strany. Pri odvolaní sa zmažú cookies,
+  ktoré vieme podľa registra pomenovať, a stránka sa načíta znova — bežiaci
+  skript sa inak odinštalovať nedá.
+* **Google (GA4, Ads, GTM) sa neblokuje, riadi sa signálmi.** `consent default`
+  so všetkým `denied` ide do `<head>` s `wait_for_update`, `consent update`
+  chodí na vlastnú udalosť `px:consent` (pokrýva prvý súhlas, návrat aj
+  odvolanie) a rovnaký stav sa tlačí do `dataLayer` ako event
+  `px_consent_update`, na ktorý sa vie zavesiť GTM. Meta Pixel dostáva
+  `fbq('consent', 'grant'/'revoke')`.
+* **Vložené videá a mapy** sa nahradia zástupným boxom s tlačidlom; kliknutie
+  povolí len tú jednu službu, nie celý marketing. YouTube sa púšťa cez
+  `youtube-nocookie.com`. Bez JavaScriptu ostáva v stránke odkaz na pôvodný
+  obsah, takže sa nestratí ani pre čítačku, ani pre vyhľadávač.
+* **Podstránka:** shortcode `[px_cookie_policy]` vypíše z registra tabuľky per
+  službu (účel, prevádzkovateľ, právny základ, cookies, odkaz na zásady).
+  Stránka s predvyplneným úvodom vznikne pri zapnutí modulu **ako koncept** —
+  právny text ide von až vtedy, keď si ho niekto prečíta.
+* **Dva bannery sa nestretnú.** Pri aktívnom Complianze, CookieYes, Cookiebote
+  a spol. sa modul sám nenačíta a v admine napíše prečo. Zapnutý modul zároveň
+  vypne most `consent_mode` — signály posiela sám.
+* **Známy limit:** bez certifikácie IAB TCF nestačí vlastná CMP pre AdSense ani
+  Ad Manager (Google to vyžaduje od 2024). Merania GA4 a konverzií v Google Ads
+  cez Consent Mode sa to netýka.
+* Vzhľad patrí téme: plugin nesie len layoutové CSS (fixná pozícia, skryté
+  stavy, prekrytie modálu). Šablóny sa prepisujú v téme
+  (`yourtheme/px-shop-core/consent/*.php`), texty filtrami
+  `px_consent_banner_title` a `px_consent_banner_text`.
+* Odkaz „Nastavenia cookies" kdekoľvek v téme: stačí `data-px-consent-settings`
+  na tlačidle, prípadne `window.pxConsent.open()`. Dostupnosť sa testuje
+  `class_exists( 'PX_Consent' ) && PX_Consent::active()` — trieda existuje aj
+  vtedy, keď modul cúvol pred externou CMP, a holý test by nakreslil tlačidlo,
+  ktoré nemá čo otvoriť.
+* **Udalosť `px:consent` nenesie ID súhlasu** — len verziu zásad, kategórie
+  a služby. Identifikátor ostáva v cookie; cez `dataLayer` a kontajner by z neho
+  bol stabilný identifikátor návštevníka, ktorý súhlas práve odmietol.
+* Vracajúci sa návštevník dostane `consent update` už v `<head>`, hneď za
+  `consent default` — čakanie na skript v pätičke stálo prvé `page_view`.
+  Cookie sa tam číta rovnako prísne ako v `consent.js`: čo nie je boolean alebo
+  nesie inú verziu zásad, nie je odpoveď, a pri viacerých cookies rovnakého
+  mena platí tá najprísnejšia.
+* Globálny `gtag` vzniká len vtedy, keď modul naozaj načítava knižnicu Googlu.
+  Bez jediného ID ide do stránky len `consent default` — inak by cudzie pluginy
+  videli `typeof gtag === 'function'` a knižnicu nenačítali.
+* Vložený obsah sa neobalí dvakrát: oEmbed prejde blokovaním pri rozbalení
+  a znova s celým obsahom príspevku, takže po kliknutí sa vkladalo vnútorné
+  zástupné okno namiesto videa. Mapy sa poznajú na ľubovoľnej doméne Googlu
+  (`google.sk/maps`) a `youtu.be` sa prepisuje na plnohodnotný
+  `youtube-nocookie.com/embed/…`.
+* Most `consent_mode` sa vypína sám (`PX_Consent::loaded()`), nezávisle od
+  poradia v registri modulov, a nastavenia napíšu skutočný dôvod namiesto
+  všeobecného „Overridden in code".
+* Modál pri otvorení dá zvyšok stránky `inert` (fallback `aria-hidden`), po
+  uložení voľby ide fokus na obsah stránky a po odblokovaní embedu na vzniknutý
+  rámček — tlačidlo, ktoré zmizlo, by inak zhodilo fokus na začiatok dokumentu.
+  Lišta je `role="region"` s názvom, nie dialóg: nič neblokuje ani nedrží fokus.
+* Cookies sa pri odvolaní mažú aj na aktuálnej ceste a jej nadradených
+  segmentoch, nielen na `/`.
+* Register vypisuje len cookies, ktoré na webe naozaj vzniknú: `px_wishlist`
+  a `px_compare` podľa zapnutých modulov, reCAPTCHA sa zapína v nastaveniach
+  (v kategórii nevyhnutné, teda bez prepínača pre návštevníka) a pribudla
+  `pxt_per_page` z témy.
 
 = 1.5.1 =
 

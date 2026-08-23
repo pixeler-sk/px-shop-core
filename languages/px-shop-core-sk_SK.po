@@ -909,3 +909,367 @@ msgstr "Držať firemný blok pohromade hneď za menom"
 msgid "Name, then the checkbox, then the company name and the numbers - all above the address, so the register lookup has somewhere to fill in. With this off the block follows wherever the company field already sits."
 msgstr "Meno, potom políčko, potom názov firmy a čísla — všetko nad adresou, aby malo načítanie z registra kam doplniť. Pri vypnutom ide blok tam, kde už pole „Firma\" je."
 
+
+# Modul Cookie consent (px_consent).
+
+msgid "Cookie consent"
+msgstr "Súhlas s cookies"
+
+msgid "The shop's own consent banner: a service is asked about before it loads, the answer is kept in a first-party cookie and translated into Google Consent Mode v2 signals. Replaces Complianz and friends - it does not run next to them. Off by default; a site that keeps an external CMP leaves it off and nothing of this module is loaded."
+msgstr "Vlastná cookie lišta obchodu: na každú službu sa pýta skôr, než sa načíta, odpoveď drží vo vlastnej cookie a prekladá ju do signálov Google Consent Mode v2. Nahrádza Complianz a spol. — nebeží vedľa nich. Predvolene vypnuté; web, ktorý si necháva externú CMP, ho nechá vypnutý a z modulu sa nenačíta vôbec nič."
+
+msgid "The shop's own consent banner. Switch on only the services the site really uses - each one adds a row to the banner, to the cookie policy page and, where it applies, a script to the page. Known limit: without IAB TCF certification this banner is not enough for AdSense or Ad Manager; GA4 and Ads conversion measurement are unaffected."
+msgstr "Vlastná cookie lišta obchodu. Zapnite len služby, ktoré web naozaj používa — každá pridá riadok do lišty, na stránku so zásadami cookies a tam, kde to platí, aj skript do stránky. Známy limit: bez certifikácie IAB TCF táto lišta nestačí pre AdSense ani Ad Manager; merania GA4 a konverzií v Ads sa to netýka."
+
+msgid "PX Shop Core: the \"Cookie consent\" module is switched on, but %s is active as well. Two consent banners would fight over one answer, so this module is doing nothing. Deactivate the other plugin, or switch this module off."
+msgstr "PX Shop Core: modul „Súhlas s cookies“ je zapnutý, ale zároveň je aktívny %s. Dve lišty by sa bili o jednu odpoveď, takže tento modul nerobí nič. Deaktivujte druhý plugin, alebo vypnite tento modul."
+
+msgid "PX Shop Core: the \"Google Consent Mode v2\" module (the Complianz bridge) is not loaded - the \"Cookie consent\" module sends the signals itself. Switch the bridge off, so the screen does not promise something the site no longer does."
+msgstr "PX Shop Core: modul „Google Consent Mode v2“ (most na Complianz) sa nenačítal — signály posiela modul „Súhlas s cookies“ sám. Most vypnite, nech obrazovka nesľubuje niečo, čo web už nerobí."
+
+msgid "PX Shop Core: these services are switched on but have no id filled in, so they are not loaded: %s"
+msgstr "PX Shop Core: tieto služby sú zapnuté, ale nemajú vyplnené ID, takže sa nenačítajú: %s"
+
+msgid "Policy version"
+msgstr "Verzia zásad"
+
+msgid "Change it whenever a service or a purpose changes - everyone is asked again. Any short value works: 1, 2, 2026-08."
+msgstr "Zmeňte ju vždy, keď pribudne služba alebo sa zmení účel — lišta sa spýta znova všetkých. Stačí krátka hodnota: 1, 2, 2026-08."
+
+msgid "Cookie policy page"
+msgstr "Stránka so zásadami cookies"
+
+msgid "The banner links to it. The page holding [px_cookie_policy] is created as a draft when this module is switched on; publish it and link it from the footer."
+msgstr "Lišta na ňu odkazuje. Stránka so shortcodom [px_cookie_policy] vznikne ako koncept pri zapnutí modulu; publikujte ju a dajte odkaz do pätičky."
+
+msgid "Google Consent Mode v2"
+msgstr "Google Consent Mode v2"
+
+msgid "Send the consent signals to Google"
+msgstr "Posielať Googlu signály súhlasu"
+
+msgid "Keep it on even when the tags come from somewhere else - the \"denied by default\" state has to be in the page before any Google tag runs."
+msgstr "Nechajte zapnuté aj vtedy, keď tagy vkladá niekto iný — stav „predvolene odmietnuté“ musí byť v stránke skôr, než sa spustí akýkoľvek tag Googlu."
+
+msgid "On"
+msgstr "Zapnuté"
+
+msgid "Cookie policy"
+msgstr "Zásady používania cookies"
+
+msgid "cookie-policy"
+msgstr "zasady-cookies"
+
+msgid "Cookies are small files that a website stores in your browser. Some are needed for the shop to work at all - without them the cart would forget what you put in it. Others are only used with your consent: they measure how the site is used or make our advertising more relevant."
+msgstr "Cookies sú malé súbory, ktoré si web ukladá vo vašom prehliadači. Niektoré sú potrebné na to, aby obchod vôbec fungoval — bez nich by košík zabudol, čo ste doň vložili. Ostatné používame len s vaším súhlasom: merajú, ako sa web používa, alebo robia našu reklamu zmysluplnejšou."
+
+msgid "You decide about the optional ones when you first arrive and you can change your mind at any time - the button at the end of this page opens the settings again. Withdrawing consent is as easy as giving it and does not affect what happened before."
+msgstr "O tých voliteľných rozhodujete pri prvej návšteve a kedykoľvek to môžete zmeniť — tlačidlo na konci tejto stránky otvorí nastavenia znova. Odvolanie súhlasu je rovnako jednoduché ako jeho udelenie a netýka sa toho, čo sa stalo predtým."
+
+msgid "You also have the right to access your data, to have it corrected or erased, to restrict or object to its processing and to lodge a complaint with the supervisory authority. Details are in the privacy policy."
+msgstr "Máte tiež právo na prístup k svojim údajom, na ich opravu či vymazanie, na obmedzenie spracúvania, právo namietať a podať sťažnosť dozornému orgánu. Podrobnosti nájdete v zásadách ochrany osobných údajov."
+
+msgid "Necessary"
+msgstr "Nevyhnutné"
+
+msgid "Needed for the site to work - the cart, logging in, remembering the choice you are making right now. They cannot be switched off."
+msgstr "Potrebné na fungovanie webu — košík, prihlásenie, zapamätanie voľby, ktorú práve robíte. Nedajú sa vypnúť."
+
+msgid "Preferences"
+msgstr "Preferencie"
+
+msgid "Remember your settings, such as the language or the way products are listed, so you do not have to choose again."
+msgstr "Zapamätajú si vaše nastavenia, napríklad jazyk alebo spôsob výpisu produktov, aby ste ich nemuseli voliť znova."
+
+msgid "Statistics"
+msgstr "Štatistika"
+
+msgid "Tell us how the site is used - which pages are visited and where visitors get lost. The data is used to improve the shop."
+msgstr "Hovoria nám, ako sa web používa — ktoré stránky ľudia navštevujú a kde sa strácajú. Údaje slúžia na zlepšovanie obchodu."
+
+msgid "Marketing"
+msgstr "Marketing"
+
+msgid "Used to measure the results of advertising and to show you offers that are relevant to you, here and on other sites."
+msgstr "Slúžia na meranie výsledkov reklamy a na to, aby sme vám tu aj inde ukazovali ponuky, ktoré vás môžu zaujímať."
+
+msgid "Keeps you logged in and remembers settings of the administration. Without them the site cannot tell one visitor from another."
+msgstr "Udržiavajú vás prihlásených a pamätajú si nastavenia administrácie. Bez nich web nerozozná jedného návštevníka od druhého."
+
+msgid "Session, or 14 days when \"remember me\" is used"
+msgstr "Relácia, pri voľbe „zapamätať si ma“ 14 dní"
+
+msgid "Identifies a logged-in user."
+msgstr "Identifikuje prihláseného používateľa."
+
+msgid "1 year"
+msgstr "1 rok"
+
+msgid "Settings of the administration screens."
+msgstr "Nastavenia obrazoviek administrácie."
+
+msgid "Runs the cart and the checkout - remembers what you put in the cart and keeps the order together until it is placed."
+msgstr "Zabezpečujú košík a pokladňu — pamätajú si, čo ste vložili do košíka, a držia objednávku pokope, kým ju neodošlete."
+
+msgid "Session"
+msgstr "Relácia"
+
+msgid "Tells the site the cart has changed."
+msgstr "Oznamuje webu, že sa obsah košíka zmenil."
+
+msgid "Says whether the cart holds anything."
+msgstr "Hovorí, či je v košíku niečo vložené."
+
+msgid "2 days"
+msgstr "2 dni"
+
+msgid "Links the browser to its cart on the server."
+msgstr "Spája prehliadač s jeho košíkom na serveri."
+
+msgid "Remembers your cookie choice and the products you added to favourites or to the comparison - each of them stored only after you clicked."
+msgstr "Pamätajú si vašu voľbu cookies a produkty, ktoré ste pridali do obľúbených alebo do porovnania — každý z nich sa uloží až po vašom kliknutí."
+
+msgid "182 days"
+msgstr "182 dní"
+
+msgid "Your cookie choice, so you are not asked on every page."
+msgstr "Vaša voľba cookies, aby sa vás lišta nepýtala na každej stránke."
+
+msgid "1 month"
+msgstr "1 mesiac"
+
+msgid "Products added to favourites by a visitor who is not logged in."
+msgstr "Produkty, ktoré do obľúbených pridal neprihlásený návštevník."
+
+msgid "Products added to the comparison."
+msgstr "Produkty pridané do porovnania."
+
+msgid "Protects forms from automated abuse. Without it the contact and registration forms would be filled by robots."
+msgstr "Chráni formuláre pred automatizovaným zneužitím. Bez neho by kontaktný a registračný formulár vypĺňali roboty."
+
+msgid "Classified as necessary: it only runs on forms you submit yourself and is not used for advertising. A site that would rather ask for consent moves it with the px_consent_services filter."
+msgstr "Zaradené medzi nevyhnutné: spúšťa sa len na formulároch, ktoré sami odosielate, a na reklamu sa nepoužíva. Web, ktorý sa radšej spýta na súhlas, ho presunie filtrom px_consent_services."
+
+msgid "6 months"
+msgstr "6 mesiacov"
+
+msgid "Distinguishes a person from a robot."
+msgstr "Rozlišuje človeka od robota."
+
+msgid "Measures traffic: which pages are visited, how visitors got here and where they leave. The results are used to improve the shop."
+msgstr "Meria návštevnosť: ktoré stránky ľudia navštevujú, ako sa sem dostali a kde odchádzajú. Výsledky slúžia na zlepšovanie obchodu."
+
+msgid "Measurement ID"
+msgstr "Measurement ID"
+
+msgid "2 years"
+msgstr "2 roky"
+
+msgid "Tells one visitor from another."
+msgstr "Rozlišuje jedného návštevníka od druhého."
+
+msgid "Keeps the state of the visit."
+msgstr "Drží stav návštevy."
+
+msgid "Loads the measurement tags of the shop. On its own it stores nothing; the tags inside it follow the choice you make here."
+msgstr "Načítava meracie tagy obchodu. Sám o sebe nič neukladá; tagy v ňom sa riadia voľbou, ktorú tu urobíte."
+
+msgid "Container ID"
+msgstr "ID kontajnera"
+
+msgid "The container is loaded with Consent Mode already set to denied, so tags inside it stay quiet until consent. Do not also switch on Google Analytics 4 here when the container already carries the GA4 tag - it would be measured twice."
+msgstr "Kontajner sa načíta už s Consent Mode nastaveným na odmietnuté, takže tagy v ňom mlčia až do súhlasu. Ak kontajner nesie tag GA4, nezapínajte tu zároveň Google Analytics 4 — meralo by sa dvakrát."
+
+msgid "Records how the site is used - movement of the mouse, scrolling and clicks - so we can see where the shop is confusing."
+msgstr "Zaznamenáva, ako sa web používa — pohyb myši, posúvanie a kliknutia — aby sme videli, kde je obchod neprehľadný."
+
+msgid "Project ID"
+msgstr "ID projektu"
+
+msgid "Keeps the visitor id for the recording."
+msgstr "Drží identifikátor návštevníka pre záznam."
+
+msgid "1 day"
+msgstr "1 deň"
+
+msgid "Joins the page views of one visit."
+msgstr "Spája zobrazenia stránok jednej návštevy."
+
+msgid "Live chat with the shop. It remembers the conversation between page views and records the visit, so the operator knows what you were looking at."
+msgstr "Živý chat s obchodom. Pamätá si konverzáciu medzi stránkami a zaznamenáva návštevu, aby operátor vedel, na čo ste sa pozerali."
+
+msgid "Chat key"
+msgstr "Kľúč chatu"
+
+msgid "Filed under statistics because Smartsupp also records the visit. A shop that only uses the chat itself can move it to preferences with the px_consent_services filter."
+msgstr "Zaradené do štatistiky, lebo Smartsupp zároveň zaznamenáva návštevu. Obchod, ktorý používa len samotný chat, ho presunie do preferencií filtrom px_consent_services."
+
+msgid "Visitor id of the chat."
+msgstr "Identifikátor návštevníka v chate."
+
+msgid "Number of visits, shown to the operator."
+msgstr "Počet návštev, ktorý vidí operátor."
+
+msgid "After an order it lets Heureka send you a questionnaire about the purchase and measures how many visits from Heureka end in an order."
+msgstr "Po objednávke umožní Heureke poslať vám dotazník o nákupe a meria, koľko návštev z Heureky skončí objednávkou."
+
+msgid "The measuring code is inserted by the Heureka integration of the shop, not by this module. For it to wait for consent, give the script the attributes type=\"text/plain\" and data-px-consent=\"statistics\" data-px-service=\"heureka\"."
+msgstr "Merací kód vkladá integrácia Heureky na webe, nie tento modul. Aby počkal na súhlas, dajte skriptu atribúty type=\"text/plain\" a data-px-consent=\"statistics\" data-px-service=\"heureka\"."
+
+msgid "Joins the visit from Heureka to the order."
+msgstr "Spája návštevu z Heureky s objednávkou."
+
+msgid "Measures which advertisement led to an order and allows us to show you our offer again on other sites."
+msgstr "Meria, ktorá reklama viedla k objednávke, a umožňuje nám znova vám ukázať našu ponuku na iných weboch."
+
+msgid "Conversion ID"
+msgstr "Konverzné ID"
+
+msgid "3 months"
+msgstr "3 mesiace"
+
+msgid "Remembers the click on the advertisement that brought you here."
+msgstr "Pamätá si kliknutie na reklamu, ktoré vás sem priviedlo."
+
+msgid "13 months"
+msgstr "13 mesiacov"
+
+msgid "Third-party cookies of the advertising system, set on Google domains."
+msgstr "Cookies tretej strany reklamného systému, ukladané na doménach Googlu."
+
+msgid "Measures the results of advertising on Facebook and Instagram and allows us to address you there with the products you looked at."
+msgstr "Meria výsledky reklamy na Facebooku a Instagrame a umožňuje nám osloviť vás tam produktmi, ktoré ste si prezerali."
+
+msgid "Pixel ID"
+msgstr "ID pixelu"
+
+msgid "Identifies the browser for advertising measurement."
+msgstr "Identifikuje prehliadač pre meranie reklamy."
+
+msgid "Third-party cookie of the advertising system on Meta domains."
+msgstr "Cookie tretej strany reklamného systému na doménach Meta."
+
+msgid "Plays videos inserted into the pages. YouTube learns which video you played and can link it to your Google account."
+msgstr "Prehráva videá vložené do stránok. YouTube sa dozvie, ktoré video ste pustili, a vie si to spojiť s vaším účtom Google."
+
+msgid "Player settings and measurement of playback."
+msgstr "Nastavenia prehrávača a meranie prehrávania."
+
+msgid "Counts the views of a video."
+msgstr "Počíta zhliadnutia videa."
+
+msgid "Shows the interactive map with our address. Google learns that the map was loaded from this site."
+msgstr "Zobrazuje interaktívnu mapu s našou adresou. Google sa dozvie, že sa mapa načítala z tohto webu."
+
+msgid "Third-party cookies of Google needed to draw the map."
+msgstr "Cookies tretej strany Googlu potrebné na vykreslenie mapy."
+
+msgid "We care about your privacy"
+msgstr "Záleží nám na vašom súkromí"
+
+msgid "We use cookies to run the shop, to measure how it is used and to make our offers relevant. The necessary ones are always on, everything else is up to you."
+msgstr "Cookies používame na fungovanie obchodu, na meranie jeho používania a na to, aby naše ponuky dávali zmysel. Nevyhnutné sú zapnuté vždy, o zvyšku rozhodujete vy."
+
+msgid "Accept all"
+msgstr "Prijať všetko"
+
+msgid "Reject all"
+msgstr "Odmietnuť všetko"
+
+msgid "Settings"
+msgstr "Nastavenia"
+
+msgid "Content from %s is blocked"
+msgstr "Obsah zo služby %s je zablokovaný"
+
+msgid "Allow %s and show the content"
+msgstr "Povoliť %s a zobraziť obsah"
+
+msgid "Open the content in a new window"
+msgstr "Otvoriť obsah v novom okne"
+
+msgid "Cookie settings"
+msgstr "Nastavenia cookies"
+
+msgid "%d service"
+msgid_plural "%d services"
+msgstr[0] "%d služba"
+msgstr[1] "%d služby"
+msgstr[2] "%d služieb"
+
+msgid "Close settings"
+msgstr "Zavrieť nastavenia"
+
+msgid "Choose what you allow. You can change your choice at any time - the link in the footer opens this window again."
+msgstr "Vyberte, čo povolíte. Voľbu môžete kedykoľvek zmeniť — odkaz v pätičke otvorí toto okno znova."
+
+msgid "Allow %s"
+msgstr "Povoliť %s"
+
+msgid "Always on"
+msgstr "Vždy zapnuté"
+
+msgid "Details"
+msgstr "Podrobnosti"
+
+msgid "Provider: %s"
+msgstr "Prevádzkovateľ: %s"
+
+msgid "Privacy policy"
+msgstr "Zásady ochrany osobných údajov"
+
+msgid "Cookies stored by %s"
+msgstr "Cookies, ktoré ukladá %s"
+
+msgid "Name"
+msgstr "Názov"
+
+msgid "Expiry"
+msgstr "Platnosť"
+
+msgid "Purpose"
+msgstr "Účel"
+
+msgid "Save choice"
+msgstr "Uložiť výber"
+
+msgid "Provider"
+msgstr "Prevádzkovateľ"
+
+msgid "Legal basis"
+msgstr "Právny základ"
+
+msgid "Necessary for the service you asked for - no consent needed"
+msgstr "Nevyhnutné pre službu, ktorú ste si vyžiadali — súhlas sa nevyžaduje"
+
+msgid "Your consent, which you can withdraw at any time"
+msgstr "Váš súhlas, ktorý môžete kedykoľvek odvolať"
+
+msgid "Change cookie settings"
+msgstr "Zmeniť nastavenia cookies"
+
+msgid "Sends Google the consent signals the free Complianz build cannot. Complianz stays the consent banner, this only translates its decisions for gtag. Needs Complianz; off by default, so switch it on only once nothing else on the site emits gtag - otherwise it loads twice."
+msgstr "Posiela Googlu signály súhlasu, ktoré free verzia Complianzu nevie. Complianz ostáva cookie lištou, tento modul len prekladá jeho rozhodnutia pre gtag. Vyžaduje Complianz; predvolene vypnuté — zapnite až vtedy, keď na webe nič iné nevydáva gtag, inak sa načíta dvakrát."
+
+# Modul Cookie consent - opravy po review.
+
+msgid "Not loaded: the \"Cookie consent\" module sends the consent signals itself. Switch this one off."
+msgstr "Nenačítané: signály súhlasu posiela modul „Súhlas s cookies“ sám. Tento vypnite."
+
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d deň"
+msgstr[1] "%d dni"
+msgstr[2] "%d dní"
+
+msgid "30 days"
+msgstr "30 dní"
+
+msgid "How many products you chose to see on one page."
+msgstr "Koľko produktov ste si zvolili zobraziť na jednej stránke."
+
+msgid "Remembers your cookie choice, the way you set the product listing and the products you added to favourites or to the comparison - each of them stored only after you clicked."
+msgstr "Pamätajú si vašu voľbu cookies, nastavenie výpisu produktov a produkty, ktoré ste pridali do obľúbených alebo do porovnania — každý z nich sa uloží až po vašom kliknutí."
+
+msgid "Switch on only when the site really runs reCAPTCHA. Classified as necessary: it only runs on forms you submit yourself and is not used for advertising. A site that would rather ask for consent moves it with the px_consent_services filter."
+msgstr "Zapnite len vtedy, keď web reCAPTCHU naozaj používa. Zaradené medzi nevyhnutné: spúšťa sa len na formulároch, ktoré sami odosielate, a na reklamu sa nepoužíva. Web, ktorý sa radšej spýta na súhlas, ho presunie filtrom px_consent_services."

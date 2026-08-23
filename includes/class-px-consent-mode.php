@@ -67,6 +67,14 @@ class PX_Consent_Mode {
 	 * @return void
 	 */
 	public static function init() {
+		// The `consent` module brings its own banner and sends the same
+		// signals from it; two `consent default` blocks and two gtag loads is
+		// what this avoids. Asked here rather than left to the order of the
+		// module registry - a reordered registry must not change behaviour.
+		if ( class_exists( 'PX_Consent' ) && PX_Consent::loaded() ) {
+			return;
+		}
+
 		if ( ! self::has_complianz() ) {
 			return;
 		}
