@@ -49,6 +49,22 @@ function px_shop_core_init_updater() {
 		'px-shop-core' // Must match the plugin directory name, or the update lands next to it.
 	);
 
+	// Shared-hosting IPs burn through GitHub's unauthenticated rate limit
+	// (60 req/h per IP, vps427 hosts several sites) and the checker then gets
+	// 403 on every endpoint. A token lifts the limit to 5000 req/h; the repo
+	// is public, so a fine-grained PAT needs no scope at all - read-only on
+	// public repositories, with an expiry set. Define it in wp-config.php:
+	//   define( 'PX_SHOP_CORE_GITHUB_TOKEN', '...' );
+	// The constant is a credential: it belongs in the server's own wp-config,
+	// never in the versioned one. A wrong type here would be handed straight to
+	// the HTTP layer, so it is checked rather than trusted.
+	if ( defined( 'PX_SHOP_CORE_GITHUB_TOKEN' )
+		&& is_string( PX_SHOP_CORE_GITHUB_TOKEN )
+		&& '' !== trim( PX_SHOP_CORE_GITHUB_TOKEN )
+	) {
+		$checker->setAuthentication( trim( PX_SHOP_CORE_GITHUB_TOKEN ) );
+	}
+
 	// The constant is read from the instance on purpose. The Api class lives in
 	// a directory named after the library version (e.g. v5p7\Vcs\Api), so a
 	// `use` with the full name would fatal after a library upgrade.

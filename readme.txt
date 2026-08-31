@@ -3,7 +3,7 @@ Contributors: pixeler
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.6.0
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,76 @@ no admin screens — so `class_exists( 'PX_Wishlist' )` stays the reliable test
 for themes.
 
 == Changelog ==
+
+= 1.7.0 =
+
+* **Live search:** vyhľadávanie podľa **SKU a EAN/GTIN** — v šepkávači aj na
+  štandardnej stránke výsledkov (`?s=…&post_type=product`). WordPress prehľadáva
+  len názov, perex a obsah, takže nalepený kód dielu alebo pípnutý čiarový kód
+  dovtedy nevrátil nič — jediný prípad, keď zákazník aj personál presne vedia,
+  čo chcú. Zhoda variácie sa mapuje na rodiča (variácia nemá vlastnú stránku
+  a na krabici býva jej SKU). Presná zhoda potláča prefixové: keď kód nesie
+  konkrétny produkt, rodina s rovnakým začiatkom SKU je už len šum. Presná SKU
+  alebo EAN tak vráti jeden výsledok a pri jednom výsledku presmeruje
+  WooCommerce (`wc_template_redirect()`) rovno na produkt — ale len keď je
+  v URL `post_type=product`, teda z formulára v hlavičke.
+
+* **Live search:** SKU sa okrem presnej zhody hľadá aj podľa predpony, ale až
+  od štyroch znakov, aby „RAM" neťahalo pol katalógu. Prefixové zhody sa radia
+  podľa dĺžky SKU, takže keď ich je viac než strop, prežije to najbližšie
+  napísanému — rez nesmie padnúť podľa ID produktu, päťdesiat najstarších
+  z päťsto neodpovedá na nič. EAN/GTIN len presne a len v tvare
+  GTIN-8/12/13/14. Dáta idú z `wc_product_meta_lookup` (riadok na produkt,
+  ten istý zdroj ako vyhľadávanie v administrácii WooCommerce), pričom SKU
+  a EAN sa pýtajú dvoma dotazmi: index má len `sku`, spoločné `OR` by oň
+  optimalizátor pripravil a každá číselná fráza by znamenala full scan.
+
+* **Live search:** lookup je cache, ktorú WooCommerce prepisuje pri uložení
+  produktu, takže importér zapisujúci `_sku` priamo do postmeta ju vie nechať
+  pozadu. Správna oprava je WooCommerce → Stav → Nástroje → *Obnoviť
+  vyhľadávacie tabuľky produktov*. Dohľadanie priamo v postmeta (sken bez
+  indexu) v kóde ostáva, ale beží len pod WP-CLI — verejné vyhľadávacie pole
+  ho spúšťať nesmie, crawler s vymyslenými kódmi by ho vyvolal na každý
+  request.
+
+* **Live search:** nové filtre `px_shop_core_search_code_ids( $ids, $term,
+  $limit )` (obchod s číslami dielov inde než v `_sku` si sem zapojí vlastný
+  zdroj) a `px_shop_core_search_code_limit` (50 — strop zhôd na kód pridaných
+  na stránku výsledkov). Helper `PX_Search::product_ids_matching_code( $term,
+  $limit )` je verejný. Šepkávač nájdené produkty radí pred fulltextové
+  výsledky; viditeľnosť, sklad a stav produktu rieši `WP_Query`, takže sa
+  nefiltruje dvakrát. Na stránke výsledkov sa ID pripájajú do klauzuly
+  `posts_search` — a keď fragment nevyzerá presne tak, ako ho stavia jadro
+  (alebo v ňom po odtrhnutí ostane zmienka o `post_password`), filter dotaz
+  nechá na pokoji; polovične pochopený WHERE je presne to, čím sa vo
+  vyhľadávaní začnú objavovať koncepty.
+
+* **Live search:** odpoveď šepkávača je 60 sekúnd v transiente a nesie
+  `Cache-Control: public, max-age=60`. Endpoint `pixeler/v1/search` je verejný
+  a bez rate limitu — každé písmeno v poli posielalo vlastný `WP_Query` +
+  `get_terms()`, takže opakovaná fráza (aj cudzia) vedela zbytočne zaťažiť
+  databázu. Filter `px_shop_core_search_response` beží aj nad cachovanými
+  dátami, aby si téma vedela dopísať jazykovo závislé popisky.
+
+* **Live search:** kľúč cache nesie normalizovanú frázu (malé písmená, zúžené
+  medzery — „Prilba" a „prilba" je tá istá otázka), jazyk a všetko, od čoho
+  závisí `price_html`: menu, nastavenie „ceny s daňou / bez dane" a oslobodenie
+  od DPH, ktoré prepína aj modul firemných údajov tohto pluginu. Inak by prvý
+  návštevník s iným daňovým kontextom otrávil ceny všetkým na 60 sekúnd.
+  Prihlásenému zákazníkovi sa necachuje vôbec a zapisuje sa len s perzistentnou
+  object cache — bez nej by každá neznáma fráza znamenala dva riadky vo
+  `wp_options` a crawler by ich narobil státisíce. Na webe bez object cache tak
+  serverová cache šepkávača nie je a zostáva len hlavička `Cache-Control`, ktorá
+  opakované písmená zachytí v prehliadači a na CDN. Fráza je obmedzená na 64
+  znakov, `viewAll` ostáva mimo cache (nesie pôvodné písanie návštevníka).
+
+* **Live search:** nový filter `px_shop_core_search_query_args( $args, $term )`
+  nad WP_Query argumentmi šepkávača. Web si tak vie preložiť časť frázy na
+  atribútový filter — „matrac 90x200" na `tax_query` nad `pa_rozmer` plus
+  fulltext „matrac" — bez toho, aby plugin poznal názvy atribútov konkrétneho
+  e-shopu. Ak filter skráti `$args['s']`, vyhľadávanie kategórií použije
+  skrátenú frázu (a pri prázdnej ho preskočí), takže spotrebované tokeny
+  neprepadnú do zhody na názov kategórie.
 
 = 1.6.0 =
 
