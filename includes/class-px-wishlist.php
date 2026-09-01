@@ -135,7 +135,20 @@ class PX_Wishlist {
 
 	/* ----------------------------- Shortcode ----------------------------- */
 
+	/**
+	 * The grid is built in PHP from the visitor's own cookie/user meta, so
+	 * the page must never end up in a page cache: the first visitor's list
+	 * would be baked in and served to everyone after him - foreign items in
+	 * your own wishlist, and a leak of what someone else was looking at.
+	 * An empty list is no safer, so the guard runs before the early return.
+	 *
+	 * Themes that register their own [px_wishlist] later (px-shop-theme
+	 * does) guard it themselves; this is for a site running the plugin on
+	 * a theme that does not.
+	 */
 	public static function shortcode() {
+		px_shop_core_no_page_cache();
+
 		$ids = self::get_ids();
 
 		ob_start();

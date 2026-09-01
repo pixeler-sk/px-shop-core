@@ -53,10 +53,56 @@ class PX_Size_Guide {
 			add_action( 'edited_product_cat', array( __CLASS__, 'save_term' ) );
 		}
 
+		// A size guide is a non-public post type, so WP Rocket's
+		// rocket_clean_post() bails on it and an edited table stays hidden
+		// behind the cached product pages. The guide has no URL of its own
+		// and can be inherited by a whole category tree, so the purge is
+		// domain-wide.
+		add_action( 'save_post_' . self::POST_TYPE, array( __CLASS__, 'purge_cache' ), 20, 2 );
+		add_action( 'before_delete_post', array( __CLASS__, 'purge_cache_for_post' ) );
+		add_action( 'trashed_post', array( __CLASS__, 'purge_cache_for_post' ) );
+		add_action( 'untrashed_post', array( __CLASS__, 'purge_cache_for_post' ) );
+
 		// Themes that fire the stock WooCommerce summary hook get the button
 		// for free. A theme with a place of its own (px-shop-theme puts the
 		// guide in a product tab) unhooks this and calls get_content_html().
 		add_action( 'woocommerce_single_product_summary', array( __CLASS__, 'render' ), 38 );
+	}
+
+	/* ------------------------------- Cache ------------------------------- */
+
+	/**
+	 * Full page cache purge after a guide changed. Autosaves, revisions and
+	 * the auto-draft behind "Add new" change nothing on the front end.
+	 *
+	 * @param int          $post_id Post ID.
+	 * @param WP_Post|null $post    Post object.
+	 */
+	public static function purge_cache( $post_id, $post = null ) {
+		if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+
+		$status = $post instanceof WP_Post ? $post->post_status : get_post_status( $post_id );
+
+		if ( 'auto-draft' === $status ) {
+			return;
+		}
+
+		px_shop_core_purge_page_cache();
+	}
+
+	/**
+	 * Same purge for the hooks that fire for every post type.
+	 *
+	 * @param int $post_id Post ID.
+	 */
+	public static function purge_cache_for_post( $post_id ) {
+		if ( self::POST_TYPE !== get_post_type( $post_id ) ) {
+			return;
+		}
+
+		px_shop_core_purge_page_cache();
 	}
 
 	/* ----------------------------- Post type ----------------------------- */
@@ -688,6 +734,10 @@ if(e.target.classList&&e.target.classList.contains("px-size-guide__modal")){e.ta
 		}
 
 		self::store_link( 'term', $term_id, isset( $_POST['px_size_guide'] ) ? sanitize_text_field( wp_unslash( $_POST['px_size_guide'] ) ) : '' );
+
+		// The guide of a category applies to every product in it (and in its
+		// children), and none of those pages knows the term meta changed.
+		px_shop_core_purge_page_cache();
 	}
 
 	/**

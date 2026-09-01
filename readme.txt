@@ -3,7 +3,7 @@ Contributors: pixeler
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.7.0
+Stable tag: 1.8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,67 @@ no admin screens — so `class_exists( 'PX_Wishlist' )` stays the reliable test
 for themes.
 
 == Changelog ==
+
+= 1.8.0 =
+
+Kompatibilita s page cache (overené na WP Rocket 3.23.3.2). Plugin cache nemá
+a mať nebude, ale kreslí veci, ktoré sa cachovať nesmú, a mení obsah, o ktorom
+cache nevie. Všetky volania WP Rocketu sú cez `function_exists()`, takže na
+webe bez neho sa nemení nič.
+
+* **Obľúbené a porovnanie:** shortcody `[px_wishlist]` a `[px_compare]` stavajú
+  mriežku v PHP z cookie návštevníka, ale stránku z cache nevynímali. Do page
+  cache sa tak zapiekol zoznam prvého návštevníka a dostali ho všetci ostatní —
+  cudzie položky vo vlastnom zozname a únik toho, čo si pozeral niekto iný. Na
+  weboch s px-shop-theme to prebíjala téma vlastným shortcodom, ktorý ochranu
+  má; teraz je `DONOTCACHEPAGE` + `nocache_headers()` priamo v jadre, takže je
+  to bezpečné aj na holej téme. Prázdny zoznam nie je o nič bezpečnejší, preto
+  ochrana beží ešte pred ním.
+
+* **Bannery a veľkostné tabuľky:** `px_content` aj `px_size_guide` sú neverejné
+  post typy, na ktorých `rocket_clean_post()` bailne — klient upravil banner,
+  uložil a na webe sa nezmenilo nič, ani na úvodke. Uloženie, presun do koša,
+  obnova aj zmazanie teraz purgujú cache celej domény; banner nemá vlastnú URL
+  a môže byť naraz na úvodke, v kategórii aj na detaile, takže jemnejší purge
+  nemá zmysel. Purguje aj priradenie tabuľky ku kategórii produktov. Purge sa
+  odkladá na koniec requestu a spraví sa raz, aby import sto bannerov
+  neznamenal sto mazaní cache. Used CSS sa zámerne nemaže.
+
+* **Nové rozšírenie pre ostatné cache:** akcia `px_shop_core_purge_page_cache`
+  (LiteSpeed, Varnish, Cloudflare si web dovesí v site plugine) a verejné
+  funkcie `px_shop_core_no_page_cache()` a `px_shop_core_purge_page_cache()`
+  pre témy a site pluginy.
+
+* **Live search:** šepkávač posielal `Cache-Control: public` aj prihlásenému,
+  hoci odpoveď nesie cenu ako hotové HTML a prihlásený môže mať vlastnú cenovú
+  hladinu. Cez Cloudflare alebo inú zdieľanú proxy sa tak dala jeho cena podať
+  anonymnému návštevníkovi. Prihlásený (a hosť oslobodený od DPH) dostáva
+  `private, no-store`; pre ostatných ostáva `public, max-age=60`.
+
+* **Omnibus:** história cien sa dopĺňala „pri zobrazení detailu", čo pod page
+  cache takmer nebeží — PHP sa spustí len pri cache miss, a diery boli práve
+  na začiatku a konci akcie, keď naplánovaná zľava prepne cenu bez uloženia
+  produktu. Najnižšia cena za 30 dní je pritom právne tvrdenie, nie kozmetika.
+  Pribudol denný cron `px_omnibus_scan` (03:20 miestneho času), ktorý prejde
+  všetko, čo je práve v zľave, plus produkty, ktorým sa okno akcie pred pár
+  dňami otvorilo alebo zavrelo, a dopíše chýbajúce záznamy. Zapisuje len tam,
+  kde sa cena naozaj pohla; beží po dávkach po 200 s dvoma dotazmi na dávku,
+  bez načítania produktových objektov a bez stropu na počet produktov
+  (strop by rezal zoznam každú noc rovnako a tie isté produkty na konci
+  katalógu by záznam nedostali nikdy). Naviazané aj na
+  `wc_product_start_scheduled_sale` / `wc_product_end_scheduled_sale`
+  a `woocommerce_scheduled_sales`. Zápis pri zobrazení ostáva ako záchrana.
+  Nové filtre `px_omnibus_scan_limit` (0 = bez stropu) a `px_omnibus_scan_ids`.
+
+* **Waitlist:** e-mail prihláseného sa predvypĺňal priamo do HTML produktovej
+  stránky — dnes bezpečné len preto, že prihlásení page cache nedostávajú. Ak
+  sa taká adresa vypíše, stránka sa vyníma z cache; web, ktorý chce radšej
+  cache, prefill vypne filtrom `px_waitlist_prefill_email`.
+
+* **Cron a moduly:** definícia modulu smie deklarovať kľúč `cron`. Vypnutý
+  modul si svoju naplánovanú udalosť upratuje sám (kontrola beží len
+  v administrácii) a deaktivácia pluginu ju zruší tiež — žiadna osirelá
+  udalosť, ktorú by WP-Cron plánoval donekonečna.
 
 = 1.7.0 =
 

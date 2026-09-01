@@ -113,7 +113,13 @@ class PX_Compare {
 
 	/* ----------------------------- Shortcode ----------------------------- */
 
+	/**
+	 * Cookie-driven table rendered in PHP - see PX_Wishlist::shortcode()
+	 * for why a page cache must not get its hands on it.
+	 */
 	public static function shortcode() {
+		px_shop_core_no_page_cache();
+
 		$ids = self::get_ids();
 
 		if ( empty( $ids ) ) {

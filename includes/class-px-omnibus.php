@@ -2,10 +2,16 @@
 /**
  * EU Omnibus - "lowest price in the last 30 days" for discounted products.
  *
- * Price history is recorded on every product/variation save (plus a lazy
- * check on single product views to catch scheduled sales that activate
- * without a save). When a product is on sale, the lowest price recorded
- * in the 30 days before the current sale started is displayed.
+ * Price history is recorded on every product/variation save. A scheduled
+ * sale flips the price without a save that carries the new value, so a
+ * daily scan goes over everything on sale (and everything whose sale window
+ * just opened or closed) and records what is missing. The lazy check on
+ * single product views stays as a rescue, but it cannot be relied on: with
+ * a page cache in front, PHP only runs on a cache miss, and the misses are
+ * never where the history needs them.
+ *
+ * When a product is on sale, the lowest price recorded in the 30 days
+ * before the current sale started is displayed.
  *
  * @package PxShopCore
  */
@@ -20,13 +26,37 @@ class PX_Omnibus {
 	const WINDOW_DAYS = 30;
 	const KEEP_DAYS   = 90;
 
+	/** Daily scan. The name is repeated as a literal in includes/modules.php. */
+	const CRON_HOOK = 'px_omnibus_scan';
+
+	/** How far around today the scan looks for sale windows opening/closing. */
+	const SCAN_WINDOW_DAYS = 3;
+
+	/** Products handled per query in the scan. */
+	const SCAN_CHUNK = 200;
+
 	public static function init() {
 		add_action( 'woocommerce_update_product', array( __CLASS__, 'record' ) );
 		add_action( 'woocommerce_new_product', array( __CLASS__, 'record' ) );
 		add_action( 'woocommerce_update_product_variation', array( __CLASS__, 'record' ) );
 		add_action( 'woocommerce_new_product_variation', array( __CLASS__, 'record' ) );
 
-		// Scheduled sales flip the price without firing a save - self-heal on view.
+		// A scheduled sale flips the price outside any save that carries the
+		// new value: WooCommerce writes _price with update_post_meta() after
+		// $product->save() has already fired its hooks. Whichever path the
+		// installed version takes, the price change itself is recorded here.
+		add_action( 'wc_product_start_scheduled_sale', array( __CLASS__, 'record' ), 20 );
+		add_action( 'wc_product_end_scheduled_sale', array( __CLASS__, 'record' ), 20 );
+		add_action( 'woocommerce_scheduled_sales', array( __CLASS__, 'scan' ), 20 );
+
+		// And the backstop: a daily pass over everything on sale. The 30-day
+		// minimum is a legal statement, so it must not depend on someone
+		// opening the product page at the right moment - with a page cache
+		// the page opens without PHP most of the time.
+		add_action( self::CRON_HOOK, array( __CLASS__, 'scan' ) );
+		self::maybe_schedule();
+
+		// Kept as a rescue for anything the scan does not reach.
 		add_action( 'woocommerce_before_single_product', array( __CLASS__, 'record_current_view' ) );
 
 		// Recording always runs; only the output is switchable. A shop that
@@ -56,12 +86,30 @@ class PX_Omnibus {
 		if ( '' === $price || null === $price ) {
 			return;
 		}
-		$price = (float) $price;
 
-		$history = self::get_history( $product->get_id() );
-		$last    = end( $history );
-		if ( $last && abs( (float) $last['price'] - $price ) < 0.0001 ) {
-			return;
+		self::record_price( $product->get_id(), (float) $price );
+	}
+
+	/**
+	 * The write itself, without loading a product object.
+	 *
+	 * The scan works from plain meta rows, so it must be able to hand the
+	 * history in - reading it back product by product would be a query per
+	 * product on a job that runs over the whole sale.
+	 *
+	 * @param int        $product_id Product or variation ID.
+	 * @param float      $price      Current active price.
+	 * @param array|null $history    Already loaded history, null to read it.
+	 * @return bool Whether a new entry was written.
+	 */
+	protected static function record_price( $product_id, $price, $history = null ) {
+		if ( null === $history ) {
+			$history = self::get_history( $product_id );
+		}
+
+		$last = end( $history );
+		if ( $last && isset( $last['price'] ) && abs( (float) $last['price'] - $price ) < 0.0001 ) {
+			return false;
 		}
 
 		$history[] = array(
@@ -85,7 +133,9 @@ class PX_Omnibus {
 			array_unshift( $recent, end( $older ) );
 		}
 
-		update_post_meta( $product->get_id(), self::META_KEY, array_values( $recent ) );
+		update_post_meta( $product_id, self::META_KEY, array_values( $recent ) );
+
+		return true;
 	}
 
 	public static function record_current_view() {
@@ -93,6 +143,153 @@ class PX_Omnibus {
 		if ( $product instanceof WC_Product ) {
 			self::record( $product );
 		}
+	}
+
+	/* -------------------------- Scheduled scan --------------------------- */
+
+	/**
+	 * Books the daily scan. Time is 03:20 local: after the WooCommerce
+	 * midnight sale job, outside the busy hours.
+	 */
+	protected static function maybe_schedule() {
+		if ( wp_next_scheduled( self::CRON_HOOK ) ) {
+			return;
+		}
+
+		$offset = (float) get_option( 'gmt_offset' ) * HOUR_IN_SECONDS;
+		$first  = (int) ( strtotime( 'tomorrow 03:20:00', (int) ( time() + $offset ) ) - $offset );
+
+		wp_schedule_event( $first, 'daily', self::CRON_HOOK );
+	}
+
+	/**
+	 * Records the current price of everything on sale (and everything whose
+	 * sale window just opened or closed).
+	 *
+	 * Writes only where the price actually moved - on a normal day it is a
+	 * handful of queries and no writes at all.
+	 *
+	 * @return int Number of products whose history got a new entry.
+	 */
+	public static function scan() {
+		$ids = self::scan_ids();
+
+		if ( ! $ids ) {
+			return 0;
+		}
+
+		$written = 0;
+
+		foreach ( array_chunk( $ids, self::SCAN_CHUNK ) as $chunk ) {
+			$written += self::record_chunk( $chunk );
+		}
+
+		return $written;
+	}
+
+	/**
+	 * Product and variation IDs the scan cares about.
+	 *
+	 * @return int[]
+	 */
+	protected static function scan_ids() {
+		global $wpdb;
+
+		$lookup = isset( $wpdb->wc_product_meta_lookup ) ? $wpdb->wc_product_meta_lookup : $wpdb->prefix . 'wc_product_meta_lookup';
+
+		/**
+		 * Filters the ceiling on how many products one scan takes.
+		 *
+		 * Default is none. A cap would cut the list the same way every
+		 * night (ordered by ID), so the same products at the end of the
+		 * catalog would never get a record - and the 30-day minimum is a
+		 * legal statement, not a nice-to-have. Both queries are indexed and
+		 * the loop writes only where the price moved, so a big sale costs
+		 * seconds, not minutes.
+		 *
+		 * @param int $limit Maximum number of IDs per query, 0 for no limit.
+		 */
+		$limit     = max( 0, (int) apply_filters( 'px_omnibus_scan_limit', 0 ) );
+		$limit_sql = $limit > 0 ? $wpdb->prepare( ' LIMIT %d', $limit ) : '';
+
+		// On sale right now. wc_product_meta_lookup is one row per product
+		// AND per variation, so this is a single indexed read instead of a
+		// meta_query over postmeta.
+		$ids = $wpdb->get_col( "SELECT product_id FROM {$lookup} WHERE onsale = 1 ORDER BY product_id ASC" . $limit_sql ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+
+		// Sale windows around today. A sale that has ended is no longer
+		// "onsale", yet its end is exactly the price change nobody recorded -
+		// without it the history would keep claiming the sale price is the
+		// current one, and the next discount would be measured against it.
+		$window = self::SCAN_WINDOW_DAYS * DAY_IN_SECONDS;
+		$dates  = $wpdb->get_col( $wpdb->prepare( // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+			"SELECT post_id FROM {$wpdb->postmeta}
+			 WHERE meta_key IN ( '_sale_price_dates_from', '_sale_price_dates_to' )
+			 AND meta_value BETWEEN %d AND %d
+			 ORDER BY post_id ASC" . $limit_sql,
+			time() - $window,
+			time() + $window
+		) );
+
+		$ids = array_values( array_unique( array_map( 'absint', array_merge( (array) $ids, (array) $dates ) ) ) );
+
+		/**
+		 * Filters the products the daily scan records.
+		 *
+		 * @param int[] $ids Product and variation IDs.
+		 */
+		$ids = (array) apply_filters( 'px_omnibus_scan_ids', $ids );
+
+		return array_values( array_filter( array_map( 'absint', $ids ) ) );
+	}
+
+	/**
+	 * Records one batch: two queries, then a write per product that moved.
+	 *
+	 * @param int[] $ids Product and variation IDs.
+	 * @return int Number of products whose history got a new entry.
+	 */
+	protected static function record_chunk( array $ids ) {
+		global $wpdb;
+
+		$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+
+		$rows = $wpdb->get_results( $wpdb->prepare( // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+			"SELECT post_id, meta_key, meta_value FROM {$wpdb->postmeta}
+			 WHERE meta_key IN ( '_price', %s ) AND post_id IN ( {$placeholders} )",
+			array_merge( array( self::META_KEY ), $ids )
+		) );
+
+		$prices    = array();
+		$histories = array();
+
+		foreach ( (array) $rows as $row ) {
+			$id = (int) $row->post_id;
+
+			if ( '_price' === $row->meta_key ) {
+				$prices[ $id ] = $row->meta_value;
+				continue;
+			}
+
+			$stored           = maybe_unserialize( $row->meta_value );
+			$histories[ $id ] = is_array( $stored ) ? $stored : array();
+		}
+
+		$written = 0;
+
+		foreach ( $ids as $id ) {
+			if ( ! isset( $prices[ $id ] ) || '' === $prices[ $id ] || null === $prices[ $id ] ) {
+				continue;
+			}
+
+			$history = isset( $histories[ $id ] ) ? $histories[ $id ] : array();
+
+			if ( self::record_price( $id, (float) $prices[ $id ], $history ) ) {
+				$written++;
+			}
+		}
+
+		return $written;
 	}
 
 	public static function get_history( $product_id ) {

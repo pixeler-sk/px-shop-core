@@ -155,12 +155,35 @@ class PX_Search {
 		) );
 	}
 
-	/** Odpoveď so 60 s cache - endpoint je verejný a neobsahuje nič osobné. */
+	/** Odpoveď so 60 s cache tam, kde je verejná (viď cache_control()). */
 	private static function respond( $data ) {
 		$response = rest_ensure_response( $data );
-		$response->header( 'Cache-Control', 'public, max-age=' . self::CACHE_TTL );
+		$response->header( 'Cache-Control', self::cache_control() );
 
 		return $response;
+	}
+
+	/**
+	 * Hlavička Cache-Control podľa toho, komu odpoveď patrí.
+	 *
+	 * Odpoveď nesie cenu ako hotové HTML, a tá nie je pre každého rovnaká:
+	 * prihlásený zákazník môže mať vlastnú cenovú hladinu, hosť v košíku
+	 * môže mať oslobodenie od DPH. `cacheable()` ich vylučuje zo serverovej
+	 * cache, ale hlavička je to, čo počuje Cloudflare alebo iná zdieľaná
+	 * proxy - s `public` by jej stačilo raz uložiť odpoveď prihláseného
+	 * a servírovať jeho ceny anonymným návštevníkom. Takáto odpoveď preto
+	 * nesmie skončiť nikde inde než u toho, kto si ju vypýtal.
+	 *
+	 * @return string
+	 */
+	private static function cache_control() {
+		$vat_exempt = function_exists( 'WC' ) && WC()->customer && WC()->customer->get_is_vat_exempt();
+
+		if ( is_user_logged_in() || $vat_exempt ) {
+			return 'private, no-store, max-age=0';
+		}
+
+		return 'public, max-age=' . self::CACHE_TTL;
 	}
 
 	public static function handle( $request ) {

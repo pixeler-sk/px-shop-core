@@ -28,6 +28,7 @@ Každá funkcia je samostatný modul, dá sa vypnúť a téma sa jej pýta cez
   [Google Consent Mode v2](#google-consent-mode-v2-consent_mode)
 - [Prístupnosť (WCAG)](#prístupnosť-wcag)
 - [WP-CLI](#wp-cli)
+- [Page cache](#page-cache)
 - [Konvencie pre tému](#konvencie-pre-tému)
 
 ## Moduly a nastavenia
@@ -74,16 +75,25 @@ Moduly s vlastnou sekciou nastavení majú v PX Shop vlastnú záložku.
 ## Omnibus (`omnibus`)
 
 Smernica Omnibus: pri zľavnenom produkte sa ukazuje najnižšia cena za
-posledných 30 dní. Plugin si históriu cien zapisuje sám pri uložení produktu
-a pri zobrazení (`record_current_view()`), takže web, ktorý zapne modul dnes,
-má o mesiac úplné dáta.
+posledných 30 dní. Plugin si históriu cien zapisuje sám pri uložení produktu,
+takže web, ktorý zapne modul dnes, má o mesiac úplné dáta.
+
+Naplánovaná zľava ale prepne cenu bez uloženia, ktoré by novú hodnotu nieslo
+(WooCommerce zapisuje `_price` cez `update_post_meta()` až po tom, čo `save()`
+odpálil svoje hooky). Zápis „pri zobrazení detailu" to pod page cache
+nezachráni — PHP sa spustí len pri cache miss. Preto beží **denný cron
+`px_omnibus_scan`** (03:20 miestneho času, hneď po polnočnej práci
+WooCommerce), ktorý prejde všetko v zľave a dopíše, čo chýba. Zápis pri
+zobrazení ostáva ako záchrana.
 
 | Čo | Ako |
 | --- | --- |
 | Najnižšia cena | `PX_Omnibus::get_lowest_price( $product )` (float), `::get_html( $product )` |
 | História | `PX_Omnibus::get_history( $product_id )` |
+| Ručný beh | `PX_Omnibus::scan()` — vráti počet produktov s novým záznamom |
+| Čo scan berie | `onsale = 1` z `wc_product_meta_lookup` + produkty s `_sale_price_dates_*` v okne ±3 dni; po dávkach po 200, dva dotazy na dávku, bez načítania produktových objektov a bez stropu (na libike ~4 300 produktov za desatiny sekundy) |
 | Variácie | v dátach variácie cestuje `px_omnibus_html`; do `price_html` sa pripája len ak nie je prázdny |
-| Filtre | `px_omnibus_display` (vypne výpis, história vzniká ďalej — web, ktorý cenu ukazuje iným pluginom, neskôr prejde bez diery v dátach), `px_omnibus_lowest_price`, `px_omnibus_variation_price_html` |
+| Filtre | `px_omnibus_display` (vypne výpis, história vzniká ďalej — web, ktorý cenu ukazuje iným pluginom, neskôr prejde bez diery v dátach), `px_omnibus_lowest_price`, `px_omnibus_variation_price_html`, `px_omnibus_scan_limit` (0 = bez stropu), `px_omnibus_scan_ids` |
 
 ## Platnosť akcie (`sale_dates`)
 
@@ -488,6 +498,26 @@ Kontrastné pomery, veľkosť cieľov a viditeľnosť fokusu sú vec témy
 
 Príkazy sa registrujú len pri zapnutom module.
 
+## Page cache
+
+Plugin cache nemá, ale dve veci si s ňou vybaviť musí. Všetko voči WP Rocketu
+ide cez `function_exists()`, takže na webe bez neho je to tichý no-op.
+
+| Funkcia | Na čo |
+| --- | --- |
+| `px_shop_core_no_page_cache()` | `DONOTCACHEPAGE` + `nocache_headers()` (len ak hlavičky ešte neodišli). Volá sa v `[px_wishlist]`, `[px_compare]` a pri predvyplnenom e-maile vo waitliste |
+| `px_shop_core_purge_page_cache()` | objedná `rocket_clean_domain()` na `shutdown`, raz za request. Volá sa pri zmene bannera (`px_content`), veľkostnej tabuľky (`px_size_guide`) a jej priradenia ku kategórii |
+| akcia `px_shop_core_purge_page_cache` | miesto pre ostatné cache webu (LiteSpeed, Varnish, Cloudflare) — patrí do site pluginu, nie sem |
+
+Neverejné post typy (`public => false`) sú pre `rocket_clean_post()` neviditeľné
+— preto plný purge domény. Used CSS sa nemaže: regeneruje sa pre celý web a
+text bannera oň nezavadí. Po zmene rozloženia bannera (nové CSS triedy) ho
+treba pretlačiť ručne.
+
+Modul, ktorý si plánuje cron, ho deklaruje v registri kľúčom `cron`. Vypnutý
+modul si udalosť upratuje sám (kontrola beží len v administrácii), deaktivácia
+pluginu ju zruší tiež.
+
 ## Konvencie pre tému
 
 - Dostupnosť funkcie: `class_exists( 'PX_Xyz' )` (pri súhlase
@@ -497,4 +527,5 @@ Príkazy sa registrujú len pri zapnutom module.
 - Šablóny e-mailov a súhlasu sa prepisujú v téme
   (`woocommerce/emails/px-waitlist-*.php`, `px-shop-core/consent/*.php`).
 - Nikdy nečítať súhlas ani stav košíka v PHP pri výstupe, ktorý ide do page
-  cache — plugin to sám nerobí a téma by to nemala kaziť.
+  cache — plugin to sám nerobí a téma by to nemala kaziť. Keď to inak nejde,
+  `px_shop_core_no_page_cache()` (viď [Page cache](#page-cache)).

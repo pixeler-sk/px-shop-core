@@ -510,7 +510,22 @@ class PX_Waitlist {
 			return '';
 		}
 
-		$user_email = is_user_logged_in() ? wp_get_current_user()->user_email : '';
+		// A logged-in customer gets his address filled in - but that address
+		// is then sitting in the HTML of an ordinary product page. Today it
+		// is safe only because page caches skip logged-in visitors by
+		// default; switch "cache for logged-in users" on and one customer's
+		// e-mail would be served to the next. So the page that carries a
+		// prefilled address is taken out of the cache, and a shop that would
+		// rather keep the cache turns the prefill off with the filter.
+		$user_email = '';
+
+		if ( is_user_logged_in() && apply_filters( 'px_waitlist_prefill_email', true, $product ) ) {
+			$user_email = wp_get_current_user()->user_email;
+
+			if ( '' !== $user_email ) {
+				px_shop_core_no_page_cache();
+			}
+		}
 
 		ob_start();
 		echo self::form_assets(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

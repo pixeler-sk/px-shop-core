@@ -25,6 +25,9 @@
  *   settings - callable returning WooCommerce settings fields for the
  *              module's own section, or absent when it has none
  *   cli      - array of array( file, command, class ) loaded under WP-CLI
+ *   cron     - WP-Cron hook names the module schedules; the loader clears
+ *              them when the module is off and the plugin clears them on
+ *              deactivation, so no orphan event survives the switch
  *
  * @package PxShopCore
  */
@@ -66,6 +69,10 @@ function px_shop_core_modules() {
 			'desc'  => __( 'Records price history and shows the lowest price of the last 30 days on discounted products.', 'px-shop-core' ),
 			'file'  => 'includes/class-px-omnibus.php',
 			'class' => 'PX_Omnibus',
+			// Literal, not PX_Omnibus::CRON_HOOK - the registry is read
+			// exactly when the class is not loaded (module off, plugin
+			// being deactivated).
+			'cron'  => array( 'px_omnibus_scan' ),
 		),
 		'sale_dates'      => array(
 			'title'    => __( 'Sale validity', 'px-shop-core' ),

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: PX Shop Core
  * Description: WooCommerce extensions shared across Pixelers shop projects - live product search endpoint, brand product tab and future shop features. Presentation lives in the theme; this plugin only provides functionality.
- * Version: 1.7.0
+ * Version: 1.8.0
  * Author: Pixelers
  * Author URI: https://pixeler.sk/
  * Requires at least: 6.0
@@ -19,9 +19,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'PX_SHOP_CORE_VERSION', '1.7.0' );
+define( 'PX_SHOP_CORE_VERSION', '1.8.0' );
 define( 'PX_SHOP_CORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'PX_SHOP_CORE_FILE', __FILE__ );
+
+// Page cache helpers (DONOTCACHEPAGE, purge). Loaded unconditionally: they
+// are used by modules and site plugins alike, and they cost nothing when no
+// cache plugin is installed.
+require_once PX_SHOP_CORE_DIR . 'includes/cache.php';
 
 // Updates from GitHub. Deliberately outside px_shop_core_init(): the plugin
 // does nothing without WooCommerce, but it must always be updatable.
@@ -31,6 +36,26 @@ if ( file_exists( PX_SHOP_CORE_DIR . 'includes/updater.php' ) ) {
 }
 
 add_action( 'plugins_loaded', 'px_shop_core_init' );
+register_deactivation_hook( __FILE__, 'px_shop_core_deactivate' );
+
+/**
+ * Nothing of this plugin may keep running once it is switched off - a
+ * scheduled event whose callback no longer exists would otherwise be
+ * re-scheduled by WP-Cron forever.
+ */
+function px_shop_core_deactivate() {
+	require_once PX_SHOP_CORE_DIR . 'includes/modules.php';
+
+	foreach ( px_shop_core_modules() as $module ) {
+		if ( empty( $module['cron'] ) ) {
+			continue;
+		}
+
+		foreach ( (array) $module['cron'] as $hook ) {
+			wp_clear_scheduled_hook( $hook );
+		}
+	}
+}
 
 /**
  * Loads the modules that are switched on (see includes/modules.php).
@@ -51,6 +76,18 @@ function px_shop_core_init() {
 		$needs_wc = ! isset( $module['wc'] ) || $module['wc'];
 
 		if ( ( $needs_wc && ! $has_wc ) || ! px_module_on( $key ) ) {
+			// A module that is off must not leave a cron event behind. The
+			// check is admin-only on purpose: it is tidying up after a
+			// switch someone flipped in admin, not work every visitor pays
+			// for.
+			if ( is_admin() && ! empty( $module['cron'] ) ) {
+				foreach ( (array) $module['cron'] as $hook ) {
+					if ( wp_next_scheduled( $hook ) ) {
+						wp_clear_scheduled_hook( $hook );
+					}
+				}
+			}
+
 			continue;
 		}
 

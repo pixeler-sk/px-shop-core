@@ -51,10 +51,60 @@ class PX_Content {
 		add_action( 'save_post_' . self::POST_TYPE, array( __CLASS__, 'save_meta' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_assets' ) );
 
+		// Banners are invisible to page cache plugins: the post type is not
+		// public, so WP Rocket's rocket_clean_post() bails on it and the
+		// edited banner never shows up on the front end - not even on the
+		// homepage. A banner has no URL of its own and can sit on the
+		// homepage, in a category and on a product page at once, so the only
+		// honest purge is the whole domain.
+		add_action( 'save_post_' . self::POST_TYPE, array( __CLASS__, 'purge_cache' ), 20, 2 );
+		add_action( 'before_delete_post', array( __CLASS__, 'purge_cache_for_post' ) );
+		add_action( 'trashed_post', array( __CLASS__, 'purge_cache_for_post' ) );
+		add_action( 'untrashed_post', array( __CLASS__, 'purge_cache_for_post' ) );
+
 		add_filter( 'manage_' . self::POST_TYPE . '_posts_columns', array( __CLASS__, 'admin_columns' ) );
 		add_action( 'manage_' . self::POST_TYPE . '_posts_custom_column', array( __CLASS__, 'admin_column' ), 10, 2 );
 
 		add_shortcode( 'px_banner', array( __CLASS__, 'shortcode' ) );
+	}
+
+	/**
+	 * Full page cache purge after a banner changed.
+	 *
+	 * Runs on save_post, so it also covers publishing, unpublishing and
+	 * quick edit of menu_order. Autosaves, revisions and the empty
+	 * auto-draft WordPress creates when "Add new" is opened change nothing
+	 * on the front end and must not throw the cache away.
+	 *
+	 * @param int          $post_id Post ID.
+	 * @param WP_Post|null $post    Post object.
+	 */
+	public static function purge_cache( $post_id, $post = null ) {
+		if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+
+		$status = $post instanceof WP_Post ? $post->post_status : get_post_status( $post_id );
+
+		if ( 'auto-draft' === $status ) {
+			return;
+		}
+
+		px_shop_core_purge_page_cache();
+	}
+
+	/**
+	 * Same purge for hooks that fire for every post type. before_delete_post
+	 * runs while the post still exists, so the type is still readable.
+	 *
+	 * @param int $post_id Post ID.
+	 */
+	public static function purge_cache_for_post( $post_id ) {
+		if ( self::POST_TYPE !== get_post_type( $post_id ) ) {
+			return;
+		}
+
+		px_shop_core_purge_page_cache();
 	}
 
 	public static function register() {
