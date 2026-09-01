@@ -271,6 +271,10 @@ class PX_Omnibus {
 		$ids = (array) apply_filters( 'px_omnibus_scan_ids', $ids, $on_sale );
 		$ids = array_values( array_filter( array_map( 'absint', $ids ) ) );
 
+		// Znova cez kontrolu vhodnosti: ID pridané filtrom by inak obišli
+		// vylúčenie odvodených typov a neexistujúcich postov úplne.
+		$ids = self::filter_eligible( $ids );
+
 		/**
 		 * Filters the ceiling on how many products one scan takes.
 		 *
@@ -480,7 +484,12 @@ class PX_Omnibus {
 			$id = (int) $row->post_id;
 
 			if ( '_price' === $row->meta_key ) {
-				$prices[ $id ] = $row->meta_value;
+				// Prvý riadok, nie posledný: keby sa sem cez filter predsa len
+				// dostal post s viacerými `_price` (variabilný rodič), dá to tú
+				// istú hodnotu ako `get_price( 'edit' )`, teda najnižšiu.
+				if ( ! isset( $prices[ $id ] ) ) {
+					$prices[ $id ] = $row->meta_value;
+				}
 				continue;
 			}
 
@@ -519,11 +528,22 @@ class PX_Omnibus {
 	 * discounted one, it would never match any entry, and the streak below
 	 * would collapse to "started now" on every single product.
 	 *
+	 * Odvodené typy sem nepatria z toho istého dôvodu, pre ktorý sa im história
+	 * ani nezapisuje: variabilný rodič nemá vlastnú cenu, len odvodenú z variácií.
+	 * Bez tejto poistky by sa im história zamrazila a pri prvom vykreslení detailu
+	 * (kým JS nedoplní vybranú variáciu) by sa vypísalo číslo zo starých dát.
+	 *
+	 * `is_on_sale( 'edit' )` je tu z rovnakého dôvodu ako `get_price( 'edit' )`
+	 * nižšie: vo `view` kontexte prechádza cena cez filtre plošných kampaní,
+	 * a plugin sitewide zľavy vracia pre prázdnu `sale_price` hodnotu 0, takže
+	 * `is_on_sale()` by počas kampane vrátilo true na každom produkte a Omnibus
+	 * riadok by sa vypísal aj na tovare, ktorý v akcii nie je.
+	 *
 	 * @param WC_Product $product Product (simple or variation).
 	 * @return float|null Null when the product is not on sale.
 	 */
 	public static function get_lowest_price( $product ) {
-		if ( ! $product->is_on_sale() ) {
+		if ( $product->is_type( self::DERIVED_TYPES ) || ! $product->is_on_sale( 'edit' ) ) {
 			return null;
 		}
 
