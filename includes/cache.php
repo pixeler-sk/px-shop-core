@@ -75,7 +75,16 @@ function px_shop_core_do_purge_page_cache() {
 	// WP Rocket: `rocket_clean_domain()` zmaže cache celej domény vrátane
 	// jazykových mutácií. Used CSS sa zámerne nemaže - regeneruje sa pre
 	// celý web a text bannera oň nezavadí.
-	if ( function_exists( 'rocket_clean_domain' ) ) {
+	//
+	// Počas importu sa vynecháva: WP All Import beží po dávkach a každá
+	// dávka je vlastný request, takže poistka „raz za request" tam neplatí
+	// nič - vyprázdnenie po každej dávke by cache držalo trvalo prázdnu.
+	// Cache po importe čistí site plugin webu (`pmxi_after_xml_import`).
+	// Rovnaké dve podmienky má aj `pxt_flush_nav_tree_page_cache()` v téme.
+	$importing = ( defined( 'WP_IMPORTING' ) && WP_IMPORTING )
+		|| ( function_exists( 'rocket_is_importing' ) && rocket_is_importing() );
+
+	if ( ! $importing && function_exists( 'rocket_clean_domain' ) ) {
 		rocket_clean_domain();
 	}
 
@@ -84,6 +93,8 @@ function px_shop_core_do_purge_page_cache() {
 	 *
 	 * Plugin sám pozná len WP Rocket; čokoľvek ďalšie si web dovesí sem
 	 * v site plugine namiesto vlastného sledovania našich post typov.
+	 *
+	 * @param bool $importing Či práve beží import (vtedy sa nepurguje).
 	 */
-	do_action( 'px_shop_core_purge_page_cache' );
+	do_action( 'px_shop_core_purge_page_cache', $importing );
 }

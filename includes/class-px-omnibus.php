@@ -35,6 +35,15 @@ class PX_Omnibus {
 	/** Products handled per query in the scan. */
 	const SCAN_CHUNK = 200;
 
+	/**
+	 * IDs the last scan found on sale, so the next one can also look at
+	 * whatever fell out of the sale meanwhile - see scan().
+	 */
+	const SEEN_OPTION = 'px_omnibus_scan_seen';
+
+	/** Product types that have no price of their own, only a derived range. */
+	const DERIVED_TYPES = array( 'variable', 'grouped' );
+
 	public static function init() {
 		add_action( 'woocommerce_update_product', array( __CLASS__, 'record' ) );
 		add_action( 'woocommerce_new_product', array( __CLASS__, 'record' ) );
@@ -43,16 +52,25 @@ class PX_Omnibus {
 
 		// A scheduled sale flips the price outside any save that carries the
 		// new value: WooCommerce writes _price with update_post_meta() after
-		// $product->save() has already fired its hooks. Whichever path the
-		// installed version takes, the price change itself is recorded here.
+		// $product->save() has already fired its hooks. These hooks carry the
+		// exact IDs, so they are cheap - but a shop that sets no sale dates
+		// (and shops driven by an import usually do not) never fires them.
+		// They are a bonus, not the mechanism.
 		add_action( 'wc_product_start_scheduled_sale', array( __CLASS__, 'record' ), 20 );
 		add_action( 'wc_product_end_scheduled_sale', array( __CLASS__, 'record' ), 20 );
-		add_action( 'woocommerce_scheduled_sales', array( __CLASS__, 'scan' ), 20 );
+		add_action( 'wc_after_products_starting_sales', array( __CLASS__, 'record_ids' ) );
+		add_action( 'wc_after_products_ending_sales', array( __CLASS__, 'record_ids' ) );
 
-		// And the backstop: a daily pass over everything on sale. The 30-day
+		// And the mechanism: a daily pass over everything on sale. The 30-day
 		// minimum is a legal statement, so it must not depend on someone
 		// opening the product page at the right moment - with a page cache
 		// the page opens without PHP most of the time.
+		//
+		// It gets its own cron event rather than riding on
+		// woocommerce_scheduled_sales: that one runs inside Action Scheduler,
+		// where a job over the whole catalog would sit in someone else's
+		// queue and, past action_scheduler_failure_period (300 s), get the
+		// host action marked as failed.
 		add_action( self::CRON_HOOK, array( __CLASS__, 'scan' ) );
 		self::maybe_schedule();
 
@@ -72,7 +90,28 @@ class PX_Omnibus {
 	}
 
 	/**
-	 * Record the current active price when it differs from the last entry.
+	 * Record the current catalog price when it differs from the last entry.
+	 *
+	 * PRICE BASE: 'edit', i.e. the price stored on the product, with no
+	 * filters on woocommerce_product_get_price applied. This is the whole
+	 * point, not a detail:
+	 *
+	 * - A sitewide campaign plugin (Global Shop Discount and friends) hooks
+	 *   that filter at PHP_INT_MAX whenever ! is_admin() || DOING_AJAX. An
+	 *   admin save is therefore NOT discounted, while a front-end view and a
+	 *   WP-Cron request ARE - and wp-cron.php is not admin. Reading the
+	 *   'view' price would put two incomparable numbers into one history and
+	 *   make the streak in get_lowest_price() meaningless.
+	 * - 'edit' is reproducible: the same value whoever reads it, whenever,
+	 *   with or without a session, a campaign or a tax context.
+	 * - And it is the right subject: the 30-day minimum is a statement about
+	 *   the price of the product, not about an announced blanket campaign,
+	 *   which is a separate construct with its own announcement. A shop that
+	 *   sees it the other way round changes what is DISPLAYED through
+	 *   px_omnibus_lowest_price - not what is recorded.
+	 *
+	 * Products whose price is only derived (variable, grouped) are skipped -
+	 * see DERIVED_TYPES.
 	 *
 	 * @param int|WC_Product $product_id Product ID or object.
 	 */
@@ -82,12 +121,39 @@ class PX_Omnibus {
 			return;
 		}
 
-		$price = $product->get_price();
+		if ( $product->is_type( self::DERIVED_TYPES ) ) {
+			return;
+		}
+
+		$price = $product->get_price( 'edit' );
 		if ( '' === $price || null === $price ) {
 			return;
 		}
 
 		self::record_price( $product->get_id(), (float) $price );
+	}
+
+	/**
+	 * Records an explicit list of IDs - the WooCommerce sale hooks hand them
+	 * over, so there is nothing to look up.
+	 *
+	 * @param int[] $ids Product and variation IDs.
+	 * @return int Number of products whose history got a new entry.
+	 */
+	public static function record_ids( $ids ) {
+		$ids = array_values( array_filter( array_map( 'absint', (array) $ids ) ) );
+
+		if ( ! $ids ) {
+			return 0;
+		}
+
+		$written = 0;
+
+		foreach ( array_chunk( self::filter_eligible( $ids ), self::SCAN_CHUNK ) as $chunk ) {
+			$written += self::record_chunk( $chunk );
+		}
+
+		return $written;
 	}
 
 	/**
@@ -123,6 +189,10 @@ class PX_Omnibus {
 		$older  = array();
 		$recent = array();
 		foreach ( $history as $entry ) {
+			if ( ! isset( $entry['time'], $entry['price'] ) ) {
+				continue; // Malformed leftover - dropping it is the repair.
+			}
+
 			if ( $entry['time'] < $cutoff ) {
 				$older[] = $entry;
 			} else {
@@ -163,19 +233,61 @@ class PX_Omnibus {
 	}
 
 	/**
-	 * Records the current price of everything on sale (and everything whose
-	 * sale window just opened or closed).
+	 * Records the current price of everything that is on sale - and of
+	 * everything that WAS on sale at the last scan and is not any more.
 	 *
-	 * Writes only where the price actually moved - on a normal day it is a
+	 * That second half is the whole trick. A shop where discounts come from
+	 * an import has no _sale_price_dates_* at all: the importer simply drops
+	 * _sale_price, the product falls out of onsale, and no hook fires. Yet
+	 * the return to the normal price is exactly the entry the history needs -
+	 * without it the record would keep claiming the sale price is current,
+	 * and the next discount would be measured against it. So the scan
+	 * remembers what it saw (SEEN_OPTION) and the next run walks the
+	 * difference.
+	 *
+	 * Writes only where the price actually moved - on a quiet day it is a
 	 * handful of queries and no writes at all.
 	 *
 	 * @return int Number of products whose history got a new entry.
 	 */
 	public static function scan() {
-		$ids = self::scan_ids();
+		$on_sale = self::on_sale_ids();
 
-		if ( ! $ids ) {
-			return 0;
+		// Fell out of the sale since the last run, plus anything with a sale
+		// window around today (shops that do use sale dates). Both lists come
+		// from outside the on-sale query, so they go through the same
+		// eligibility filter.
+		$extra = array_merge( array_diff( self::seen_ids(), $on_sale ), self::sale_window_ids() );
+		$extra = $extra ? self::filter_eligible( array_unique( $extra ) ) : array();
+
+		$ids = array_values( array_unique( array_merge( $on_sale, $extra ) ) );
+
+		/**
+		 * Filters the products the daily scan records.
+		 *
+		 * @param int[] $ids     Product and variation IDs.
+		 * @param int[] $on_sale The subset that is on sale right now.
+		 */
+		$ids = (array) apply_filters( 'px_omnibus_scan_ids', $ids, $on_sale );
+		$ids = array_values( array_filter( array_map( 'absint', $ids ) ) );
+
+		/**
+		 * Filters the ceiling on how many products one scan takes.
+		 *
+		 * Default is none. A cap would cut the list the same way every night
+		 * (ordered by ID), so the same products at the end of the catalog
+		 * would never get a record - and the 30-day minimum is a legal
+		 * statement, not a nice-to-have. The queries are indexed and the loop
+		 * writes only where the price moved, so a big sale costs seconds.
+		 *
+		 * The cap applies to the finished list, not to each query.
+		 *
+		 * @param int $limit Maximum number of products per run, 0 for none.
+		 */
+		$limit = max( 0, (int) apply_filters( 'px_omnibus_scan_limit', 0 ) );
+
+		if ( $limit > 0 && count( $ids ) > $limit ) {
+			$ids = array_slice( $ids, 0, $limit );
 		}
 
 		$written = 0;
@@ -184,67 +296,163 @@ class PX_Omnibus {
 			$written += self::record_chunk( $chunk );
 		}
 
+		// Remembered for the next run, not autoloaded - it is read once a day
+		// by cron and nowhere else. Stored as a plain list of IDs, which is
+		// roughly a third of the size of a serialized array.
+		update_option( self::SEEN_OPTION, implode( ',', $on_sale ), false );
+
 		return $written;
 	}
 
 	/**
-	 * Product and variation IDs the scan cares about.
+	 * IDs the previous run found on sale.
 	 *
 	 * @return int[]
 	 */
-	protected static function scan_ids() {
+	protected static function seen_ids() {
+		$stored = (string) get_option( self::SEEN_OPTION, '' );
+
+		if ( '' === $stored ) {
+			return array();
+		}
+
+		return array_values( array_filter( array_map( 'absint', explode( ',', $stored ) ) ) );
+	}
+
+	/**
+	 * Everything on sale right now.
+	 *
+	 * wc_product_meta_lookup is one row per product AND per variation, so
+	 * this is a single indexed read instead of a meta_query over postmeta.
+	 *
+	 * @return int[]
+	 */
+	protected static function on_sale_ids() {
 		global $wpdb;
 
 		$lookup = isset( $wpdb->wc_product_meta_lookup ) ? $wpdb->wc_product_meta_lookup : $wpdb->prefix . 'wc_product_meta_lookup';
 
-		/**
-		 * Filters the ceiling on how many products one scan takes.
-		 *
-		 * Default is none. A cap would cut the list the same way every
-		 * night (ordered by ID), so the same products at the end of the
-		 * catalog would never get a record - and the 30-day minimum is a
-		 * legal statement, not a nice-to-have. Both queries are indexed and
-		 * the loop writes only where the price moved, so a big sale costs
-		 * seconds, not minutes.
-		 *
-		 * @param int $limit Maximum number of IDs per query, 0 for no limit.
-		 */
-		$limit     = max( 0, (int) apply_filters( 'px_omnibus_scan_limit', 0 ) );
-		$limit_sql = $limit > 0 ? $wpdb->prepare( ' LIMIT %d', $limit ) : '';
+		$ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+			"SELECT l.product_id
+			 FROM {$lookup} l
+			 INNER JOIN {$wpdb->posts} p ON p.ID = l.product_id
+			 LEFT JOIN {$wpdb->posts} pp ON pp.ID = p.post_parent
+			 WHERE l.onsale = 1
+			 AND " . self::eligibility_sql() . '
+			 ORDER BY l.product_id ASC'
+		);
 
-		// On sale right now. wc_product_meta_lookup is one row per product
-		// AND per variation, so this is a single indexed read instead of a
-		// meta_query over postmeta.
-		$ids = $wpdb->get_col( "SELECT product_id FROM {$lookup} WHERE onsale = 1 ORDER BY product_id ASC" . $limit_sql ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+		return array_values( array_filter( array_map( 'absint', (array) $ids ) ) );
+	}
 
-		// Sale windows around today. A sale that has ended is no longer
-		// "onsale", yet its end is exactly the price change nobody recorded -
-		// without it the history would keep claiming the sale price is the
-		// current one, and the next discount would be measured against it.
+	/**
+	 * Products whose sale window opened or closed around today.
+	 *
+	 * Only shops that actually set sale dates have any; where discounts come
+	 * from an import this returns nothing, and the drop-out list in scan()
+	 * does the work instead.
+	 *
+	 * @return int[]
+	 */
+	protected static function sale_window_ids() {
+		global $wpdb;
+
 		$window = self::SCAN_WINDOW_DAYS * DAY_IN_SECONDS;
-		$dates  = $wpdb->get_col( $wpdb->prepare( // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+
+		$ids = $wpdb->get_col( $wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			"SELECT post_id FROM {$wpdb->postmeta}
 			 WHERE meta_key IN ( '_sale_price_dates_from', '_sale_price_dates_to' )
-			 AND meta_value BETWEEN %d AND %d
-			 ORDER BY post_id ASC" . $limit_sql,
+			 AND meta_value BETWEEN %d AND %d",
 			time() - $window,
 			time() + $window
 		) );
 
-		$ids = array_values( array_unique( array_map( 'absint', array_merge( (array) $ids, (array) $dates ) ) ) );
-
-		/**
-		 * Filters the products the daily scan records.
-		 *
-		 * @param int[] $ids Product and variation IDs.
-		 */
-		$ids = (array) apply_filters( 'px_omnibus_scan_ids', $ids );
-
-		return array_values( array_filter( array_map( 'absint', $ids ) ) );
+		return array_values( array_filter( array_map( 'absint', (array) $ids ) ) );
 	}
 
 	/**
-	 * Records one batch: two queries, then a write per product that moved.
+	 * Keeps only IDs worth a history entry.
+	 *
+	 * @param int[] $ids Candidate IDs.
+	 * @return int[]
+	 */
+	protected static function filter_eligible( array $ids ) {
+		global $wpdb;
+
+		$ids = array_values( array_unique( array_filter( array_map( 'absint', $ids ) ) ) );
+
+		if ( ! $ids ) {
+			return array();
+		}
+
+		// Chunked: when a campaign over the whole catalog ends, the drop-out
+		// list is thousands of IDs and a single IN () would be a query the
+		// size of a small file.
+		$kept = array();
+
+		foreach ( array_chunk( $ids, self::SCAN_CHUNK ) as $chunk ) {
+			$placeholders = implode( ',', array_fill( 0, count( $chunk ), '%d' ) );
+
+			$found = $wpdb->get_col( $wpdb->prepare( // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
+				"SELECT p.ID
+				 FROM {$wpdb->posts} p
+				 LEFT JOIN {$wpdb->posts} pp ON pp.ID = p.post_parent
+				 WHERE p.ID IN ( {$placeholders} )
+				 AND " . self::eligibility_sql(),
+				$chunk
+			) );
+
+			$kept = array_merge( $kept, (array) $found );
+		}
+
+		return array_values( array_filter( array_map( 'absint', $kept ) ) );
+	}
+
+	/**
+	 * What makes a row worth recording, as one SQL fragment shared by both
+	 * queries. Expects `p` (the product) and `pp` (its parent) to be joined.
+	 *
+	 * Two things are filtered out:
+	 *
+	 * - Drafts and trash. A price nobody can buy is not a price history.
+	 *   A variation keeps post_status 'publish' when its parent goes to the
+	 *   trash, hence the parent check as well.
+	 * - Variable and grouped parents. They have no price of their own, only
+	 *   a range derived from their children - and WooCommerce stores that
+	 *   range as SEVERAL _price rows on the same post (add_post_meta in a
+	 *   loop over the sorted prices). Reading "the" _price of such a product
+	 *   in SQL is a coin toss between the lowest and the highest, so it must
+	 *   not be read at all. Nothing displays it either: render_single()
+	 *   skips variable products and append_to_variation() reads the
+	 *   variation.
+	 *
+	 * @return string
+	 */
+	private static function eligibility_sql() {
+		global $wpdb;
+
+		$types = "'" . implode( "', '", array_map( 'esc_sql', self::DERIVED_TYPES ) ) . "'";
+
+		return "p.post_status IN ( 'publish', 'private' )
+			 AND ( p.post_parent = 0 OR pp.post_status IN ( 'publish', 'private' ) )
+			 AND NOT EXISTS (
+			     SELECT 1 FROM {$wpdb->term_relationships} tr
+			     INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id
+			     INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id
+			     WHERE tr.object_id = p.ID
+			     AND tt.taxonomy = 'product_type'
+			     AND t.slug IN ( {$types} )
+			 )";
+	}
+
+	/**
+	 * Records one batch: one query for the prices and histories, then a write
+	 * per product whose price moved.
+	 *
+	 * Reads raw _price, which is the same number as get_price( 'edit' ) - see
+	 * record() for why the history must not be built on the filtered price.
+	 * Products with more than one _price row never get here; eligibility_sql()
+	 * keeps them out.
 	 *
 	 * @param int[] $ids Product and variation IDs.
 	 * @return int Number of products whose history got a new entry.
@@ -252,11 +460,16 @@ class PX_Omnibus {
 	protected static function record_chunk( array $ids ) {
 		global $wpdb;
 
+		if ( ! $ids ) {
+			return 0;
+		}
+
 		$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
 
 		$rows = $wpdb->get_results( $wpdb->prepare( // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
 			"SELECT post_id, meta_key, meta_value FROM {$wpdb->postmeta}
-			 WHERE meta_key IN ( '_price', %s ) AND post_id IN ( {$placeholders} )",
+			 WHERE meta_key IN ( '_price', %s ) AND post_id IN ( {$placeholders} )
+			 ORDER BY meta_id ASC",
 			array_merge( array( self::META_KEY ), $ids )
 		) );
 
@@ -300,6 +513,12 @@ class PX_Omnibus {
 	/**
 	 * Lowest price in the 30 days before the current sale price took effect.
 	 *
+	 * Reads the price in the 'edit' context, the same base the history is
+	 * written in - see record(). This is not a detail either: with a sitewide
+	 * campaign plugin active, the 'view' price on the front end is the
+	 * discounted one, it would never match any entry, and the streak below
+	 * would collapse to "started now" on every single product.
+	 *
 	 * @param WC_Product $product Product (simple or variation).
 	 * @return float|null Null when the product is not on sale.
 	 */
@@ -308,12 +527,16 @@ class PX_Omnibus {
 			return null;
 		}
 
-		$current = (float) $product->get_price();
+		$current = (float) $product->get_price( 'edit' );
 		$history = self::get_history( $product->get_id() );
 
 		// Start of the streak during which the current price has applied.
 		$streak_start = time();
 		for ( $i = count( $history ) - 1; $i >= 0; $i-- ) {
+			if ( ! isset( $history[ $i ]['price'], $history[ $i ]['time'] ) ) {
+				break;
+			}
+
 			if ( abs( (float) $history[ $i ]['price'] - $current ) < 0.0001 ) {
 				$streak_start = $history[ $i ]['time'];
 			} else {
@@ -326,6 +549,10 @@ class PX_Omnibus {
 		$before_window_price = null;
 
 		foreach ( $history as $entry ) {
+			if ( ! isset( $entry['price'], $entry['time'] ) ) {
+				continue;
+			}
+
 			if ( $entry['time'] >= $streak_start ) {
 				continue; // Current sale period itself does not count.
 			}
@@ -342,9 +569,9 @@ class PX_Omnibus {
 		}
 
 		// No history yet (e.g. imported catalog) - the regular price is the
-		// only known previous price.
+		// only known previous price. 'edit' again, for the same reason.
 		if ( ! $candidates ) {
-			$regular = (float) $product->get_regular_price();
+			$regular = (float) $product->get_regular_price( 'edit' );
 			if ( $regular > 0 ) {
 				$candidates[] = $regular;
 			}

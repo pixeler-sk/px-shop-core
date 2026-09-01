@@ -75,19 +75,25 @@ function px_shop_core_init() {
 	foreach ( px_shop_core_modules() as $key => $module ) {
 		$needs_wc = ! isset( $module['wc'] ) || $module['wc'];
 
-		if ( ( $needs_wc && ! $has_wc ) || ! px_module_on( $key ) ) {
-			// A module that is off must not leave a cron event behind. The
-			// check is admin-only on purpose: it is tidying up after a
-			// switch someone flipped in admin, not work every visitor pays
-			// for.
-			if ( is_admin() && ! empty( $module['cron'] ) ) {
-				foreach ( (array) $module['cron'] as $hook ) {
-					if ( wp_next_scheduled( $hook ) ) {
-						wp_clear_scheduled_hook( $hook );
-					}
+		$switched_off = ! px_module_on( $key );
+
+		// A module someone switched off must not leave a cron event behind.
+		// Missing WooCommerce is deliberately NOT a reason to unschedule:
+		// one wp-admin load during a WooCommerce update would drop
+		// px_omnibus_scan, and the module would only book it again for
+		// tomorrow - a silently lost day of compliance data.
+		//
+		// Admin-only on purpose: this is tidying up after a switch someone
+		// flipped in admin, not work every visitor pays for.
+		if ( $switched_off && is_admin() && ! empty( $module['cron'] ) ) {
+			foreach ( (array) $module['cron'] as $hook ) {
+				if ( wp_next_scheduled( $hook ) ) {
+					wp_clear_scheduled_hook( $hook );
 				}
 			}
+		}
 
+		if ( ( $needs_wc && ! $has_wc ) || $switched_off ) {
 			continue;
 		}
 

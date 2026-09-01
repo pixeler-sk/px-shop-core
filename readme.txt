@@ -62,7 +62,11 @@ webe bez neho sa nemení nič.
   a môže byť naraz na úvodke, v kategórii aj na detaile, takže jemnejší purge
   nemá zmysel. Purguje aj priradenie tabuľky ku kategórii produktov. Purge sa
   odkladá na koniec requestu a spraví sa raz, aby import sto bannerov
-  neznamenal sto mazaní cache. Used CSS sa zámerne nemaže.
+  neznamenal sto mazaní cache; počas importu (`WP_IMPORTING`,
+  `rocket_is_importing()`) sa vynecháva úplne — WP All Import beží po dávkach
+  a každá dávka je vlastný request, takže poistka „raz za request" by cache
+  držala trvalo prázdnu. Cache po importe čistí site plugin webu. Used CSS sa
+  zámerne nemaže.
 
 * **Nové rozšírenie pre ostatné cache:** akcia `px_shop_core_purge_page_cache`
   (LiteSpeed, Varnish, Cloudflare si web dovesí v site plugine) a verejné
@@ -73,22 +77,69 @@ webe bez neho sa nemení nič.
   hoci odpoveď nesie cenu ako hotové HTML a prihlásený môže mať vlastnú cenovú
   hladinu. Cez Cloudflare alebo inú zdieľanú proxy sa tak dala jeho cena podať
   anonymnému návštevníkovi. Prihlásený (a hosť oslobodený od DPH) dostáva
-  `private, no-store`; pre ostatných ostáva `public, max-age=60`.
+  `private, no-store`; pre ostatných ostáva `public, max-age=60`, ale už
+  s `Vary: Accept-Language, Cookie` — tým istým, čím sa líši serverový kľúč
+  (jazyk, mena, daňový kontext), sa teraz musí líšiť aj záznam na proxy.
 
-* **Omnibus:** história cien sa dopĺňala „pri zobrazení detailu", čo pod page
-  cache takmer nebeží — PHP sa spustí len pri cache miss, a diery boli práve
-  na začiatku a konci akcie, keď naplánovaná zľava prepne cenu bez uloženia
-  produktu. Najnižšia cena za 30 dní je pritom právne tvrdenie, nie kozmetika.
-  Pribudol denný cron `px_omnibus_scan` (03:20 miestneho času), ktorý prejde
-  všetko, čo je práve v zľave, plus produkty, ktorým sa okno akcie pred pár
-  dňami otvorilo alebo zavrelo, a dopíše chýbajúce záznamy. Zapisuje len tam,
-  kde sa cena naozaj pohla; beží po dávkach po 200 s dvoma dotazmi na dávku,
-  bez načítania produktových objektov a bez stropu na počet produktov
-  (strop by rezal zoznam každú noc rovnako a tie isté produkty na konci
-  katalógu by záznam nedostali nikdy). Naviazané aj na
-  `wc_product_start_scheduled_sale` / `wc_product_end_scheduled_sale`
-  a `woocommerce_scheduled_sales`. Zápis pri zobrazení ostáva ako záchrana.
-  Nové filtre `px_omnibus_scan_limit` (0 = bez stropu) a `px_omnibus_scan_ids`.
+* **Omnibus — spoľahlivý zber histórie.** Doteraz sa história dopĺňala „pri
+  zobrazení detailu", čo pod page cache takmer nebeží: PHP sa spustí len pri
+  cache miss a diery boli práve tam, kde vadia — na začiatku a konci akcie.
+  Najnižšia cena za 30 dní je právne tvrdenie, nie kozmetika. Pribudol denný
+  cron `px_omnibus_scan` (03:20 miestneho času), ktorý prejde všetko v zľave
+  a dopíše chýbajúce záznamy. Zápis pri zobrazení ostáva ako záchrana.
+
+* **Omnibus — jedna cenová báza.** História sa teraz zapisuje z
+  `get_price( 'edit' )`, teda z ceny uloženej na produkte, bez filtrov na
+  `woocommerce_product_get_price`. Dovtedy to bola lotéria: plugin plošných
+  zliav (Global Shop Discount a spol.) sa na ten filter vešia s prioritou
+  `PHP_INT_MAX` vždy, keď platí `! is_admin() || DOING_AJAX` — uloženie
+  v administrácii teda zľavnené nebolo, ale zobrazenie na fronte aj request
+  WP-Cronu áno (`wp-cron.php` nie je admin). V jednej histórii sa tak
+  striedali dve neporovnateľné čísla a `get_lowest_price()` nad nimi počítal
+  nezmysel. `'edit'` je reprodukovateľné a je to správny predmet tvrdenia:
+  30-dňové minimum hovorí o cene produktu, nie o ohlásenej plošnej kampani,
+  ktorá je samostatný konštrukt. Web, ktorý to vidí inak, mení to, čo sa
+  **zobrazuje** (`px_omnibus_lowest_price`), nie to, čo sa zapisuje.
+
+* **Omnibus — rovnaká báza aj pri čítaní.** `get_lowest_price()` porovnávala
+  históriu s `get_price()` vo „view" kontexte, teda s cenou po plošnej zľave.
+  Na webe s aktívnou plošnou kampaňou sa tak nezhodovala so žiadnym záznamom
+  a výpočet „odkedy platí súčasná cena" spadol na „od teraz" pri každom
+  produkte — do 30-dňového minima sa tým započítala aj práve prebiehajúca
+  akcia. Číta sa `get_price( 'edit' )` a `get_regular_price( 'edit' )`.
+  **Na weboch s plošnou zľavou sa tým mení zobrazená suma** — po nasadení
+  treba pár zľavnených produktov skontrolovať.
+
+* **Omnibus — koniec akcie sa zachytí aj bez dátumov.** Obchod, kde zľavy robí
+  import, nemá `_sale_price_dates_*` ani jeden: importér jednoducho zmaže
+  `_sale_price`, produkt vypadne z `onsale` a nevystrelí žiadny hook — pritom
+  návrat na bežnú cenu je presne ten záznam, ktorý história potrebuje. Sken si
+  preto zoznam ID z posledného behu pamätá v opcii `px_omnibus_scan_seen`
+  (bez autoloadu) a ďalší beh prejde aj to, čo medzitým zo zľavy vypadlo.
+
+* **Omnibus — čo sken NEberie.** Variabilných a zoskupených rodičov: nemajú
+  vlastnú cenu, len odvodený rozsah, a WooCommerce im ukladá **viac riadkov**
+  `_price` naraz (`add_post_meta` v cykle nad zoradenými cenami), takže
+  „prečítať ich cenu" v SQL je hod mincou medzi najnižšou a najvyššou. Zobrazuje
+  ich aj tak nikto — `render_single()` variabilné preskakuje a
+  `append_to_variation()` číta variáciu. Z rovnakého dôvodu ich preskakuje aj
+  `record()`. Ďalej koncepty a kôš (aj variácie, ktorým rodič skončil v koši —
+  tie si `post_status` `publish` nechávajú).
+
+* **Omnibus — prevádzka skenu.** Beží po dávkach po 200, jeden dotaz na dávku,
+  bez načítania produktových objektov; zapisuje len tam, kde sa cena naozaj
+  pohla (na libike ~4 300 produktov za desatiny sekundy a nula zápisov, keď sa
+  nič nezmenilo). Bez stropu — strop by rezal zoznam každú noc rovnako a tie
+  isté produkty na konci katalógu by záznam nedostali nikdy. Filter
+  `px_omnibus_scan_limit` (0 = bez stropu) sa aplikuje na hotový zlúčený
+  zoznam, nie na jednotlivé dotazy; `px_omnibus_scan_ids` dostáva druhým
+  parametrom podmnožinu, ktorá je práve v zľave. Sken **nevisí** na
+  `woocommerce_scheduled_sales` — to je akcia Action Schedulera a plný prechod
+  katalógu v cudzej fronte by po prekročení `action_scheduler_failure_period`
+  (300 s) označil hostiteľskú akciu za zlyhanú. Presné ID naopak berie
+  z `wc_after_products_starting_sales` / `wc_after_products_ending_sales`
+  a `wc_product_start_scheduled_sale` / `wc_product_end_scheduled_sale`; sú to
+  bonusy, nie mechanizmus — obchod bez dátumov akcie ich nevystrelí nikdy.
 
 * **Waitlist:** e-mail prihláseného sa predvypĺňal priamo do HTML produktovej
   stránky — dnes bezpečné len preto, že prihlásení page cache nedostávajú. Ak
@@ -98,7 +149,10 @@ webe bez neho sa nemení nič.
 * **Cron a moduly:** definícia modulu smie deklarovať kľúč `cron`. Vypnutý
   modul si svoju naplánovanú udalosť upratuje sám (kontrola beží len
   v administrácii) a deaktivácia pluginu ju zruší tiež — žiadna osirelá
-  udalosť, ktorú by WP-Cron plánoval donekonečna.
+  udalosť, ktorú by WP-Cron plánoval donekonečna. Chýbajúce WooCommerce
+  dôvodom na zrušenie **nie je**: jedno načítanie wp-adminu počas aktualizácie
+  WooCommerce by inak zhodilo `px_omnibus_scan` a ten by sa naplánoval až na
+  zajtra — ticho stratený deň zberu compliance dát.
 
 = 1.7.0 =
 

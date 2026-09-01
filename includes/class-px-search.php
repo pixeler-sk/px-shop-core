@@ -160,6 +160,14 @@ class PX_Search {
 		$response = rest_ensure_response( $data );
 		$response->header( 'Cache-Control', self::cache_control() );
 
+		// To isté, čím sa líši `cache_key()`, musí vidieť aj zdieľaná proxy.
+		// Jazyk beží spravidla cez URL (tam sa cache delí sama), ale meno
+		// jazyka aj meny môže sedieť v cookie a daňový kontext hosťa
+		// v session WooCommerce - `Cookie` teda pokrýva to podstatné.
+		// Cenou je, že návštevník s akoukoľvek cookie sa na CDN netrafí do
+		// spoločného záznamu; podať mu cudziu cenu je horšie.
+		$response->header( 'Vary', 'Accept-Language, Cookie' );
+
 		return $response;
 	}
 
