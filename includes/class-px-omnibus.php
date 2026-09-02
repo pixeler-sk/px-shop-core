@@ -533,17 +533,20 @@ class PX_Omnibus {
 	 * Bez tejto poistky by sa im história zamrazila a pri prvom vykreslení detailu
 	 * (kým JS nedoplní vybranú variáciu) by sa vypísalo číslo zo starých dát.
 	 *
-	 * `is_on_sale( 'edit' )` je tu z rovnakého dôvodu ako `get_price( 'edit' )`
-	 * nižšie: vo `view` kontexte prechádza cena cez filtre plošných kampaní,
-	 * a plugin sitewide zľavy vracia pre prázdnu `sale_price` hodnotu 0, takže
-	 * `is_on_sale()` by počas kampane vrátilo true na každom produkte a Omnibus
-	 * riadok by sa vypísal aj na tovare, ktorý v akcii nie je.
+	 * Bránka `is_on_sale()` je NAOPAK vo `view` kontexte, a je to zámer: rozhoduje
+	 * o tom, či zákazník vidí zníženú cenu, teda či vôbec ide o ohlásenú zľavu,
+	 * pri ktorej je 30-dňové minimum povinné. Báza hodnoty a bránka zobrazenia sú
+	 * dve rôzne otázky a zliať ich do jednej je chyba: e-shop s plošnou kampaňou
+	 * má produkty bez vlastnej `_sale_price`, ktorých cena je znížená len tou
+	 * kampaňou — v `edit` kontexte nie sú „v akcii", ale zákazníkovi sa nižšia
+	 * cena ohlasuje, takže disclosure tam patrí. (Overené na produkcii 2026-09-02:
+	 * `is_on_sale( 'edit' )` tu Omnibus riadok zhaslo na každom takom produkte.)
 	 *
 	 * @param WC_Product $product Product (simple or variation).
 	 * @return float|null Null when the product is not on sale.
 	 */
 	public static function get_lowest_price( $product ) {
-		if ( $product->is_type( self::DERIVED_TYPES ) || ! $product->is_on_sale( 'edit' ) ) {
+		if ( $product->is_type( self::DERIVED_TYPES ) || ! $product->is_on_sale() ) {
 			return null;
 		}
 
