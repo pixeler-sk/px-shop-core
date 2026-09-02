@@ -81,6 +81,15 @@ function px_shop_core_modules() {
 			'class'    => 'PX_Sale_Dates',
 			'settings' => array( 'PX_Sale_Dates', 'settings_fields' ),
 		),
+		'unit_price'      => array(
+			'title' => __( 'Unit price', 'px-shop-core' ),
+			'desc'  => __( 'Price per 1 kg / 1 l / 1 m / 1 piece next to the selling price, as the price marking rules require (Directive 98/6/EC; act 108/2024 § 6). Package content is entered under the price of each product; without it nothing is shown.', 'px-shop-core' ),
+			'file'  => 'includes/class-px-unit-price.php',
+			'class' => 'PX_Unit_Price',
+			'cli'   => array(
+				array( 'includes/cli/class-px-unit-price-cli.php', 'px unit-price', 'PX_Unit_Price_CLI' ),
+			),
+		),
 		'gpsr'            => array(
 			'title' => __( 'GPSR product safety', 'px-shop-core' ),
 			'desc'  => __( 'Manufacturer, safety warnings and instructions on products, with the data tab in admin.', 'px-shop-core' ),

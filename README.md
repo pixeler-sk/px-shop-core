@@ -17,7 +17,7 @@ Každá funkcia je samostatný modul, dá sa vypnúť a téma sa jej pýta cez
 - [Moduly a nastavenia](#moduly-a-nastavenia)
 - [Prehľad modulov](#prehľad-modulov)
 - [Omnibus](#omnibus-omnibus) · [Platnosť akcie](#platnosť-akcie-sale_dates) ·
-  [GPSR](#gpsr-gpsr) · [Firemné údaje](#firemné-údaje-company_fields) ·
+  [Jednotková cena](#jednotková-cena-unit_price) · [GPSR](#gpsr-gpsr) · [Firemné údaje](#firemné-údaje-company_fields) ·
   [Live search](#live-search-search) · [Brand tab](#brand-tab-brand_tab) ·
   [Wishlist](#wishlist-wishlist) · [Compare](#compare-compare) ·
   [Waitlist](#waitlist-waitlist) · [Veľkostné tabuľky](#veľkostné-tabuľky-size_guide) ·
@@ -56,6 +56,7 @@ Moduly s vlastnou sekciou nastavení majú v PX Shop vlastnú záložku.
 | --- | --- | --- | --- |
 | Omnibus | `omnibus` | zap. | história cien, najnižšia cena za 30 dní pri zľave |
 | Platnosť akcie | `sale_dates` | zap. | dokedy platí zľavnená cena — dátum alebo odpočet |
+| Jednotková cena | `unit_price` | zap. | cena za 1 kg / 1 l / 1 m / 1 ks vedľa predajnej ceny (zákon 108/2024 § 6) |
 | GPSR | `gpsr` | zap. | bezpečnosť výrobku: výrobca, zodpovedná osoba v EÚ, pôvod, upozornenia, dokumentácia |
 | Firemné údaje | `company_fields` | **vyp.** | IČO/DIČ/IČ DPH v pokladni, RPO/ARES, VIES, reverse charge, vývoz mimo EÚ |
 | Live search | `search` | zap. | REST `pixeler/v1/search` pre šepkávač v hlavičke |
@@ -135,6 +136,51 @@ variácie) a podá téme ako timestamp.
 - Vo `woocommerce_available_variation` cestuje `px_sale_end`.
 - Filter `px_sale_end_date` má posledné slovo (dátum dodá aj potlačí
   návratom 0).
+
+## Jednotková cena (`unit_price`)
+
+Označovanie cenami (smernica 98/6/ES; zákon 108/2024 § 2 písm. h) a § 6)
+vyžaduje pri tovare predbalenom podľa množstva okrem predajnej ceny aj
+**jednotkovú cenu za kilogram, liter, meter, m², m³ alebo inú jednotku
+množstva** (kus pri tovare predávanom podľa počtu). Modul robí presne toto
+a nič navyše — žiadne „za 100 ml", žiadne marketingové „za praciu dávku".
+
+- **Dáta:** na produkte alebo variácii pod cenou pole *Obsah balenia*
+  (množstvo) a *Jednotka* (`ml`, `l`, `g`, `kg`, `m`, `m2`, `m3`, `pc`), meta
+  `_px_unit_qty` / `_px_unit`. Variácia bez údaja dedí rodiča. Hromadne:
+  WooCommerce CSV import (stĺpce `Meta: _px_unit_qty`, `Meta: _px_unit`),
+  `PX_Unit_Price::set( $product, $qty, $unit )` alebo WP-CLI.
+- **Výpočet:** `wc_get_price_to_display()` ÷ množstvo prepočítané na základ
+  (kg, l, m, m², m³, ks) — teda aktívna cena vrátane akcie a v daňovom režime,
+  v akom obchod ceny zobrazuje. Keď by zaokrúhlenie obchodu dalo 0,00, pridá
+  desatinné miesta (najviac 4).
+- **Zákonné výnimky drží modul:** nekreslí sa, keď by sa jednotková cena
+  rovnala predajnej (§ 6 ods. 1 — 1 ks, presne 1 l/1 kg) a pri baleniach
+  s menovitým množstvom najviac 50 g / 50 ml (§ 6 ods. 3 písm. a); filter
+  `px_unit_price_small_pack_exempt`). Súbory rôznych tovarov za jednu cenu
+  (§ 6 ods. 3 písm. b) sa riešia tak, že sa im údaj nevyplní. Variabilný
+  rodič nekreslí nič — riadok patrí k cene variácie.
+- **Výstup:** `PX_Unit_Price::get_html( $product )` →
+  `<span class="px-unit-price"><span class="screen-reader-text">Jednotková
+  cena: </span>12,50 € / 1 l</span>`; dáta `::get()` / `px_unit_price()`.
+  Predvolene sa vešia pod cenu v archíve (`woocommerce_after_shop_loop_item_title`)
+  aj na detaile (`woocommerce_single_product_summary`); téma s vlastným
+  miestom vráti `false` z filtra `px_unit_price_display`. Vo
+  `woocommerce_available_variation` cestuje `px_unit_price_html`, live search
+  vracia `unit_price` pri každom produkte.
+- Filtre: `px_unit_price_units`, `px_unit_price_bases`, `px_unit_price`
+  (výsledok pred vykreslením), `px_unit_price_visible` (skryté ceny pre
+  hostí — jadro samo rešpektuje `PX_Guest_Prices::isHidden()`; riadok
+  prezrádza predajnú cenu, tak sa vypína aj v live search a vo variácii).
+- Kód jednotky sa pri čítaní normalizuje (`L` → `l`, `ks` → `pc`), takže CSV
+  import s ľudsky napísanou jednotkou funguje; neznámy kód = bez riadku.
+- Vedomé rozhodnutia: variabilný rodič bez riadku (karta ukazuje rozsah cien,
+  riadok patrí k cene variácie); lepiaca lišta na mobile a košík bez riadku
+  (duplikát ceny zo súhrnu, ponuka je už označená).
+- Kód, ktorý produkt ukladá sám (importér pred prvým `save()`), použije
+  `PX_Unit_Price::assign( $product, $qty, $unit )` bez uloženia.
+- WP-CLI: `wp px unit-price set <id> <qty> <unit>`, `clear <id>`,
+  `list [--missing] [--format=csv]`.
 
 ## GPSR (`gpsr`)
 
@@ -521,6 +567,7 @@ Kontrastné pomery, veľkosť cieľov a viditeľnosť fokusu sú vec témy
 | `wp px wishlist migrate [--dry-run]` | prevod obľúbených z Woodmartu (`woodmart_wishlists` → user meta, idempotentné) |
 | `wp px waitlist migrate [--dry-run]` | prevod `<prefix>woodmart_waitlists` (aj `variation_id`) |
 | `wp px size-guide migrate [--dry-run]` | prevod veľkostných príručiek, priradení na produktoch a kategóriách |
+| `wp px unit-price set <id> <qty> <unit>` / `clear <id>` / `list [--missing]` | obsah balenia pre jednotkovú cenu; `list --format=csv` ako podklad na kontrolu |
 
 Príkazy sa registrujú len pri zapnutom module.
 

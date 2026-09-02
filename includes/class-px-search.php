@@ -345,15 +345,20 @@ class PX_Search {
 			$image_id = $product->get_image_id();
 
 			$items[] = array(
-				'type'     => 'product',
-				'id'       => $product->get_id(),
-				'title'    => html_entity_decode( wp_strip_all_tags( $product->get_name() ), ENT_QUOTES, 'UTF-8' ),
-				'url'      => get_permalink( $result_post ),
-				'price'    => $product->get_price_html(),
+				'type'       => 'product',
+				'id'         => $product->get_id(),
+				'title'      => html_entity_decode( wp_strip_all_tags( $product->get_name() ), ENT_QUOTES, 'UTF-8' ),
+				'url'        => get_permalink( $result_post ),
+				'price'      => $product->get_price_html(),
+				// The unit price belongs wherever the selling price is shown
+				// (108/2024 § 6) - the suggestion list is an offer like any other.
+				// Empty without the module, without data on the product, or when
+				// prices are hidden from the visitor (px_unit_price_visible).
+				'unit_price' => class_exists( 'PX_Unit_Price' ) ? PX_Unit_Price::get_html( $product ) : '',
 				// Only ever false on shops that keep sold-out products listed -
 				// the client marks those rows so they do not read as an offer.
-				'in_stock' => $product->is_in_stock(),
-				'image'    => $image_id
+				'in_stock'   => $product->is_in_stock(),
+				'image'      => $image_id
 					? wp_get_attachment_image_url( $image_id, 'woocommerce_gallery_thumbnail' )
 					: wc_placeholder_img_src( 'woocommerce_gallery_thumbnail' ),
 			);

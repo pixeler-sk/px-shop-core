@@ -3,7 +3,7 @@ Contributors: pixeler
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.8.0
+Stable tag: 1.9.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,22 @@ no admin screens — so `class_exists( 'PX_Wishlist' )` stays the reliable test
 for themes.
 
 == Changelog ==
+
+= 1.9.0 =
+
+* **Nový modul Jednotková cena (`unit_price`):** cena za 1 kg / 1 l / 1 m /
+  1 ks vedľa predajnej ceny, ako to vyžaduje označovanie cenami (smernica
+  98/6/ES, zákon 108/2024 § 2 písm. h) a § 6). Na produkte (aj variácii) sa pod
+  cenou vypĺňa obsah balenia — množstvo a jednotka (ml, l, g, kg, m, m², m³,
+  ks); jednotková cena sa počíta z ceny, ktorú obchod zobrazuje (aktívna,
+  akciová, s daňou alebo bez podľa nastavenia). Zákonné výnimky drží modul
+  sám: nekreslí sa, keď by sa rovnala predajnej cene (1 ks, presne 1 l) a pri
+  baleniach do 50 g / 50 ml. Bez údaja sa nekreslí nič, takže zapnutý modul
+  existujúci web nemení. Predvolený výstup pod cenou v archíve a na detaile
+  sa vypína filtrom `px_unit_price_display` (téma si riadok kreslí sama cez
+  `PX_Unit_Price::get_html()`); variácia nesie `px_unit_price_html`; live
+  search vracia `unit_price`. WP-CLI `wp px unit-price set|clear|list`.
+  Import cez WooCommerce CSV: stĺpce `Meta: _px_unit_qty` a `Meta: _px_unit`.
 
 = 1.8.0 =
 

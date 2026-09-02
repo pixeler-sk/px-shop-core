@@ -1273,3 +1273,37 @@ msgstr "Pamätajú si vašu voľbu cookies, nastavenie výpisu produktov a produ
 
 msgid "Switch on only when the site really runs reCAPTCHA. Classified as necessary: it only runs on forms you submit yourself and is not used for advertising. A site that would rather ask for consent moves it with the px_consent_services filter."
 msgstr "Zapnite len vtedy, keď web reCAPTCHU naozaj používa. Zaradené medzi nevyhnutné: spúšťa sa len na formulároch, ktoré sami odosielate, a na reklamu sa nepoužíva. Web, ktorý sa radšej spýta na súhlas, ho presunie filtrom px_consent_services."
+
+msgid "Unit price"
+msgstr "Jednotková cena"
+
+msgid "Price per 1 kg / 1 l / 1 m / 1 piece next to the selling price, as the price marking rules require (Directive 98/6/EC; act 108/2024 § 6). Package content is entered under the price of each product; without it nothing is shown."
+msgstr "Cena za 1 kg / 1 l / 1 m / 1 ks vedľa predajnej ceny, ako to vyžaduje označovanie cenami (smernica 98/6/ES; zákon 108/2024 § 6). Obsah balenia sa vypĺňa pod cenou každého produktu; bez neho sa nič nezobrazí."
+
+msgctxt "unit: piece"
+msgid "pc"
+msgstr "ks"
+
+msgctxt "unit price reference: one piece"
+msgid "1 pc"
+msgstr "1 ks"
+
+msgid "Unit price:"
+msgstr "Jednotková cena:"
+
+#. translators: 1: formatted price, 2: reference quantity ("1 l", "1 kg").
+msgctxt "unit price line"
+msgid "%1$s / %2$s"
+msgstr "%1$s / %2$s"
+
+msgid "Package content"
+msgstr "Obsah balenia"
+
+msgid "Quantity in the package, for the unit price the price marking rules require (per 1 kg, 1 l, 1 m or 1 piece). Leave empty for goods sold as one piece and for sets of different goods at one price; packs of at most 50 g / 50 ml show no unit price either way."
+msgstr "Množstvo v balení pre jednotkovú cenu, ktorú vyžaduje označovanie cenami (za 1 kg, 1 l, 1 m alebo 1 ks). Nechajte prázdne pri tovare predávanom ako jeden kus a pri súboroch rôznych tovarov za jednu cenu; balenia do 50 g / 50 ml jednotkovú cenu nezobrazia tak či tak."
+
+msgid "Unit"
+msgstr "Jednotka"
+
+msgid "Empty inherits the parent product."
+msgstr "Prázdne dedí z nadradeného produktu."
