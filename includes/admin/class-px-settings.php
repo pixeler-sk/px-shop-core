@@ -37,13 +37,14 @@ class PX_Settings extends WC_Settings_Page {
 	 */
 	protected function get_own_sections() {
 		$sections = array( '' => __( 'Modules', 'px-shop-core' ) );
+		$labels   = px_shop_core_module_labels();
 
 		foreach ( px_shop_core_modules() as $key => $module ) {
 			if ( empty( $module['settings'] ) || ! px_module_on( $key ) ) {
 				continue;
 			}
 
-			$sections[ $key ] = $module['title'];
+			$sections[ $key ] = self::module_label( $key, $module, $labels, 'title' );
 		}
 
 		return $sections;
@@ -79,11 +80,12 @@ class PX_Settings extends WC_Settings_Page {
 		);
 
 		$states = px_shop_core_module_states();
+		$labels = px_shop_core_module_labels();
 
 		foreach ( px_shop_core_modules() as $key => $module ) {
 			$default = isset( $module['default'] ) ? $module['default'] : 'yes';
 			$stored  = isset( $states[ $key ] ) ? $states[ $key ] : $default;
-			$desc    = $module['desc'];
+			$desc    = self::module_label( $key, $module, $labels, 'desc' );
 
 			// A site can pin the state in code; say so, otherwise the checkbox
 			// would claim something the site does not do. A module stood down
@@ -107,7 +109,7 @@ class PX_Settings extends WC_Settings_Page {
 			}
 
 			$fields[] = array(
-				'title'   => $module['title'],
+				'title'   => self::module_label( $key, $module, $labels, 'title' ),
 				'desc'    => $desc,
 				'id'      => PX_SHOP_CORE_MODULES_OPTION . '[' . $key . ']',
 				'type'    => 'checkbox',
@@ -121,5 +123,38 @@ class PX_Settings extends WC_Settings_Page {
 		);
 
 		return $fields;
+	}
+
+	/**
+	 * Name or description of a module.
+	 *
+	 * Labels live in px_shop_core_module_labels(); a module registered by a
+	 * site plugin may still carry them in its definition. The title falls
+	 * back to the module id so an unlabeled module is at least visible.
+	 *
+	 * @param string $key    Module id.
+	 * @param array  $module Module definition.
+	 * @param array  $labels Result of px_shop_core_module_labels().
+	 * @param string $what   'title' or 'desc'.
+	 * @return string
+	 */
+	private static function module_label( $key, $module, $labels, $what ) {
+		if ( ! empty( $labels[ $key ][ $what ] ) ) {
+			return $labels[ $key ][ $what ];
+		}
+
+		if ( ! empty( $module[ $what ] ) ) {
+			return $module[ $what ];
+		}
+
+		if ( 'title' === $what ) {
+			_doing_it_wrong(
+				'px_shop_core_modules',
+				sprintf( 'Module "%s" has no label - add it through the px_shop_core_module_labels filter.', esc_html( $key ) ),
+				'1.9.1'
+			);
+		}
+
+		return 'title' === $what ? $key : '';
 	}
 }

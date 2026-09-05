@@ -3,7 +3,7 @@ Contributors: pixeler
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.9.0
+Stable tag: 1.9.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,16 @@ no admin screens — so `class_exists( 'PX_Wishlist' )` stays the reliable test
 for themes.
 
 == Changelog ==
+
+= 1.9.1 =
+
+* **Oprava:** názvy a popisy modulov sa už neprekladajú pri načítaní registra
+  na `plugins_loaded`, ale až na obrazovke nastavení (nová funkcia
+  `px_shop_core_module_labels()` a filter `px_shop_core_module_labels`).
+  WordPress 6.7+ hlásil `_load_textdomain_just_in_time` pre doménu
+  `px-shop-core`. Modul pridaný site pluginom cez filter
+  `px_shop_core_modules` môže `title`/`desc` niesť ďalej v definícii —
+  obrazovka nastavení ich vezme ako náhradu.
 
 = 1.9.0 =
 

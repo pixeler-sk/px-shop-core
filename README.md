@@ -45,7 +45,9 @@ v [includes/modules.php](includes/modules.php):
 
 | Filter | Na čo |
 | --- | --- |
-| `px_shop_core_modules` | pridá vlastný modul site pluginu — dostane prepínač, sekciu nastavení a načítanie zadarmo |
+| `px_shop_core_modules` | pridá vlastný modul site pluginu — dostane prepínač, sekciu nastavení a načítanie zadarmo; bez názvu a popisu, tie idú do filtra nižšie |
+| `px_shop_core_module_labels` | názov a popis modulu pre obrazovku nastavení (`__()` až tu — register sa číta na `plugins_loaded`, kde je preklad predčasný) |
+| `px_shop_core_module_off_reason` | vlastné vysvetlenie pri module, ktorého prepínač nemá účinok (namiesto „nastavené v kóde") |
 | `px_shop_core_module_on` | pripne stav modulu v kóde (weby vedené cez git); nastavenia to napíšu ako „nastavené v kóde" |
 
 Moduly s vlastnou sekciou nastavení majú v PX Shop vlastnú záložku.
