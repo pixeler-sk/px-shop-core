@@ -31,6 +31,32 @@
 	margin-top: 4px;
 }
 
+.px-content-label {
+	display: block;
+	margin-bottom: 4px;
+}
+
+.px-content-video__file:not(:empty) {
+	display: block;
+	margin-bottom: 6px;
+	font-family: monospace;
+	word-break: break-all;
+}
+
+.px-content-video__actions {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+}
+
+.px-content-video__actions [hidden] {
+	display: none;
+}
+
+.px-content-warning {
+	color: #b32d2e;
+}
+
 .px-content-field[hidden],
 .px-content-grid[hidden] {
 	display: none;

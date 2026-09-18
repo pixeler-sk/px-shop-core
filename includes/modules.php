@@ -151,6 +151,11 @@ function px_shop_core_modules() {
 			'class'    => 'PX_Catalog',
 			'settings' => array( 'PX_Catalog', 'settings_fields' ),
 		),
+		'old_term_slugs'  => array(
+			'file'  => 'includes/class-px-old-term-slugs.php',
+			'class' => 'PX_Old_Term_Slugs',
+			'wc'    => false,
+		),
 	);
 
 	/**
@@ -251,6 +256,10 @@ function px_shop_core_module_labels() {
 		'catalog'         => array(
 			'title' => __( 'Catalog mode', 'px-shop-core' ),
 			'desc'  => __( 'Makes a browse-only shop possible. The mode itself is switched on in this module\'s settings.', 'px-shop-core' ),
+		),
+		'old_term_slugs'  => array(
+			'title' => __( 'Old term slugs', 'px-shop-core' ),
+			'desc'  => __( 'Remembers the previous slug when a category, tag or brand is renamed and redirects its old address (301) to the new one, like WordPress does for posts. Also covers subcategories whose parent was renamed.', 'px-shop-core' ),
 		),
 	);
 

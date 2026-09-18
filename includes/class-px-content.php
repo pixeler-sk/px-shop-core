@@ -37,6 +37,19 @@ class PX_Content {
 	const META_BTN2_LABEL = '_px_content_btn2_label';
 	const META_BTN2_URL   = '_px_content_btn2_url';
 
+	// Background video and whole-banner link (1.10.0). Named after the banner,
+	// not the CPT: they only mean something to banner layouts.
+	const META_VIDEO_URL    = '_px_banner_video_url';
+	const META_VIDEO_ID     = '_px_banner_video_id';
+	const META_VIDEO_MOBILE = '_px_banner_video_mobile';
+	const META_LINK_URL     = '_px_banner_link_url';
+
+	/**
+	 * Video files the library picker accepts. Other formats either do not
+	 * play everywhere (ogv, mov) or are far too heavy for a background.
+	 */
+	const VIDEO_MIMES = array( 'video/mp4', 'video/webm' );
+
 	/**
 	 * Guards against a banner rendering itself through a [px_banner] in its
 	 * own text.
@@ -176,7 +189,7 @@ class PX_Content {
 			) );
 		}
 
-		foreach ( array( self::META_BTN_URL, self::META_BTN2_URL ) as $key ) {
+		foreach ( array( self::META_BTN_URL, self::META_BTN2_URL, self::META_VIDEO_URL, self::META_LINK_URL ) as $key ) {
 			register_post_meta( self::POST_TYPE, $key, array(
 				'type'              => 'string',
 				'single'            => true,
@@ -186,11 +199,21 @@ class PX_Content {
 			) );
 		}
 
-		register_post_meta( self::POST_TYPE, self::META_OVERLAY, array(
-			'type'              => 'integer',
+		foreach ( array( self::META_OVERLAY, self::META_VIDEO_ID ) as $key ) {
+			register_post_meta( self::POST_TYPE, $key, array(
+				'type'              => 'integer',
+				'single'            => true,
+				'show_in_rest'      => true,
+				'sanitize_callback' => 'absint',
+				'auth_callback'     => array( __CLASS__, 'can_edit' ),
+			) );
+		}
+
+		register_post_meta( self::POST_TYPE, self::META_VIDEO_MOBILE, array(
+			'type'              => 'boolean',
 			'single'            => true,
 			'show_in_rest'      => true,
-			'sanitize_callback' => 'absint',
+			'sanitize_callback' => 'rest_sanitize_boolean',
 			'auth_callback'     => array( __CLASS__, 'can_edit' ),
 		) );
 	}
@@ -211,8 +234,11 @@ class PX_Content {
 	 *   label    - name in the layout select (required)
 	 *   template - template relative to templates/ (default: content/banner-{id}.php)
 	 *   supports - fields the layout uses: image, eyebrow, align, overlay,
-	 *              buttons; fields a layout does not support are hidden in
-	 *              the editor, so the screen only ever shows what matters
+	 *              buttons, video, link; fields a layout does not support are
+	 *              hidden in the editor and ignored when rendering, so the
+	 *              screen only ever shows what matters. `video` and `link`
+	 *              need the template to print the parts banner-video.php and
+	 *              banner-link.php - a project layout opts in explicitly.
 	 *
 	 * A project adds its own layout here and ships one template file:
 	 *
@@ -232,22 +258,23 @@ class PX_Content {
 			'media-right' => array(
 				'label'    => __( 'Text left, image right', 'px-shop-core' ),
 				'template' => 'content/banner-split.php',
-				'supports' => array( 'image', 'eyebrow', 'align', 'buttons' ),
+				'supports' => array( 'image', 'eyebrow', 'align', 'buttons', 'video', 'link' ),
 			),
 			'media-left'  => array(
 				'label'    => __( 'Image left, text right', 'px-shop-core' ),
 				'template' => 'content/banner-split.php',
-				'supports' => array( 'image', 'eyebrow', 'align', 'buttons' ),
+				'supports' => array( 'image', 'eyebrow', 'align', 'buttons', 'video', 'link' ),
 			),
 			'background'  => array(
 				'label'    => __( 'Image background, text over it', 'px-shop-core' ),
 				'template' => 'content/banner-background.php',
-				'supports' => array( 'image', 'eyebrow', 'align', 'overlay', 'buttons' ),
+				'supports' => array( 'image', 'eyebrow', 'align', 'overlay', 'buttons', 'video', 'link' ),
 			),
+			// No video: there is no surface to play it on.
 			'plain'       => array(
 				'label'    => __( 'Text and buttons only', 'px-shop-core' ),
 				'template' => 'content/banner.php',
-				'supports' => array( 'eyebrow', 'align', 'buttons' ),
+				'supports' => array( 'eyebrow', 'align', 'buttons', 'link' ),
 			),
 		);
 
@@ -304,7 +331,7 @@ class PX_Content {
 	 * Does a layout use a given field?
 	 *
 	 * @param string $layout Layout id.
-	 * @param string $field  image|eyebrow|align|overlay|buttons.
+	 * @param string $field  image|eyebrow|align|overlay|buttons|video|link.
 	 * @return bool
 	 */
 	public static function layout_supports( $layout, $field ) {
@@ -344,8 +371,17 @@ class PX_Content {
 
 		$base = plugins_url( 'assets/', PX_SHOP_CORE_FILE );
 
+		// Media modal for the background video picker.
+		wp_enqueue_media();
+
 		wp_enqueue_style( 'px-content-admin', $base . 'admin-content.css', array(), PX_SHOP_CORE_VERSION );
 		wp_enqueue_script( 'px-content-admin', $base . 'admin-content.js', array(), PX_SHOP_CORE_VERSION, true );
+
+		wp_localize_script( 'px-content-admin', 'pxContentVideo', array(
+			'title'  => __( 'Background video', 'px-shop-core' ),
+			'button' => __( 'Use this video', 'px-shop-core' ),
+			'mimes'  => self::VIDEO_MIMES,
+		) );
 
 		$supports = array();
 
@@ -433,6 +469,18 @@ class PX_Content {
 
 			</div>
 
+			<?php self::render_video_fields( $post ); ?>
+
+			<div class="px-content-grid" data-px-field="link">
+
+				<p class="px-content-field">
+					<label for="px_banner_link_url"><strong><?php esc_html_e( 'Whole banner link', 'px-shop-core' ); ?></strong></label>
+					<input type="url" id="px_banner_link_url" name="px_banner_link_url" class="widefat" placeholder="https://" value="<?php echo esc_attr( (string) get_post_meta( $post->ID, self::META_LINK_URL, true ) ); ?>" />
+					<span class="description"><?php esc_html_e( 'Optional. The whole banner area becomes clickable; the buttons keep their own links.', 'px-shop-core' ); ?></span>
+				</p>
+
+			</div>
+
 			<p class="description">
 				<?php
 				printf(
@@ -441,6 +489,51 @@ class PX_Content {
 					'<code>[px_banner id="' . (int) $post->ID . '"]</code>'
 				);
 				?>
+			</p>
+
+		</div>
+		<?php
+	}
+
+	/**
+	 * Background video fields of the banner box.
+	 *
+	 * @param WP_Post $post Content item.
+	 */
+	private static function render_video_fields( $post ) {
+		$url      = (string) get_post_meta( $post->ID, self::META_VIDEO_URL, true );
+		$file_id  = (int) get_post_meta( $post->ID, self::META_VIDEO_ID, true );
+		$file_url = $file_id ? (string) wp_get_attachment_url( $file_id ) : '';
+		$mobile   = (bool) get_post_meta( $post->ID, self::META_VIDEO_MOBILE, true );
+		?>
+		<div class="px-content-grid px-content-video" data-px-field="video">
+
+			<p class="px-content-field">
+				<label for="px_banner_video_url"><strong><?php esc_html_e( 'Background video (YouTube / Vimeo)', 'px-shop-core' ); ?></strong></label>
+				<input type="url" id="px_banner_video_url" name="px_banner_video_url" class="widefat" placeholder="https://www.youtube.com/watch?v=" value="<?php echo esc_attr( $url ); ?>" />
+				<span class="description"><?php esc_html_e( 'Plays muted in a loop behind the text; the banner image is shown until it starts and whenever it cannot play.', 'px-shop-core' ); ?></span>
+				<?php if ( '' !== $url && ! self::parse_video_url( $url ) ) : ?>
+					<span class="description px-content-warning"><?php esc_html_e( 'This address is not a YouTube or Vimeo video - the banner shows only the image.', 'px-shop-core' ); ?></span>
+				<?php endif; ?>
+			</p>
+
+			<div class="px-content-field">
+				<span class="px-content-label"><strong><?php esc_html_e( 'Or a video file (MP4 / WebM)', 'px-shop-core' ); ?></strong></span>
+				<input type="hidden" id="px_banner_video_id" name="px_banner_video_id" value="<?php echo esc_attr( $file_id ? (string) $file_id : '' ); ?>" />
+				<span class="px-content-video__file" data-px-video-file><?php echo esc_html( $file_url ? wp_basename( $file_url ) : '' ); ?></span>
+				<span class="px-content-video__actions">
+					<button type="button" class="button" data-px-video-pick><?php esc_html_e( 'Choose video', 'px-shop-core' ); ?></button>
+					<button type="button" class="button-link button-link-delete" data-px-video-clear<?php echo $file_id ? '' : ' hidden'; ?>><?php esc_html_e( 'Remove', 'px-shop-core' ); ?></button>
+				</span>
+				<span class="description"><?php esc_html_e( 'From the media library; needs no cookie consent. When both are filled, the file is used.', 'px-shop-core' ); ?></span>
+			</div>
+
+			<p class="px-content-field">
+				<label>
+					<input type="checkbox" name="px_banner_video_mobile" value="1" <?php checked( $mobile ); ?> />
+					<?php esc_html_e( 'Play on mobile too', 'px-shop-core' ); ?>
+				</label>
+				<span class="description"><?php esc_html_e( 'Off: phones show only the image (saves data and battery).', 'px-shop-core' ); ?></span>
 			</p>
 
 		</div>
@@ -506,6 +599,49 @@ class PX_Content {
 
 		$overlay = isset( $_POST['px_content_overlay'] ) ? (int) $_POST['px_content_overlay'] : 45;
 		update_post_meta( $post_id, self::META_OVERLAY, max( 0, min( 90, $overlay ) ) );
+
+		// Video URL and banner link. An unrecognised video URL is kept (the
+		// box warns about it) - silently dropping what the editor typed
+		// would look like a save that did not happen.
+		$urls = array(
+			self::META_VIDEO_URL => 'px_banner_video_url',
+			self::META_LINK_URL  => 'px_banner_link_url',
+		);
+
+		foreach ( $urls as $meta_key => $field ) {
+			$value = isset( $_POST[ $field ] ) ? esc_url_raw( trim( wp_unslash( $_POST[ $field ] ) ) ) : '';
+
+			$value ? update_post_meta( $post_id, $meta_key, $value ) : delete_post_meta( $post_id, $meta_key );
+		}
+
+		// Only a video attachment in a format every browser plays.
+		$video_id = isset( $_POST['px_banner_video_id'] ) ? absint( $_POST['px_banner_video_id'] ) : 0;
+
+		if ( $video_id && self::is_video_attachment( $video_id ) ) {
+			update_post_meta( $post_id, self::META_VIDEO_ID, $video_id );
+		} else {
+			delete_post_meta( $post_id, self::META_VIDEO_ID );
+		}
+
+		if ( ! empty( $_POST['px_banner_video_mobile'] ) ) {
+			update_post_meta( $post_id, self::META_VIDEO_MOBILE, true );
+		} else {
+			delete_post_meta( $post_id, self::META_VIDEO_MOBILE );
+		}
+	}
+
+	/**
+	 * Is the attachment a video file the banner can play?
+	 *
+	 * @param int $attachment_id Attachment id.
+	 * @return bool
+	 */
+	public static function is_video_attachment( $attachment_id ) {
+		$attachment_id = (int) $attachment_id;
+
+		return $attachment_id
+			&& 'attachment' === get_post_type( $attachment_id )
+			&& in_array( get_post_mime_type( $attachment_id ), self::VIDEO_MIMES, true );
 	}
 
 	/* ---------------------------- Admin columns -------------------------- */
@@ -609,6 +745,8 @@ class PX_Content {
 			'button2_url'   => (string) get_post_meta( $post->ID, self::META_BTN2_URL, true ),
 			'image_id'      => $image_id,
 			'image_url'     => $image_id ? wp_get_attachment_image_url( $image_id, 'full' ) : '',
+			'video'         => self::item_video( $post ),
+			'link'          => (string) get_post_meta( $post->ID, self::META_LINK_URL, true ),
 		);
 
 		/**
@@ -618,6 +756,204 @@ class PX_Content {
 		 * @param WP_Post $post   Content item.
 		 */
 		return apply_filters( 'px_content_banner_data', $banner, $post );
+	}
+
+	/**
+	 * Background video of an item.
+	 *
+	 * A library file wins over a URL: it needs no consent, no third-party
+	 * request and no player chrome to hide.
+	 *
+	 * @param int|WP_Post $post Content item.
+	 * @return array Empty when the item has no playable video, otherwise:
+	 *     type   string youtube|vimeo|file
+	 *     id     string YouTube / Vimeo id ('' for a file)
+	 *     hash   string Vimeo privacy hash of an unlisted video ('' otherwise)
+	 *     src    string File URL ('' for YouTube / Vimeo)
+	 *     mime   string File MIME type ('' for YouTube / Vimeo)
+	 *     mobile bool   Play on small screens too
+	 */
+	public static function item_video( $post ) {
+		$post = get_post( $post );
+
+		if ( ! $post ) {
+			return array();
+		}
+
+		$video   = array();
+		$file_id = (int) get_post_meta( $post->ID, self::META_VIDEO_ID, true );
+
+		if ( $file_id && self::is_video_attachment( $file_id ) ) {
+			$src = (string) wp_get_attachment_url( $file_id );
+
+			if ( '' !== $src ) {
+				$video = array(
+					'type' => 'file',
+					'id'   => '',
+					'hash' => '',
+					'src'  => $src,
+					'mime' => (string) get_post_mime_type( $file_id ),
+				);
+			}
+		}
+
+		if ( ! $video ) {
+			$parsed = self::parse_video_url( (string) get_post_meta( $post->ID, self::META_VIDEO_URL, true ) );
+
+			if ( $parsed ) {
+				$video = array_merge( $parsed, array(
+					'src'  => '',
+					'mime' => '',
+				) );
+			}
+		}
+
+		if ( ! $video ) {
+			return array();
+		}
+
+		$video['mobile'] = (bool) get_post_meta( $post->ID, self::META_VIDEO_MOBILE, true );
+
+		return $video;
+	}
+
+	/**
+	 * YouTube or Vimeo id from any address an editor is likely to paste.
+	 *
+	 * YouTube: watch?v=, youtu.be/, embed/, shorts/, live/, v/, the nocookie
+	 * and mobile hosts, with or without extra parameters (?si=, &t=, &list=).
+	 * Vimeo: vimeo.com/ID, vimeo.com/ID/HASH (unlisted), channels/.../ID,
+	 * groups/.../videos/ID, player.vimeo.com/video/ID?h=HASH.
+	 *
+	 * @param string $url Pasted address.
+	 * @return array Empty when it is neither, otherwise type, id, hash.
+	 */
+	public static function parse_video_url( $url ) {
+		$url = trim( (string) $url );
+
+		if ( '' === $url ) {
+			return array();
+		}
+
+		if ( ! preg_match( '#^https?://#i', $url ) ) {
+			$url = 'https://' . ltrim( $url, '/' );
+		}
+
+		$parts = wp_parse_url( $url );
+		$host  = isset( $parts['host'] ) ? strtolower( $parts['host'] ) : '';
+		$path  = isset( $parts['path'] ) ? $parts['path'] : '';
+		$query = array();
+
+		if ( ! empty( $parts['query'] ) ) {
+			wp_parse_str( $parts['query'], $query );
+		}
+
+		$host = preg_replace( '/^(www\.|m\.|music\.)/', '', $host );
+
+		if ( in_array( $host, array( 'youtube.com', 'youtube-nocookie.com', 'youtu.be' ), true ) ) {
+			$id = '';
+
+			if ( 'youtu.be' === $host ) {
+				$id = trim( $path, '/' );
+			} elseif ( ! empty( $query['v'] ) && is_string( $query['v'] ) ) {
+				$id = $query['v'];
+			} elseif ( preg_match( '#^/(?:embed|shorts|live|v|e)/([^/?]+)#', $path, $m ) ) {
+				$id = $m[1];
+			}
+
+			return preg_match( '/^[A-Za-z0-9_-]{11}$/', $id )
+				? array( 'type' => 'youtube', 'id' => $id, 'hash' => '' )
+				: array();
+		}
+
+		if ( in_array( $host, array( 'vimeo.com', 'player.vimeo.com' ), true ) ) {
+			// `/video/ID` or `/videos/ID` (player, groups) first, then the
+			// first all-digit segment; a hex segment right after the id is
+			// the privacy hash of an unlisted video.
+			if ( ! preg_match( '#/videos?/(\d{3,12})(?:/([0-9a-f]{6,20}))?(?:/|$)#i', $path, $m )
+				&& ! preg_match( '#/(\d{3,12})(?:/([0-9a-f]{6,20}))?(?:/|$)#i', $path, $m ) ) {
+				return array();
+			}
+
+			$hash = isset( $m[2] ) ? $m[2] : '';
+
+			if ( '' === $hash && ! empty( $query['h'] ) && is_string( $query['h'] ) && preg_match( '/^[0-9a-f]{6,20}$/i', $query['h'] ) ) {
+				$hash = $query['h'];
+			}
+
+			return array( 'type' => 'vimeo', 'id' => $m[1], 'hash' => strtolower( $hash ) );
+		}
+
+		return array();
+	}
+
+	/**
+	 * Consent a background video waits for.
+	 *
+	 * Order: this plugin's consent module when it runs the site; otherwise
+	 * CookieYes when it is detected (plugin cookie-law-info, or a site that
+	 * loads CookieYes through GTM says so with `px_content_video_cmp`);
+	 * otherwise nothing and the video starts right away. A library file is
+	 * served from the site itself and never waits.
+	 *
+	 * @param array $video Video data (see item_video()).
+	 * @return array Empty, or:
+	 *     cmp      string px|cookieyes (who answers in the browser)
+	 *     category string Consent category (px: category of the service,
+	 *                     cookieyes: category slug, default advertisement)
+	 *     service  string px only - service id (youtube / vimeo)
+	 */
+	public static function video_consent( $video ) {
+		$consent = array();
+
+		if ( ! empty( $video['type'] ) && 'file' !== $video['type'] ) {
+			$service = 'youtube' === $video['type'] ? 'youtube' : 'vimeo';
+
+			if ( class_exists( 'PX_Consent' ) && PX_Consent::active() ) {
+				$def     = class_exists( 'PX_Consent_Services' ) ? PX_Consent_Services::get( $service ) : array();
+				$consent = array(
+					'cmp'      => 'px',
+					'service'  => $service,
+					'category' => ! empty( $def['category'] ) ? (string) $def['category'] : 'marketing',
+				);
+			} else {
+				/**
+				 * Filters the external consent tool the video waits for when
+				 * this plugin's consent module is off.
+				 *
+				 * Detected: CookieYes as a WordPress plugin (cookie-law-info).
+				 * A site that loads CookieYes from GTM returns 'cookieyes' here.
+				 *
+				 * @param string $cmp   'cookieyes' or '' (none).
+				 * @param array  $video Video data.
+				 */
+				$cmp = (string) apply_filters( 'px_content_video_cmp', defined( 'CLI_VERSION' ) ? 'cookieyes' : '', $video );
+
+				if ( 'cookieyes' === $cmp ) {
+					/**
+					 * Filters the CookieYes category a background video waits for.
+					 *
+					 * @param string $category Category slug, default 'advertisement'.
+					 * @param array  $video    Video data.
+					 */
+					$consent = array(
+						'cmp'      => 'cookieyes',
+						'service'  => $service,
+						'category' => (string) apply_filters( 'px_content_video_cmp_category', 'advertisement', $video ),
+					);
+				}
+			}
+		}
+
+		/**
+		 * Filters the consent a background video waits for.
+		 *
+		 * Return an empty array to start the video without asking.
+		 *
+		 * @param array $consent Empty, or 'cmp', 'category' and 'service'.
+		 * @param array $video   Video data.
+		 */
+		return (array) apply_filters( 'px_content_video_consent', $consent, $video );
 	}
 
 	/**
@@ -780,7 +1116,11 @@ class PX_Content {
 	 *     class        string Extra classes on the wrapper.
 	 *     heading_tag  string h1..h6, default h2.
 	 *     image_size   string Image size, default 'large'.
-	 *     eager        bool   Skip lazy loading (banner above the fold).
+	 *     image_sizes  string `sizes` attribute of the image ('' = WordPress
+	 *                         default; a full-bleed banner wants '100vw').
+	 *     eager        bool   Banner above the fold: no lazy loading and
+	 *                         fetchpriority=high on the image (LCP).
+	 *     priority     bool   fetchpriority=high (default: same as eager).
 	 * @return string Empty when the item does not exist or the layout has
 	 *                no template.
 	 */
@@ -803,8 +1143,14 @@ class PX_Content {
 			'class'       => '',
 			'heading_tag' => 'h2',
 			'image_size'  => 'large',
+			'image_sizes' => '',
 			'eager'       => false,
+			'priority'    => null,
 		) );
+
+		// fetchpriority=high follows `eager` unless said otherwise (a second
+		// carousel slide is eager but must not compete with the first).
+		$args['priority'] = null === $args['priority'] ? (bool) $args['eager'] : (bool) $args['priority'];
 
 		$layout = $args['layout'] && isset( self::layouts()[ $args['layout'] ] ) ? $args['layout'] : $banner['layout'];
 		$def    = self::layout( $layout );
@@ -817,14 +1163,44 @@ class PX_Content {
 			$banner['image_id'] = 0;
 		}
 
+		/**
+		 * Filters the handle of the script that plays background videos.
+		 *
+		 * Same contract as the stylesheet: the theme registers the file,
+		 * the plugin asks for it only on pages that have a video banner.
+		 *
+		 * @param string $handle Script handle ('' = none).
+		 */
+		$video_handle = (string) apply_filters( 'px_content_video_script_handle', 'px-banner-video' );
+
+		// No video without a theme that can play it (px-shop-theme < 0.6.0
+		// has no px-banner-video): an empty wrapper would be dead markup.
+		if ( ! in_array( 'video', (array) $def['supports'], true )
+			|| '' === $video_handle || ! wp_script_is( $video_handle, 'registered' ) ) {
+			$banner['video'] = array();
+		}
+
+		if ( ! in_array( 'link', (array) $def['supports'], true ) ) {
+			$banner['link'] = '';
+		}
+
+		if ( ! empty( $banner['video'] ) ) {
+			$banner['video']['consent'] = self::video_consent( $banner['video'] );
+		}
+
 		$args['layout']    = $def['id'];
 		$args['supports']  = (array) $def['supports'];
 		$args['classes']   = self::classes( $banner, $args );
 		$args['text_html'] = self::content_html( $banner['text'] );
 
 		$args['heading_tag'] = preg_match( '/^h[1-6]$/', (string) $args['heading_tag'] ) ? $args['heading_tag'] : 'h2';
+		$args['image_attr']  = self::image_attr( $args );
 
 		self::enqueue_style();
+
+		if ( ! empty( $banner['video'] ) ) {
+			self::enqueue_handle( $video_handle );
+		}
 
 		self::$depth++;
 		$html = self::get_template_html( $def['template'], array(
@@ -844,6 +1220,31 @@ class PX_Content {
 	}
 
 	/**
+	 * Attributes of the banner image, shared by every layout template.
+	 *
+	 * @param array $args Rendering arguments.
+	 * @return array
+	 */
+	private static function image_attr( $args ) {
+		$attr = array(
+			'loading'  => $args['eager'] ? 'eager' : 'lazy',
+			'decoding' => 'async',
+			'alt'      => '',
+		);
+
+		// The first banner of a page is usually its LCP element.
+		if ( $args['eager'] && ! empty( $args['priority'] ) ) {
+			$attr['fetchpriority'] = 'high';
+		}
+
+		if ( '' !== trim( (string) $args['image_sizes'] ) ) {
+			$attr['sizes'] = (string) $args['image_sizes'];
+		}
+
+		return $attr;
+	}
+
+	/**
 	 * Wrapper classes of a banner.
 	 *
 	 * @param array $banner Banner data.
@@ -859,6 +1260,14 @@ class PX_Content {
 
 		if ( empty( $banner['image_id'] ) ) {
 			$classes[] = 'px-banner--no-image';
+		}
+
+		if ( ! empty( $banner['video'] ) ) {
+			$classes[] = 'px-banner--has-video';
+		}
+
+		if ( ! empty( $banner['link'] ) ) {
+			$classes[] = 'px-banner--linked';
 		}
 
 		if ( ! empty( $args['class'] ) ) {
@@ -886,6 +1295,15 @@ class PX_Content {
 	 *     limit    int    Max items, default -1.
 	 *     columns  int    Items side by side (0/1 = stacked).
 	 *     wrap     bool   Draw the .px-banners wrapper, default true.
+	 *     carousel bool   Several items as slides of one carousel (Swiper
+	 *                     markup + controls). One item stays a plain banner.
+	 *     label    string Accessible name of the carousel region.
+	 *     group_class string Extra classes on the .px-banners wrapper
+	 *                     (`class` goes on every banner).
+	 *
+	 * Only the first banner keeps an h1 (the rest get h2) - a page has one
+	 * main heading. In a carousel only the first slide is loaded eagerly.
+	 *
 	 * @return string
 	 */
 	public static function render_group( $args = array() ) {
@@ -895,6 +1313,9 @@ class PX_Content {
 			'limit'    => -1,
 			'columns'  => 0,
 			'wrap'     => true,
+			'carousel'    => false,
+			'label'       => '',
+			'group_class' => '',
 		) );
 
 		$items = $args['item']
@@ -905,23 +1326,59 @@ class PX_Content {
 			return '';
 		}
 
-		$html = '';
+		/**
+		 * Filters the handle of the carousel assets (style and script).
+		 *
+		 * @param string $handle Handle ('' = none).
+		 */
+		$carousel_handle = (string) apply_filters( 'px_content_carousel_handle', 'px-banner-carousel' );
 
-		foreach ( $items as $item ) {
-			$html .= self::render( $item, $args );
+		$items    = array_values( $items );
+		// Without a theme that starts the carousel (px-shop-theme < 0.6.0)
+		// the group stays a plain stack of banners, not a dead slider.
+		$carousel = ! empty( $args['carousel'] ) && count( $items ) > 1
+			&& '' !== $carousel_handle && wp_script_is( $carousel_handle, 'registered' );
+		$banners  = array();
+
+		foreach ( $items as $index => $item ) {
+			$item_args = $args;
+
+			if ( $index > 0 ) {
+				if ( isset( $item_args['heading_tag'] ) && 'h1' === $item_args['heading_tag'] ) {
+					$item_args['heading_tag'] = 'h2';
+				}
+
+				// Only the first banner is the LCP candidate. The second slide
+				// of a carousel is still loaded right away (without priority),
+				// so the first transition does not show an empty banner.
+				$item_args['eager']    = $carousel && 1 === $index && ! empty( $args['eager'] );
+				$item_args['priority'] = false;
+			}
+
+			$html = self::render( $item, $item_args );
+
+			if ( '' !== trim( $html ) ) {
+				$banners[] = $html;
+			}
 		}
 
-		if ( '' === trim( $html ) ) {
+		if ( ! $banners ) {
 			return '';
 		}
 
+		// Items that rendered nothing (missing template) do not count.
+		if ( $carousel && count( $banners ) > 1 ) {
+			return self::carousel_html( $banners, $args, $carousel_handle );
+		}
+
+		$html    = implode( '', $banners );
 		$columns = max( 0, (int) $args['columns'] );
 
 		if ( ! $args['wrap'] ) {
 			return $html;
 		}
 
-		$classes = 'px-banners';
+		$classes = 'px-banners' . self::group_class( $args );
 
 		if ( $columns > 1 ) {
 			$classes .= ' px-banners--cols-' . $columns;
@@ -936,6 +1393,101 @@ class PX_Content {
 	}
 
 	/**
+	 * Extra wrapper classes, with a leading space ('' when none).
+	 *
+	 * @param array $args Group arguments.
+	 * @return string
+	 */
+	private static function group_class( $args ) {
+		$classes = array_filter( array_map( 'sanitize_html_class', preg_split( '/\s+/', trim( (string) $args['group_class'] ) ) ) );
+
+		return $classes ? ' ' . implode( ' ', $classes ) : '';
+	}
+
+	/**
+	 * Carousel markup around rendered banners.
+	 *
+	 * Swiper classes are in the markup, so the theme only has to start it.
+	 * Without JavaScript the first slide is what the visitor sees (the rest
+	 * sit beside it, clipped by overflow) and the controls stay hidden.
+	 *
+	 * @param string[] $banners Rendered banners.
+	 * @param array    $args    Group arguments.
+	 * @param string   $handle  Carousel asset handle.
+	 * @return string
+	 */
+	private static function carousel_html( $banners, $args, $handle ) {
+		$defaults = array(
+			'region' => '' !== (string) $args['label'] ? (string) $args['label'] : __( 'Banners', 'px-shop-core' ),
+			'role'   => __( 'carousel', 'px-shop-core' ),
+			'slide'  => __( 'slide', 'px-shop-core' ),
+			'prev'   => __( 'Previous slide', 'px-shop-core' ),
+			'next'   => __( 'Next slide', 'px-shop-core' ),
+			'pause'  => __( 'Pause slide show', 'px-shop-core' ),
+			'play'   => __( 'Play slide show', 'px-shop-core' ),
+			'dots'   => __( 'Choose slide', 'px-shop-core' ),
+		);
+
+		// A filter that returns only the keys it changes keeps the rest.
+		/**
+		 * Filters the carousel texts (control labels for screen readers).
+		 *
+		 * @param array $labels Label texts.
+		 * @param array $args   Group arguments.
+		 */
+		$labels = wp_parse_args( (array) apply_filters( 'px_content_carousel_labels', $defaults, $args ), $defaults );
+
+		self::enqueue_handle( $handle );
+
+		$slides = '';
+		$total  = count( $banners );
+
+		foreach ( array_values( $banners ) as $index => $banner ) {
+			$slides .= sprintf(
+				'<div class="px-banners__slide swiper-slide" role="group" aria-roledescription="%1$s" aria-label="%2$s">%3$s</div>',
+				esc_attr( $labels['slide'] ),
+				/* translators: 1: slide number, 2: number of slides */
+				esc_attr( sprintf( __( '%1$d of %2$d', 'px-shop-core' ), $index + 1, $total ) ),
+				$banner
+			);
+		}
+
+		$arrow = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="%s"/></svg>';
+
+		// Controls come first in the DOM: the pause button should be reachable
+		// before the moving content (WCAG 2.2.2, technique G4).
+		$controls = sprintf(
+			'<div class="px-banners__controls" hidden>'
+			. '<button type="button" class="px-banners__btn px-banners__prev" aria-label="%1$s">%5$s</button>'
+			. '<div class="px-banners__dots" role="group" aria-label="%3$s"></div>'
+			. '<button type="button" class="px-banners__btn px-banners__next" aria-label="%2$s">%6$s</button>'
+			. '<button type="button" class="px-banners__btn px-banners__toggle" aria-label="%4$s" data-label-pause="%4$s" data-label-play="%7$s">'
+			. '<svg class="px-banners__icon-pause" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>'
+			. '<svg class="px-banners__icon-play" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.52.85l10.4-6.5a1 1 0 0 0 0-1.7L9.52 4.65A1 1 0 0 0 8 5.5z"/></svg>'
+			. '</button>'
+			. '</div>',
+			esc_attr( $labels['prev'] ),
+			esc_attr( $labels['next'] ),
+			esc_attr( $labels['dots'] ),
+			esc_attr( $labels['pause'] ),
+			sprintf( $arrow, 'M15 18l-6-6 6-6' ),
+			sprintf( $arrow, 'M9 18l6-6-6-6' ),
+			esc_attr( $labels['play'] )
+		);
+
+		$classes = 'px-banners px-banners--carousel swiper' . self::group_class( $args );
+
+		return sprintf(
+			'<div class="%1$s" data-px-banners-carousel role="region" aria-roledescription="%2$s" aria-label="%3$s">%4$s<div class="px-banners__track swiper-wrapper">%5$s</div></div>',
+			esc_attr( $classes ),
+			esc_attr( $labels['role'] ),
+			esc_attr( $labels['region'] ),
+			$controls,
+			$slides
+		);
+	}
+
+	/**
 	 * Theme stylesheet for banners, when the theme registered one.
 	 *
 	 * Same contract as the other core modules: the plugin ships markup and
@@ -943,10 +1495,31 @@ class PX_Content {
 	 * `px-banner` themselves (no flash of unstyled banner) are untouched.
 	 */
 	private static function enqueue_style() {
-		$handle = apply_filters( 'px_content_style_handle', 'px-banner' );
+		self::enqueue_handle( apply_filters( 'px_content_style_handle', 'px-banner' ) );
+	}
 
-		if ( $handle && wp_style_is( $handle, 'registered' ) && ! wp_style_is( $handle, 'enqueued' ) ) {
+	/**
+	 * Enqueues a style and/or script the theme registered under a handle.
+	 *
+	 * Banners are rendered after wp_head, so a style asked for here lands in
+	 * the footer - a theme that knows a page has banners enqueues the handle
+	 * itself, and this call then does nothing.
+	 *
+	 * @param string $handle Handle ('' = nothing).
+	 */
+	private static function enqueue_handle( $handle ) {
+		$handle = (string) $handle;
+
+		if ( '' === $handle ) {
+			return;
+		}
+
+		if ( wp_style_is( $handle, 'registered' ) && ! wp_style_is( $handle, 'enqueued' ) ) {
 			wp_enqueue_style( $handle );
+		}
+
+		if ( wp_script_is( $handle, 'registered' ) && ! wp_script_is( $handle, 'enqueued' ) ) {
+			wp_enqueue_script( $handle );
 		}
 	}
 
@@ -954,7 +1527,8 @@ class PX_Content {
 
 	/**
 	 * [px_banner id="12"], [px_banner slug="spring-sale"],
-	 * [px_banner category="homepage" columns="3" layout="background"]
+	 * [px_banner category="homepage" columns="3" layout="background"],
+	 * [px_banner category="homepage" carousel="1"]
 	 *
 	 * @param array $atts Shortcode attributes.
 	 * @return string
@@ -969,6 +1543,7 @@ class PX_Content {
 			'layout'   => '',
 			'class'    => '',
 			'heading'  => 'h2',
+			'carousel' => '',
 		), $atts, 'px_banner' );
 
 		$item = $atts['id'] ? $atts['id'] : $atts['slug'];
@@ -985,6 +1560,7 @@ class PX_Content {
 			'layout'      => $atts['layout'],
 			'class'       => $atts['class'],
 			'heading_tag' => $atts['heading'],
+			'carousel'    => in_array( strtolower( (string) $atts['carousel'] ), array( '1', 'yes', 'true' ), true ),
 		) );
 	}
 }

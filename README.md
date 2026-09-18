@@ -25,7 +25,8 @@ Každá funkcia je samostatný modul, dá sa vypnúť a téma sa jej pýta cez
   [Shipping bar](#shipping-bar-shipping_bar) · [Katalógový režim](#katalógový-režim-catalog) ·
   [Obrázky atribútov](#obrázky-atribútov-attribute_image) ·
   [Content bloky](#content-bloky-content) · [Súhlas s cookies](#súhlas-s-cookies-consent) ·
-  [Google Consent Mode v2](#google-consent-mode-v2-consent_mode)
+  [Google Consent Mode v2](#google-consent-mode-v2-consent_mode) ·
+  [Staré slugy termov](#staré-slugy-termov-old_term_slugs)
 - [Prístupnosť (WCAG)](#prístupnosť-wcag)
 - [WP-CLI](#wp-cli)
 - [Page cache](#page-cache)
@@ -74,6 +75,7 @@ Moduly s vlastnou sekciou nastavení majú v PX Shop vlastnú záložku.
 | Content bloky | `content` | zap. | skrytý CPT pre bannery, USP pásy a iné bloky kreslené témou |
 | Súhlas s cookies | `consent` | **vyp.** | vlastná CMP: lišta, blokovanie, stránka zásad, Consent Mode v2 |
 | Google Consent Mode v2 | `consent_mode` | **vyp.** | signály pre Google popri free Complianze |
+| Staré slugy termov | `old_term_slugs` | zap. | 301 zo starej URL kategórie/značky/štítku po zmene slugu (aj slugu rodiča) |
 
 ## Omnibus (`omnibus`)
 
@@ -452,9 +454,15 @@ kategóriami. Nezávisí od WooCommerce.
   `px_banners( $args )`, `px_content_template( $name, $args )`.
 - Shortcode `[px_banner]`. Šablóny v `templates/content/`, prepis
   v téme cez `px_content_locate_template`.
+- Video na pozadí (YouTube/Vimeo alebo MP4/WebM z knižnice), odkaz celého
+  bannera a karusel (`carousel`) od 1.10.0, vyžadujú px-shop-theme 0.6.0+
+  — podrobne v `templates/content/README.md`.
 - Filtre: `px_content_banner_data`, `px_content_banner_html`,
   `px_content_banner_classes`, `px_content_text_html`,
-  `px_content_default_layout`, `px_content_style_handle`.
+  `px_content_default_layout`, `px_content_style_handle`,
+  `px_content_video_script_handle`, `px_content_video_consent`,
+  `px_content_video_cmp`, `px_content_video_cmp_category`,
+  `px_content_carousel_handle`, `px_content_carousel_labels`.
 
 ## Súhlas s cookies (`consent`)
 
@@ -533,6 +541,43 @@ sám.
   `px_consent_mode_ads_data_redaction` (true),
   `px_consent_mode_url_passthrough` (false).
 - Zapnúť až vtedy, keď nič iné na webe nevydáva gtag.
+
+## Staré slugy termov (`old_term_slugs`)
+
+WordPress si pri príspevku pamätá starý slug (`_wp_old_slug`) a presmeruje,
+pri termoch nie. Modul to dopĺňa pre verejné taxonómie
+(`publicly_queryable`: `product_cat`, `product_tag`, `product_brand`,
+`category`, `post_tag`, verejné `pa_*`; zoznam filtrom
+`px_old_term_slugs_taxonomies`). Nezávisí od WooCommerce.
+
+- **Zápis:** pri zmene slugu cez `wp_update_term()` (admin, REST, WP-CLI)
+  pribudne predchádzajúci slug do term meta `_px_old_slug` (jeden riadok na
+  slug, bez duplicít; `edit_terms` → `edited_term`). Keď term dostane späť
+  slug, ktorý už mal, zo zoznamu zmizne. Index všetkých starých slugov je
+  autoload option `px_old_term_slugs`.
+- **Presmerovanie:** len pri `is_404()` na `template_redirect` s prioritou 9
+  (pred `redirect_canonical`, ktorý by 404 „uhádol" na podobný produkt).
+  Posledný segment cesty (po odrezaní `/page/N/`) sa hľadá ako aktuálny slug
+  termu, potom ako starý; pri jedinej zhode a inej kanonickej URL
+  (`get_term_link()`) ide 301 so zachovaním strany aj query stringu. Tým
+  funguje aj zmena slugu **rodiča** — URL potomka sa zmenila, jeho slug nie.
+  Viac zhôd rozhodne predposledný segment (slug rodiča, aktuálny alebo
+  starý); keď to nestačí, ostáva 404. Feedy, admin a AJAX sa neriešia.
+- **Cena:** 404 mimo taxonómie nerobí dotaz. Brána je query var taxonómie
+  (URL so základom `/kategoria-produktu/…`) alebo — pri URL bez základu
+  (Premmerce Permalink Manager) — aspoň jeden segment cesty v indexe
+  starých slugov. Až potom najviac dva `get_terms` (slug, potom meta_query).
+- **Zmena rodiča bez premenovania** (presun kategórie inam v strome) sa pri
+  URL bez základu nezachytí — v ceste nie je žiadny starý slug; vtedy treba
+  presmerovanie ručne (Yoast/Redirection) alebo seed nižšie.
+- **Seed** (premenovanie spred zapnutia modulu, externé URL):
+  `px_add_old_term_slug( $term_id, $slug )`, `px_remove_old_term_slug()`,
+  `px_get_old_term_slugs()`; z CLI
+  `wp eval 'px_add_old_term_slug( 123, "stary_slug" );'`.
+- **Admin:** na úprave termu riadok *Staré slugy* (len keď nejaké sú)
+  s odkazom na odstránenie (nonce + `edit_term`).
+- Filter `px_old_term_slugs_redirect( $target, $term, $requested )` — prázdna
+  hodnota nechá 404.
 
 ## Prístupnosť (WCAG)
 

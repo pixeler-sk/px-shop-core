@@ -15,19 +15,24 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 <section class="<?php echo esc_attr( $args['classes'] ); ?>" data-px-banner="<?php echo (int) $banner['id']; ?>">
+
+	<?php px_content_template( 'content/parts/banner-link.php', array( 'banner' => $banner, 'args' => $args ) ); ?>
+
 	<div class="px-banner__inner">
 
 		<?php px_content_template( 'content/parts/banner-text.php', array( 'banner' => $banner, 'args' => $args ) ); ?>
 
-		<?php if ( $banner['image_id'] ) : ?>
+		<?php if ( $banner['image_id'] || ! empty( $banner['video'] ) ) : ?>
 			<div class="px-banner__media">
 				<?php
-				echo wp_get_attachment_image( $banner['image_id'], $args['image_size'], false, array(
-					'class'    => 'px-banner__image',
-					'loading'  => $args['eager'] ? 'eager' : 'lazy',
-					'decoding' => 'async',
-					'alt'      => '',
-				) ); // phpcs:ignore WordPress.Security.EscapeOutput
+				if ( $banner['image_id'] ) {
+					echo wp_get_attachment_image( $banner['image_id'], $args['image_size'], false, array_merge( $args['image_attr'], array(
+						'class' => 'px-banner__image',
+					) ) ); // phpcs:ignore WordPress.Security.EscapeOutput
+				}
+
+				// Video plays over the image, in its frame; the image is the poster.
+				px_content_template( 'content/parts/banner-video.php', array( 'banner' => $banner, 'args' => $args ) );
 				?>
 			</div>
 		<?php endif; ?>

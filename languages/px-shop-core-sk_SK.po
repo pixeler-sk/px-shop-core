@@ -1307,3 +1307,94 @@ msgstr "Jednotka"
 
 msgid "Empty inherits the parent product."
 msgstr "Prázdne dedí z nadradeného produktu."
+
+# Content: video na pozadí, odkaz celého bannera, karusel (1.10.0)
+msgid "Background video"
+msgstr "Video na pozadí"
+
+msgid "Use this video"
+msgstr "Použiť toto video"
+
+msgid "Background video (YouTube / Vimeo)"
+msgstr "Video na pozadí (YouTube / Vimeo)"
+
+msgid "Plays muted in a loop behind the text; the banner image is shown until it starts and whenever it cannot play."
+msgstr "Prehráva sa bez zvuku v slučke za textom. Kým sa nerozbehne, a všade, kde sa prehrať nemôže, ostáva obrázok bannera."
+
+msgid "This address is not a YouTube or Vimeo video - the banner shows only the image."
+msgstr "Táto adresa nie je video z YouTube ani Vimea – banner ukáže len obrázok."
+
+msgid "Or a video file (MP4 / WebM)"
+msgstr "Alebo videosúbor (MP4 / WebM)"
+
+msgid "Choose video"
+msgstr "Vybrať video"
+
+msgid "From the media library; needs no cookie consent. When both are filled, the file is used."
+msgstr "Z knižnice médií, nepotrebuje súhlas s cookies. Keď je vyplnené oboje, použije sa súbor."
+
+msgid "Play on mobile too"
+msgstr "Prehrávať aj na mobile"
+
+msgid "Off: phones show only the image (saves data and battery)."
+msgstr "Vypnuté: na telefóne sa ukáže len obrázok (šetrí dáta aj batériu)."
+
+msgid "Whole banner link"
+msgstr "Odkaz celého bannera"
+
+msgid "Optional. The whole banner area becomes clickable; the buttons keep their own links."
+msgstr "Nepovinné. Klikateľná bude celá plocha bannera, tlačidlá si ponechajú vlastné odkazy."
+
+#. translators: %s: banner heading
+msgid "Background video: %s"
+msgstr "Video na pozadí: %s"
+
+msgid "Show more"
+msgstr "Zobraziť viac"
+
+msgid "Banners"
+msgstr "Bannery"
+
+msgid "carousel"
+msgstr "karusel"
+
+msgid "slide"
+msgstr "snímka"
+
+msgid "Previous slide"
+msgstr "Predchádzajúca snímka"
+
+msgid "Next slide"
+msgstr "Ďalšia snímka"
+
+msgid "Pause slide show"
+msgstr "Pozastaviť prezentáciu"
+
+msgid "Play slide show"
+msgstr "Spustiť prezentáciu"
+
+msgid "Choose slide"
+msgstr "Výber snímky"
+
+#. translators: 1: slide number, 2: number of slides
+msgid "%1$d of %2$d"
+msgstr "%1$d z %2$d"
+
+msgid "Old term slugs"
+msgstr "Staré slugy termov"
+
+msgid "Remembers the previous slug when a category, tag or brand is renamed and redirects its old address (301) to the new one, like WordPress does for posts. Also covers subcategories whose parent was renamed."
+msgstr "Pri zmene slugu kategórie, značky či štítku si zapamätá predchádzajúci a starú adresu presmeruje (301) na novú, ako to WordPress robí pri príspevkoch. Platí aj pre podkategórie, ktorých rodič dostal nový slug."
+
+msgid "Old slugs"
+msgstr "Staré slugy"
+
+#. translators: %s: old slug.
+msgid "Remove %s"
+msgstr "Odstrániť %s"
+
+msgid "Addresses with these slugs are redirected (301) to this term. They are recorded automatically when the slug changes."
+msgstr "Adresy s týmito slugmi sa presmerujú (301) na tento term. Zapisujú sa automaticky pri zmene slugu."
+
+msgid "Sorry, you are not allowed to edit this item."
+msgstr "Na úpravu tejto položky nemáte oprávnenie."

@@ -36,3 +36,53 @@
 	select.addEventListener( 'change', apply );
 	apply();
 } )();
+
+/**
+ * Background video: pick a file from the media library.
+ *
+ * Only MP4 / WebM are offered (the list the PHP side accepts, so the saved
+ * value never gets dropped on save).
+ */
+( function () {
+	'use strict';
+
+	var input = document.getElementById( 'px_banner_video_id' );
+
+	if ( ! input || ! window.wp || ! window.wp.media ) {
+		return;
+	}
+
+	var box   = input.closest( '.px-content-field' );
+	var name  = box.querySelector( '[data-px-video-file]' );
+	var pick  = box.querySelector( '[data-px-video-pick]' );
+	var clear = box.querySelector( '[data-px-video-clear]' );
+	var cfg   = window.pxContentVideo || {};
+	var frame = null;
+
+	pick.addEventListener( 'click', function () {
+		if ( ! frame ) {
+			frame = window.wp.media( {
+				title: cfg.title || '',
+				button: { text: cfg.button || '' },
+				library: { type: cfg.mimes || [ 'video/mp4', 'video/webm' ] },
+				multiple: false
+			} );
+
+			frame.on( 'select', function () {
+				var file = frame.state().get( 'selection' ).first().toJSON();
+
+				input.value = file.id;
+				name.textContent = file.filename || file.title || '';
+				clear.hidden = false;
+			} );
+		}
+
+		frame.open();
+	} );
+
+	clear.addEventListener( 'click', function () {
+		input.value = '';
+		name.textContent = '';
+		clear.hidden = true;
+	} );
+} )();

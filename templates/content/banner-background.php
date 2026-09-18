@@ -4,7 +4,10 @@
  *
  * The image is a real <img> (srcset, alt, lazy control) covering the
  * section, not a CSS background: a promo banner is content, and the
- * browser should be able to pick the right size for it.
+ * browser should be able to pick the right size for it. With a background
+ * video it is also the poster: it stays visible until the video actually
+ * plays, and for good where the video may not play (phone, reduced
+ * motion, no consent).
  *
  * Override: yourtheme/px-shop-core/content/banner-background.php
  *
@@ -20,16 +23,17 @@ $px_overlay = in_array( 'overlay', $args['supports'], true ) ? (int) $banner['ov
 ?>
 <section class="<?php echo esc_attr( $args['classes'] ); ?>" data-px-banner="<?php echo (int) $banner['id']; ?>" style="--px-banner-overlay:<?php echo esc_attr( (string) ( $px_overlay / 100 ) ); ?>">
 
+	<?php px_content_template( 'content/parts/banner-link.php', array( 'banner' => $banner, 'args' => $args ) ); ?>
+
 	<?php if ( $banner['image_id'] ) : ?>
 		<?php
-		echo wp_get_attachment_image( $banner['image_id'], $args['image_size'], false, array(
-			'class'    => 'px-banner__bg',
-			'loading'  => $args['eager'] ? 'eager' : 'lazy',
-			'decoding' => 'async',
-			'alt'      => '',
-		) ); // phpcs:ignore WordPress.Security.EscapeOutput
+		echo wp_get_attachment_image( $banner['image_id'], $args['image_size'], false, array_merge( $args['image_attr'], array(
+			'class' => 'px-banner__bg',
+		) ) ); // phpcs:ignore WordPress.Security.EscapeOutput
 		?>
 	<?php endif; ?>
+
+	<?php px_content_template( 'content/parts/banner-video.php', array( 'banner' => $banner, 'args' => $args ) ); ?>
 
 	<div class="px-banner__inner">
 		<?php px_content_template( 'content/parts/banner-text.php', array( 'banner' => $banner, 'args' => $args ) ); ?>

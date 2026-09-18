@@ -3,7 +3,7 @@ Contributors: pixeler
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.9.1
+Stable tag: 1.10.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,7 @@ minimal — styling and page-level presentation belong to the active theme.
 * **Company details** — IČO/DIČ/IČ DPH on the checkout, filled from RPO/ARES, VAT id verified in VIES, EU reverse charge and export outside the EU (off by default)
 * **Cookie consent** — the shop's own consent banner (services, blocking, cookie policy page, Google Consent Mode v2), off by default; replaces an external CMP, never runs next to one
 * **Google Consent Mode v2** — sends Google the consent signals the free Complianz build cannot; Complianz stays the CMP (off by default, needs Complianz)
+* **Old term slugs** — remembers the previous slug of a renamed category, tag or brand and redirects the old URL (301), also for subcategories of a renamed parent
 
 Every feature is a module that can be switched off in WooCommerce → Settings →
 PX Shop. A module that is off is not loaded at all — no hooks, no REST routes,
@@ -38,6 +39,59 @@ no admin screens — so `class_exists( 'PX_Wishlist' )` stays the reliable test
 for themes.
 
 == Changelog ==
+
+= 1.10.0 =
+
+* **Video, odkaz celého bannera a karusel vyžadujú px-shop-theme >= 0.6.0**
+  (handles `px-banner-video` a `px-banner-carousel`). So staršou témou sa
+  video nevykreslí (ostane obrázok) a skupina s `carousel` ostane obyčajnými
+  bannermi pod sebou.
+* **Content — video na pozadí bannera.** Box *Banner display* má nové polia:
+  video z YouTube/Vimeo (odkaz v akomkoľvek tvare — watch?v=, youtu.be,
+  embed/, shorts/, s parametrami ako `?si=`; Vimeo aj neverejné s hashom)
+  alebo súbor MP4/WebM z knižnice médií (súbor má prednosť), a voľbu
+  *Prehrávať aj na mobile*. Meta `_px_banner_video_url`,
+  `_px_banner_video_id`, `_px_banner_video_mobile` (REST, sanitizácia,
+  `can_edit`). Do HTML nejde iframe — len wrapper s `data-px-banner-video`
+  (pri súbore `<video preload="none">`), prehrávač stavia téma (handle
+  `px-banner-video`, plugin ho vyžiada len pri banneri s videom). Wrapper
+  je `inert`. YouTube/Vimeo čaká na súhlas: modul Súhlas s cookies, ak je
+  aktívny (`data-px-consent-cmp="px"`, služba + kategória), inak CookieYes
+  (`cookieyes`, kategória `advertisement`), keď je nájdený plugin
+  cookie-law-info alebo to web povie filtrom `px_content_video_cmp`
+  (CookieYes z GTM); kategóriu mení `px_content_video_cmp_category`,
+  celý výsledok `px_content_video_consent`. Obrázok bannera ostáva posterom a
+  LCP prvkom; `eager` pridáva `fetchpriority="high"`, nový argument
+  `image_sizes` nastaví atribút `sizes`.
+* **Content — odkaz celého bannera** (`_px_banner_link_url`): nadpis sa
+  stane odkazom, téma ho roztiahne cez celý banner (stretched link);
+  tlačidlá ostávajú funkčné, žiadne vnorené `<a>`. Banner bez nadpisu
+  dostane prázdny odkaz s `aria-label` (`parts/banner-link.php`).
+* Nové `supports` kľúče `video` (media-right, media-left, background)
+  a `link` (všetky štyri layouty); nepodporované polia sa v admine skryjú.
+* **Content — karusel.** `render_group()` / `[px_banner carousel="1"]`:
+  skupina s viac než jednou položkou dostane Swiper markup
+  (`.px-banners--carousel.swiper` > `.swiper-wrapper` > `.swiper-slide`)
+  s ovládaním (šípky, bodky, pauza prezentácie aj videa — skryté do štartu
+  JS) a vyžiada handle `px-banner-carousel`. Texty filtrom `px_content_carousel_labels`,
+  argumenty `label` a `group_class`.
+* `heading_tag` h1 dostane v skupine len prvý banner (ostatné h2). `eager`
+  a `fetchpriority` má len prvý banner skupiny; v karuseli je druhý slide
+  `eager` bez priority (prvý prechod neukáže prázdny banner). Nový argument
+  `priority`. Filter `px_content_carousel_labels` sa zlučuje s predvolenými
+  textami. Vimeo odkazy `/video(s)/ID` majú prednosť pred prvým číselným
+  segmentom. Prázdny odkaz bannera bez nadpisu nesie názov z nadtitulku
+  alebo perexu.
+* **Nový modul Staré slugy termov** (`old_term_slugs`, predvolene zapnutý,
+  nezávisí od WooCommerce). Pri zmene slugu termu verejnej taxonómie
+  (admin, REST, WP-CLI) sa predchádzajúci slug uloží do term meta
+  `_px_old_slug`; stará URL, ktorá skončí 404, dostane 301 na aktuálnu
+  (`get_term_link()`) so zachovaním `/page/N/` aj query stringu. Funguje aj
+  po zmene slugu rodiča (podkategórie). Nejednoznačná zhoda nechá 404.
+  Seed `px_add_old_term_slug( $term_id, $slug )`, zoznam s odstránením
+  v úprave termu, filtre `px_old_term_slugs_taxonomies`,
+  `px_old_term_slugs_redirect`.
+* Slovenské preklady nových textov.
 
 = 1.9.1 =
 

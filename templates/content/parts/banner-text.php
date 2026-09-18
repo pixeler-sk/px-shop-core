@@ -40,7 +40,17 @@ $px_btn2_class = apply_filters( 'px_content_button_class', 'px-banner__btn px-ba
 	<?php endif; ?>
 
 	<?php if ( '' !== $banner['heading'] ) : ?>
-		<<?php echo esc_attr( $px_tag ); ?> class="px-banner__title"><?php echo esc_html( $banner['heading'] ); ?></<?php echo esc_attr( $px_tag ); ?>>
+		<?php
+		// With a banner link the heading carries it (stretched link, see
+		// parts/banner-link.php). One line on purpose: whitespace inside the
+		// heading would show up before a theme's ::after decoration.
+		$px_heading = esc_html( $banner['heading'] );
+
+		if ( ! empty( $banner['link'] ) ) {
+			$px_heading = '<a class="px-banner__link" href="' . esc_url( $banner['link'] ) . '">' . $px_heading . '</a>';
+		}
+		?>
+		<<?php echo esc_attr( $px_tag ); ?> class="px-banner__title"><?php echo $px_heading; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above ?></<?php echo esc_attr( $px_tag ); ?>>
 	<?php endif; ?>
 
 	<?php if ( '' !== trim( (string) $banner['perex'] ) ) : ?>

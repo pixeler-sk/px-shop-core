@@ -14,6 +14,9 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 <section class="<?php echo esc_attr( $args['classes'] ); ?>" data-px-banner="<?php echo (int) $banner['id']; ?>">
+
+	<?php px_content_template( 'content/parts/banner-link.php', array( 'banner' => $banner, 'args' => $args ) ); ?>
+
 	<div class="px-banner__inner">
 		<?php px_content_template( 'content/parts/banner-text.php', array( 'banner' => $banner, 'args' => $args ) ); ?>
 	</div>
