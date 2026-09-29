@@ -76,6 +76,7 @@ Moduly s vlastnou sekciou nastavení majú v PX Shop vlastnú záložku.
 | Súhlas s cookies | `consent` | **vyp.** | vlastná CMP: lišta, blokovanie, stránka zásad, Consent Mode v2 |
 | Google Consent Mode v2 | `consent_mode` | **vyp.** | signály pre Google popri free Complianze |
 | Staré slugy termov | `old_term_slugs` | zap. | 301 zo starej URL kategórie/značky/štítku po zmene slugu (aj slugu rodiča) |
+| Médiá produktov pre MCP | `media_abilities` | **vyp.** | Abilities API pre MCP konektor: obrázky a galéria produktu, alt text |
 
 ## Omnibus (`omnibus`)
 
@@ -657,3 +658,19 @@ Omnibusu na celý deň.
 - Nikdy nečítať súhlas ani stav košíka v PHP pri výstupe, ktorý ide do page
   cache — plugin to sám nerobí a téma by to nemala kaziť. Keď to inak nejde,
   `px_shop_core_no_page_cache()` (viď [Page cache](#page-cache)).
+
+## Médiá produktov pre MCP (`media_abilities`)
+
+Predvolene **vypnutý**. Zapína sa len na webe s MCP konektorom (MCP Adapter
++ Abilities API, WordPress 6.9+); bez `wp_register_ability()` modul nič
+neregistruje. Kategória schopností `px-shop-media`:
+
+- `px-shop-core/get-product-images` — hlavný obrázok a galéria produktu.
+- `px-shop-core/set-product-images` — nahradí alebo doplní hlavný obrázok
+  a galériu z existujúcich príloh alebo z URL (sideload do knižnice médií).
+  Všetky vstupy sa najprv preložia na ID prílohy, produkt sa mení až potom —
+  zlyhanie v polovici nechá produkt nedotknutý. URL len s `upload_files`,
+  kontrola prípony, HEAD (MIME, veľkosť) aj veľkosti po stiahnutí. Zdrojová
+  URL sa ukladá do meta `_px_source_url`, opakovaný rovnaký URL použije
+  existujúcu prílohu. Nič sa nemaže.
+- `px-shop-core/set-attachment-alt` — alt text jednej prílohy.

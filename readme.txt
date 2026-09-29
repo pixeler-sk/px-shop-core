@@ -32,6 +32,7 @@ minimal — styling and page-level presentation belong to the active theme.
 * **Cookie consent** — the shop's own consent banner (services, blocking, cookie policy page, Google Consent Mode v2), off by default; replaces an external CMP, never runs next to one
 * **Google Consent Mode v2** — sends Google the consent signals the free Complianz build cannot; Complianz stays the CMP (off by default, needs Complianz)
 * **Old term slugs** — remembers the previous slug of a renamed category, tag or brand and redirects the old URL (301), also for subcategories of a renamed parent
+* **Product media for MCP** — Abilities API for an MCP connector: read and set product images and gallery, fix alt text (off by default, WordPress 6.9+)
 
 Every feature is a module that can be switched off in WooCommerce → Settings →
 PX Shop. A module that is off is not loaded at all — no hooks, no REST routes,

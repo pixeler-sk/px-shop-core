@@ -1398,3 +1398,9 @@ msgstr "Adresy s týmito slugmi sa presmerujú (301) na tento term. Zapisujú sa
 
 msgid "Sorry, you are not allowed to edit this item."
 msgstr "Na úpravu tejto položky nemáte oprávnenie."
+
+msgid "Product media for MCP"
+msgstr "Médiá produktov pre MCP"
+
+msgid "Abilities API (WordPress 6.9+) for an MCP connector: read and set product images and gallery, from the media library or a URL, and fix alt text. Switch it on only on a site with an MCP connector."
+msgstr "Abilities API (WordPress 6.9+) pre MCP konektor: čítanie a nastavenie obrázkov a galérie produktu z knižnice médií alebo z URL a oprava alt textu. Zapnite len na webe s MCP konektorom."
