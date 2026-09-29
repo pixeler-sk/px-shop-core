@@ -3,7 +3,7 @@ Contributors: pixeler
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.10.0
+Stable tag: 1.11.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,6 +40,15 @@ no admin screens — so `class_exists( 'PX_Wishlist' )` stays the reliable test
 for themes.
 
 == Changelog ==
+
+= 1.11.0 =
+* **Nový modul Médiá produktov pre MCP** (`media_abilities`, predvolene
+  vypnutý, WordPress 6.9+). Schopnosti Abilities API pre MCP konektor
+  (kategória `px-shop-media`): `px-shop-core/get-product-images`,
+  `px-shop-core/set-product-images` (hlavný obrázok a galéria z knižnice
+  médií alebo z URL so sideloadom, bez mazania príloh, zdroj v meta
+  `_px_source_url`) a `px-shop-core/set-attachment-alt`. Prenesené z benabu.
+* Slovenské preklady nových textov.
 
 = 1.10.0 =
 
