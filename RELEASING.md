@@ -56,5 +56,7 @@ Stiahni zip z [releases](https://github.com/pixeler-sk/px-shop-core/releases)
 a nahraj cez Pluginy → Inštalovať nový → Nahrať plugin. Ďalšie aktualizácie už
 chodia samé.
 
-Pozn.: benab má zatiaľ pracovnú kópiu vo vlastnom repe (bez PUC) — pri najbližšej
-príležitosti ju nahradiť inštaláciou z releasu, nech je zdroj jeden.
+Pozn.: benab od 2026-09-29 už nemá vlastnú kópiu (lokálne symlink ako libike
+a drogea). Na staging treba jednorazovo nahrať zip z releasu cez
+fork 0.1.0 (`wp plugin install <zip> --force`), potom chodia aktualizácie samé.
+Na benabe je zapnutý modul `media_abilities`.
