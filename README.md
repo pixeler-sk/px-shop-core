@@ -394,8 +394,12 @@ Stráženie dostupnosti vypredaného produktu (aj variácie).
 - Na jeden produkt a request sa formulár vypíše **len raz** — téma alebo
   site plugin, ktorý ho ešte volá sám (libike, elbe), zdvojenie nespôsobí;
   svoje volanie môže po aktualizácii zmazať.
-- Variabilný produkt dostane formulár, len keď je vypredaný celý (rodič je
-  „nedostupný"); formulár pre jednu vypredanú variáciu zatiaľ nie je.
+- **Variácie:** variabilný produkt dostane formulár skrytý
+  (`.px-waitlist--variation`, `data-parent`) a skript ho ukáže, keď zákazník
+  vyberie vypredanú kombináciu (udalosť `found_variation`); prihlásenie ide
+  na ID variácie, e-maily nesú jej názov. Pri dostupnej kombinácii alebo
+  zrušení výberu sa skryje. Celý vypredaný variabilný produkt má viditeľný
+  formulár pre rodiča. Metabox produktu ukazuje prihlásených aj po variáciách.
 - Ručne: `PX_Waitlist::render_form( $product )` / `::get_form_html()`,
   REST `POST px-shop-core/v1/waitlist`.
 - Metabox na produkte so zoznamom prihlásených, `PX_Waitlist::count()`.

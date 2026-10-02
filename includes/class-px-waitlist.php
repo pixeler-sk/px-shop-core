@@ -551,7 +551,18 @@ class PX_Waitlist {
 			global $product;
 		}
 
-		if ( ! $product instanceof WC_Product || $product->is_in_stock() ) {
+		if ( ! $product instanceof WC_Product ) {
+			return '';
+		}
+
+		// A variable product that can still be bought gets the form hidden:
+		// the script shows it once the customer picks a variation that is out
+		// of stock and points it at that variation (a variation waitlist
+		// lives on the variation ID). Sold out entirely, it gets the visible
+		// form for the parent below, like a simple product.
+		$for_variation = $product->is_type( 'variable' ) && $product->is_in_stock();
+
+		if ( $product->is_in_stock() && ! $for_variation ) {
 			return '';
 		}
 		// One form per product and request: the automatic placement and an
@@ -585,7 +596,7 @@ class PX_Waitlist {
 		ob_start();
 		echo self::form_assets(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		?>
-		<form class="px-waitlist" data-product="<?php echo esc_attr( $product->get_id() ); ?>">
+		<form class="px-waitlist<?php echo $for_variation ? ' px-waitlist--variation' : ''; ?>" data-product="<?php echo esc_attr( $product->get_id() ); ?>"<?php echo $for_variation ? ' data-parent="' . esc_attr( $product->get_id() ) . '" hidden' : ''; ?>>
 			<p class="px-waitlist__intro"><?php esc_html_e( 'Out of stock. Leave your e-mail and we will tell you when it is back.', 'px-shop-core' ); ?></p>
 			<div class="px-waitlist__row">
 				<label class="screen-reader-text" for="px-waitlist-email-<?php echo esc_attr( $product->get_id() ); ?>"><?php esc_html_e( 'Your e-mail', 'px-shop-core' ); ?></label>
@@ -626,10 +637,36 @@ class PX_Waitlist {
 .px-waitlist__message{margin:8px 0 0}
 .px-waitlist__message:empty{display:none}
 .px-waitlist--done .px-waitlist__row{display:none}
+.px-waitlist[hidden]{display:none}
 ';
 
 		$js = sprintf(
 			'
+(function(){
+function wl(form){
+var id=form.getAttribute("data-product_id");
+return id?document.querySelector(".px-waitlist--variation[data-parent=\""+id+"\"]"):null;
+}
+function reset(f){
+f.classList.remove("px-waitlist--done");
+var m=f.querySelector(".px-waitlist__message");if(m){m.textContent="";}
+}
+function bind(){
+if(!window.jQuery){return;}
+jQuery(document).on("found_variation",".variations_form",function(e,v){
+var f=wl(this);if(!f){return;}
+if(v&&v.variation_id&&!v.is_in_stock){
+if(f.dataset.product!==String(v.variation_id)){reset(f);}
+f.dataset.product=v.variation_id;f.hidden=false;
+}else{f.hidden=true;}
+});
+jQuery(document).on("reset_data hide_variation",".variations_form",function(){
+var f=wl(this);if(f){f.hidden=true;}
+});
+}
+// jQuery and the WooCommerce scripts may be deferred - bind once they are loaded.
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",bind);}else{bind();}
+})();
 document.addEventListener("submit",function(e){
 var f=e.target.closest(".px-waitlist");
 if(!f){return;}
@@ -680,7 +717,7 @@ if(d&&d.ok){f.classList.add("px-waitlist--done");}
 	public static function register_metabox() {
 		global $post;
 
-		if ( ! $post || 'product' !== $post->post_type || ! self::get_subscribers( $post->ID ) ) {
+		if ( ! $post || 'product' !== $post->post_type || ! self::metabox_lists( $post->ID ) ) {
 			return;
 		}
 
@@ -693,27 +730,68 @@ if(d&&d.ok){f.classList.add("px-waitlist--done");}
 		);
 	}
 
-	public static function render_metabox( $post ) {
-		$subscribers = self::get_subscribers( $post->ID );
-		$confirmed   = self::count( $post->ID );
+	/**
+	 * Waitlists shown in the product metabox: the product itself and, for a
+	 * variable product, each variation that has one - a variation waitlist
+	 * lives on the variation ID, which has no edit screen of its own.
+	 *
+	 * @param int $product_id Product ID.
+	 * @return array<int,array{label:string,subscribers:array}> Keyed by ID.
+	 */
+	protected static function metabox_lists( $product_id ) {
+		$lists = array();
+		$ids   = array( (int) $product_id );
 
-		echo '<p>' . esc_html( sprintf(
-			/* translators: %d: number of subscribers. */
-			__( 'Customers waiting for this product: %d', 'px-shop-core' ),
-			$confirmed
-		) ) . '</p><ul style="margin:0;">';
+		$product = wc_get_product( $product_id );
+		if ( $product && $product->is_type( 'variable' ) ) {
+			$ids = array_merge( $ids, array_map( 'intval', $product->get_children() ) );
+		}
 
-		foreach ( $subscribers as $email => $entry ) {
-			$date = $entry['confirmed'] ? $entry['confirmed'] : $entry['created'];
+		foreach ( $ids as $id ) {
+			$subscribers = self::get_subscribers( $id );
+			if ( ! $subscribers ) {
+				continue;
+			}
 
-			printf(
-				'<li><code>%s</code> <span style="color:#787c82;">%s</span>%s</li>',
-				esc_html( $email ),
-				esc_html( $date ? date_i18n( get_option( 'date_format' ), $date ) : '' ),
-				$entry['confirmed'] ? '' : ' <em>' . esc_html__( '(not confirmed)', 'px-shop-core' ) . '</em>'
+			$label = '';
+			if ( $id !== (int) $product_id ) {
+				$variation = wc_get_product( $id );
+				$label     = $variation ? wc_get_formatted_variation( $variation, true, false, false ) : '#' . $id;
+			}
+
+			$lists[ $id ] = array(
+				'label'       => $label,
+				'subscribers' => $subscribers,
 			);
 		}
 
-		echo '</ul>';
+		return $lists;
+	}
+
+	public static function render_metabox( $post ) {
+		foreach ( self::metabox_lists( $post->ID ) as $id => $list ) {
+			if ( '' !== $list['label'] ) {
+				echo '<p style="margin-bottom:0;"><strong>' . esc_html( $list['label'] ) . '</strong></p>';
+			}
+
+			echo '<p>' . esc_html( sprintf(
+				/* translators: %d: number of subscribers. */
+				__( 'Customers waiting for this product: %d', 'px-shop-core' ),
+				self::count( $id )
+			) ) . '</p><ul style="margin:0;">';
+
+			foreach ( $list['subscribers'] as $email => $entry ) {
+				$date = $entry['confirmed'] ? $entry['confirmed'] : $entry['created'];
+
+				printf(
+					'<li><code>%s</code> <span style="color:#787c82;">%s</span>%s</li>',
+					esc_html( $email ),
+					esc_html( $date ? date_i18n( get_option( 'date_format' ), $date ) : '' ),
+					$entry['confirmed'] ? '' : ' <em>' . esc_html__( '(not confirmed)', 'px-shop-core' ) . '</em>'
+				);
+			}
+
+			echo '</ul>';
+		}
 	}
 }
