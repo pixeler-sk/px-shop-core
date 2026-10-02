@@ -66,6 +66,8 @@ jobs:
             --exclude '.gitignore' \
             --exclude '.gitattributes' \
             --exclude 'CLAUDE.md' \
+            --exclude 'phpcs.xml.dist' \
+            --exclude 'phpstan.neon.dist' \
             --exclude 'RELEASING.md' \
             --exclude 'README.md'
 

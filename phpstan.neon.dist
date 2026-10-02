@@ -1,0 +1,12 @@
+# Statická analýza — spúšťa sa z ~/localhost/px-shop-dev: bin/lint.sh <repo>
+# (stuby WordPressu a WooCommerce dodáva px-shop-dev/phpstan-common.neon).
+# Úroveň sa zvyšuje postupne, keď je predchádzajúca čistá. Do releasu nejde.
+parameters:
+	level: 3
+	paths:
+		- .
+	excludePaths:
+		- vendor/*
+		- node_modules/*
+		- build/*
+		- languages/*
