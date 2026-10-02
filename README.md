@@ -385,12 +385,24 @@ Stráženie dostupnosti vypredaného produktu (aj variácie).
 - Štyri e-maily ako bežné WooCommerce triedy (WooCommerce → Nastavenia →
   E-maily, šablóny `woocommerce/emails/px-waitlist-*.php`): potvrdenie
   adresy, potvrdené prihlásenie, naskladnenie, notifikácia pre admina.
-- Formulár `PX_Waitlist::render_form( $product )` / `::get_form_html()`,
+- **Formulár sa na detail vypredaného produktu vloží sám** — téma nemusí
+  nič volať. Dve miesta naraz: `woocommerce_single_product_summary` (31,
+  hneď pod blokom košíka v štandardnej šablóne WooCommerce) a
+  `pxt_single_summary_end` (5, px-shop-theme kreslí vlastný súhrn a ten
+  WooCommerce hook nevolá). Presun alebo vypnutie filtrom
+  `px_waitlist_form_hooks` (`hook => priorita`, prázdne pole = vypnuté).
+- Na jeden produkt a request sa formulár vypíše **len raz** — téma alebo
+  site plugin, ktorý ho ešte volá sám (libike, elbe), zdvojenie nespôsobí;
+  svoje volanie môže po aktualizácii zmazať.
+- Variabilný produkt dostane formulár, len keď je vypredaný celý (rodič je
+  „nedostupný"); formulár pre jednu vypredanú variáciu zatiaľ nie je.
+- Ručne: `PX_Waitlist::render_form( $product )` / `::get_form_html()`,
   REST `POST px-shop-core/v1/waitlist`.
 - Metabox na produkte so zoznamom prihlásených, `PX_Waitlist::count()`.
 - Akcie: `px_waitlist_subscribed`, `px_waitlist_confirmed`,
   `px_waitlist_unsubscribed`, `px_waitlist_back_in_stock`. Filtre:
-  `px_waitlist_require_confirmation`, `px_waitlist_show_form`.
+  `px_waitlist_require_confirmation`, `px_waitlist_show_form`,
+  `px_waitlist_form_hooks`, `px_waitlist_prefill_email`.
 - CLI: `wp px waitlist migrate [--dry-run]` z Woodmartu.
 
 ## Veľkostné tabuľky (`size_guide`)

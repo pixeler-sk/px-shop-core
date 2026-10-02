@@ -37,6 +37,13 @@ class PX_Waitlist {
 	/** How long before an unconfirmed subscription may trigger a new e-mail. */
 	const RESEND_AFTER = HOUR_IN_SECONDS;
 
+	/**
+	 * Products whose form has already been printed in this request.
+	 *
+	 * @var array<int,bool>
+	 */
+	protected static $printed = array();
+
 	public static function init() {
 		add_action( 'rest_api_init', array( __CLASS__, 'register_routes' ) );
 		add_action( 'woocommerce_product_set_stock_status', array( __CLASS__, 'maybe_notify' ), 10, 3 );
@@ -44,6 +51,47 @@ class PX_Waitlist {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'register_metabox' ) );
 		add_action( 'template_redirect', array( __CLASS__, 'handle_link' ) );
 		add_filter( 'woocommerce_email_classes', array( __CLASS__, 'register_emails' ) );
+		add_action( 'wp', array( __CLASS__, 'hook_form' ) );
+	}
+
+	/**
+	 * Puts the form on the product page by itself, so a shop gets it without
+	 * any theme code.
+	 *
+	 * Two places, because themes differ: a standard WooCommerce summary fires
+	 * `woocommerce_single_product_summary` (31 = right after the add-to-cart
+	 * block at 30), px-shop-theme draws its own summary and fires
+	 * `pxt_single_summary_end` instead (5 = above the share buttons). The
+	 * once-per-product guard in get_form_html() makes sure a theme that fires
+	 * both - or one that still calls render_form() itself - shows one form.
+	 *
+	 * Filter `px_waitlist_form_hooks` moves it (hook => priority) or turns it
+	 * off (empty array) for a theme that places the form on its own.
+	 */
+	public static function hook_form() {
+		if ( ! is_product() ) {
+			return;
+		}
+
+		$hooks = (array) apply_filters(
+			'px_waitlist_form_hooks',
+			array(
+				'woocommerce_single_product_summary' => 31,
+				'pxt_single_summary_end'             => 5,
+			)
+		);
+
+		foreach ( $hooks as $hook => $priority ) {
+			add_action( $hook, array( __CLASS__, 'render_hooked_form' ), (int) $priority );
+		}
+	}
+
+	/**
+	 * Hook callback - the hooks pass various arguments (or none), so it
+	 * always works with the global product.
+	 */
+	public static function render_hooked_form() {
+		self::render_form();
 	}
 
 	/* ------------------------------ Storage ------------------------------ */
@@ -506,9 +554,16 @@ class PX_Waitlist {
 		if ( ! $product instanceof WC_Product || $product->is_in_stock() ) {
 			return '';
 		}
+		// One form per product and request: the automatic placement and an
+		// older theme or site plugin that still prints the form itself would
+		// otherwise show it twice.
+		if ( isset( self::$printed[ $product->get_id() ] ) ) {
+			return '';
+		}
 		if ( ! apply_filters( 'px_waitlist_show_form', true, $product ) ) {
 			return '';
 		}
+		self::$printed[ $product->get_id() ] = true;
 
 		// A logged-in customer gets his address filled in - but that address
 		// is then sitting in the HTML of an ordinary product page. Today it
