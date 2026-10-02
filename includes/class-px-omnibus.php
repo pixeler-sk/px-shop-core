@@ -72,7 +72,12 @@ class PX_Omnibus {
 		// queue and, past action_scheduler_failure_period (300 s), get the
 		// host action marked as failed.
 		add_action( self::CRON_HOOK, array( __CLASS__, 'scan' ) );
-		self::maybe_schedule();
+
+		// Booked on init, not here on plugins_loaded: wp_schedule_event()
+		// reads wp_get_schedules(), whose cron_schedules filter makes
+		// WooCommerce translate a label - before init that triggers the
+		// "_load_textdomain_just_in_time was called incorrectly" notice.
+		add_action( 'init', array( __CLASS__, 'maybe_schedule' ) );
 
 		// Kept as a rescue for anything the scan does not reach.
 		add_action( 'woocommerce_before_single_product', array( __CLASS__, 'record_current_view' ) );
@@ -221,7 +226,7 @@ class PX_Omnibus {
 	 * Books the daily scan. Time is 03:20 local: after the WooCommerce
 	 * midnight sale job, outside the busy hours.
 	 */
-	protected static function maybe_schedule() {
+	public static function maybe_schedule() {
 		if ( wp_next_scheduled( self::CRON_HOOK ) ) {
 			return;
 		}
