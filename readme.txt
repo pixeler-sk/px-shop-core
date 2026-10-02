@@ -3,7 +3,7 @@ Contributors: pixeler
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.11.0
+Stable tag: 1.12.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,6 +40,20 @@ no admin screens — so `class_exists( 'PX_Wishlist' )` stays the reliable test
 for themes.
 
 == Changelog ==
+
+= 1.12.0 =
+* **Waitlist: formulár na detail vypredaného produktu vkladá jadro samo** —
+  téma ani site plugin ho už nemusia volať. Body
+  `woocommerce_single_product_summary` (31) pre štandardné šablóny
+  a `pxt_single_summary_end` (5) pre px-shop-theme; presun alebo vypnutie
+  filtrom `px_waitlist_form_hooks`. Na jeden produkt a stránku sa vypíše
+  len raz, takže staršie vlastné volanie `render_form()` ho nezdvojí.
+* **Waitlist pre vypredanú variáciu:** variabilný produkt má formulár
+  skrytý, ukáže sa po výbere vypredanej kombinácie a prihlásenie ide na
+  ID variácie (e-maily nesú jej názov). Metabox produktu ukazuje
+  prihlásených aj po variáciách.
+* Omnibus: denný sken sa plánuje až na `init` — zmizne notice
+  „_load_textdomain_just_in_time … woocommerce" po aktivácii.
 
 = 1.11.0 =
 * **Nový modul Médiá produktov pre MCP** (`media_abilities`, predvolene
