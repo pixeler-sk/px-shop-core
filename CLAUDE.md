@@ -47,6 +47,8 @@ kópiu z releasu (zmenu nevidí). Ak sa mení aj vzhľad, upravuje sa paralelne
 
 ## Vydanie (plne v RELEASING.md)
 
+Pred vydaním v `~/localhost/px-shop-dev`: `bin/smoke.sh` (stránky, pokladňa, e-maily) a `bin/lint.sh px-shop-core` (PHPCS + PHPStan, konfigurácia v `phpcs.xml.dist` / `phpstan.neon.dist`).
+
 1. Verzia na **troch** miestach: hlavička `px-shop-core.php`,
    `PX_SHOP_CORE_VERSION`, `Stable tag` v `readme.txt`.
 2. Changelog v `readme.txt` presne ako `= X.Y.Z =`.
