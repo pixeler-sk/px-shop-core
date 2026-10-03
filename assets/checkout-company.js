@@ -75,11 +75,127 @@
 		$( document.body ).trigger( 'update_checkout' );
 	}
 
+	/* ---------------------------- Required ----------------------------- */
+
+	var required = settings.required || {};
+
+	/**
+	 * Marks a row required or optional the way WooCommerce renders it: the
+	 * validate-required class its own checks read, the asterisk instead of
+	 * "(optional)" and aria-required on the input. The server decides in the
+	 * end; this only tells the customer before they find out from an error.
+	 */
+	function setRequired( selector, on ) {
+		var $row = $( selector );
+
+		if ( ! $row.length ) {
+			return;
+		}
+
+		var $label = $row.find( 'label' ).first();
+		var $input = $row.find( 'input, select' ).first();
+		var $marks = $label.find( '.optional, .required' );
+
+		if ( on === $row.hasClass( 'validate-required' ) && $marks.length ) {
+			return;
+		}
+
+		// Remember WooCommerce's own "(optional)" text to put it back later;
+		// a row first drawn as required borrows it from a row that never is.
+		var $optional = $label.find( '.optional' );
+
+		if ( $optional.length ) {
+			$row.data( 'pxOptional', $optional.text() );
+		}
+
+		$marks.each( function () {
+			var prev = this.previousSibling;
+
+			if ( prev && 3 === prev.nodeType ) {
+				prev.nodeValue = prev.nodeValue.replace( /\u00a0$/, '' );
+			}
+
+			$( this ).remove();
+		} );
+
+		$row.toggleClass( 'validate-required', on );
+		$label.toggleClass( 'required_field', on );
+
+		if ( on ) {
+			$label.append( document.createTextNode( '\u00a0' ), $( '<span class="required" aria-hidden="true">*</span>' ) );
+			$input.attr( 'aria-required', 'true' );
+
+			return;
+		}
+
+		var text = $row.data( 'pxOptional' ) || $( 'form.checkout .form-row .optional' ).first().text();
+
+		if ( text ) {
+			$label.append( document.createTextNode( '\u00a0' ), $( '<span class="optional" />' ).text( text ) );
+		}
+
+		$input.removeAttr( 'aria-required aria-invalid aria-describedby' );
+		$row.removeClass( 'woocommerce-invalid woocommerce-invalid-required-field' );
+		$row.find( '.checkout-inline-error-message' ).remove();
+	}
+
+	/** Same rules as validate_required() in PHP. */
+	function applyRequired() {
+		var $box = $( '#company_details' );
+		var company;
+
+		if ( settings.toggle && $box.length ) {
+			company = $box.is( ':checked' );
+		} else {
+			company = '' !== $.trim( $( '#billing_company, #billing_ic, #billing_dic, #billing_dic_dph' ).map( function () {
+				return $( this ).val() || '';
+			} ).get().join( '' ) );
+		}
+
+		var name = $.trim( $( '#billing_company' ).val() || '' );
+		var hasIc = -1 !== $.inArray( billingCountry(), required.icCountries || [] );
+		var icRequired = hasIc && (
+			( 'if_checkbox' === required.icRule && company ) ||
+			( 'if_company' === required.icRule && '' !== name )
+		);
+
+		setRequired( rows.company, !! required.company && company );
+		setRequired( rows.ic, icRequired );
+
+		// Slovak and Czech IDs are eight digits, elsewhere letters may occur.
+		$( '#billing_ic' ).attr( 'inputmode', -1 !== $.inArray( billingCountry(), [ 'SK', 'CZ' ] ) ? 'numeric' : null );
+	}
+
+	$( document.body ).on( 'input change', '#billing_company, #billing_ic, #billing_dic, #billing_dic_dph', function () {
+		window.setTimeout( applyRequired, 0 );
+	} );
+
+	/**
+	 * WooCommerce links a server error to its field (data-id) and writes the
+	 * message under it, but leaves the row looking valid. Mark ours.
+	 */
+	$( document.body ).on( 'checkout_error', function () {
+		$( '.woocommerce-NoticeGroup-checkout [data-id], .woocommerce-error [data-id]' ).each( function () {
+			var id = $( this ).attr( 'data-id' );
+
+			if ( -1 === $.inArray( id, [ 'billing_company', 'billing_ic', 'billing_dic', 'billing_dic_dph' ] ) ) {
+				return;
+			}
+
+			$( '#' + id ).attr( 'aria-invalid', 'true' )
+				.closest( '.form-row' )
+				.removeClass( 'woocommerce-validated' )
+				.addClass( 'woocommerce-invalid' );
+		} );
+	} );
+
 	/* ------------------------------ Fold ------------------------------- */
 
 	var $toggle = $( '#company_details' );
 
 	function applyToggle() {
+		applyRequired();
+
 		if ( ! settings.toggle || ! $toggle.length ) {
 			return;
 		}
@@ -102,6 +218,7 @@
 			$( '#billing_company, #billing_ic, #billing_dic, #billing_dic_dph' ).val( '' );
 			message( rows.dic, '' );
 			message( rows.dicDph, '' );
+			applyRequired();
 			refreshTotals();
 		}
 	} );
@@ -114,6 +231,7 @@
 			applyToggle();
 		} else {
 			setRowVisible( rows.dicDph, 'SK' === billingCountry() );
+			applyRequired();
 		}
 	}
 

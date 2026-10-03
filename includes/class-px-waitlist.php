@@ -453,6 +453,8 @@ class PX_Waitlist {
 			'args'                => array(
 				'product_id' => array( 'required' => true, 'type' => 'integer' ),
 				'email'      => array( 'required' => true, 'type' => 'string' ),
+				// Turnstile / reCAPTCHA answer when the antispam module guards the form.
+				'antispam_token' => array( 'type' => 'string', 'default' => '' ),
 			),
 			'callback'            => array( __CLASS__, 'rest_subscribe' ),
 		) );
@@ -466,6 +468,13 @@ class PX_Waitlist {
 		}
 		if ( $product->is_in_stock() ) {
 			return new WP_Error( 'px_in_stock', __( 'This product is already in stock.', 'px-shop-core' ), array( 'status' => 400 ) );
+		}
+
+		if ( class_exists( 'PX_Antispam' ) ) {
+			$check = PX_Antispam::verify( 'waitlist', (string) $request['antispam_token'] );
+			if ( is_wp_error( $check ) ) {
+				return $check;
+			}
 		}
 
 		$result = self::subscribe( $product->get_id(), (string) $request['email'] );
@@ -611,6 +620,7 @@ class PX_Waitlist {
 				/>
 				<button type="submit" class="px-waitlist__submit"><?php esc_html_e( 'Notify me', 'px-shop-core' ); ?></button>
 			</div>
+			<?php echo class_exists( 'PX_Antispam' ) ? PX_Antispam::field_html( 'waitlist' ) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in field_html(). ?>
 			<p class="px-waitlist__message" role="status" aria-live="polite"></p>
 		</form>
 		<?php
@@ -636,7 +646,8 @@ class PX_Waitlist {
 .px-waitlist__email{flex:1 1 12rem;min-width:0}
 .px-waitlist__message{margin:8px 0 0}
 .px-waitlist__message:empty{display:none}
-.px-waitlist--done .px-waitlist__row{display:none}
+.px-waitlist--done .px-waitlist__row,.px-waitlist--done .px-antispam{display:none}
+.px-waitlist .px-antispam{margin:8px 0 0}
 .px-waitlist[hidden]{display:none}
 ';
 
@@ -651,17 +662,23 @@ function reset(f){
 f.classList.remove("px-waitlist--done");
 var m=f.querySelector(".px-waitlist__message");if(m){m.textContent="";}
 }
+function toggle(f,show,id){
+var was=!f.hidden;f.hidden=!show;
+if(was===show&&(!show||f.getAttribute("data-shown")===String(id))){return;}
+f.setAttribute("data-shown",show?String(id):"");
+f.dispatchEvent(new CustomEvent("px-waitlist-toggle",{bubbles:true,detail:{visible:show,variationId:show?parseInt(id,10):0,parentId:parseInt(f.getAttribute("data-parent"),10)}}));
+}
 function bind(){
 if(!window.jQuery){return;}
 jQuery(document).on("found_variation",".variations_form",function(e,v){
 var f=wl(this);if(!f){return;}
 if(v&&v.variation_id&&!v.is_in_stock){
 if(f.dataset.product!==String(v.variation_id)){reset(f);}
-f.dataset.product=v.variation_id;f.hidden=false;
-}else{f.hidden=true;}
+f.dataset.product=v.variation_id;toggle(f,true,v.variation_id);
+}else{toggle(f,false,0);}
 });
 jQuery(document).on("reset_data hide_variation",".variations_form",function(){
-var f=wl(this);if(f){f.hidden=true;}
+var f=wl(this);if(f){toggle(f,false,0);}
 });
 }
 // jQuery and the WooCommerce scripts may be deferred - bind once they are loaded.
@@ -673,14 +690,14 @@ if(!f){return;}
 e.preventDefault();
 var b=f.querySelector(".px-waitlist__submit"),m=f.querySelector(".px-waitlist__message");
 b.disabled=true;
-fetch("%s",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({product_id:parseInt(f.dataset.product,10),email:f.querySelector(".px-waitlist__email").value})})
+fetch("%s",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({product_id:parseInt(f.dataset.product,10),email:f.querySelector(".px-waitlist__email").value,antispam_token:window.pxAntispamToken?window.pxAntispamToken(f):""})})
 .then(function(r){return r.json();})
 .then(function(d){
 b.disabled=false;
 m.textContent=d&&d.message?d.message:(d&&d.ok?"":%s);
-if(d&&d.ok){f.classList.add("px-waitlist--done");}
+if(d&&d.ok){f.classList.add("px-waitlist--done");}else if(window.pxAntispamReset){window.pxAntispamReset(f);}
 })
-.catch(function(){b.disabled=false;m.textContent=%s;});
+.catch(function(){b.disabled=false;m.textContent=%s;if(window.pxAntispamReset){window.pxAntispamReset(f);}});
 });
 ',
 			esc_url_raw( rest_url( 'px-shop-core/v1/waitlist' ) ),

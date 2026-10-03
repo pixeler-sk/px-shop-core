@@ -38,6 +38,13 @@ a [RELEASING.md](RELEASING.md) (vydanie, konzumenti). Tento súbor je mapa.
 - Minimum: PHP 7.4, WordPress 6.0 (hlavička pluginu) — nepoužívať novší
   syntax, kým sa minimum nezdvihne.
 
+## Kompatibilita s pluginmi webov
+
+Pred novým modulom alebo vydaním si prečítaj
+`~/localhost/px-shop-dev/COMPATIBILITY.md` (pluginy na weboch, známe kolízie,
+postup); novú kolíziu tam zapíš. Modul, ktorý zdvojuje funkciu bežného
+pluginu, má `'default' => 'no'` a pri bežiacom plugine sa nespustí.
+
 ## Testovanie
 
 Libike, drogea a elbe majú lokálne `wp-content/plugins/px-shop-core` ako

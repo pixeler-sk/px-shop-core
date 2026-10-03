@@ -94,6 +94,18 @@ function px_shop_core_modules() {
 			'default'  => 'no',
 			'settings' => array( 'PX_Company_Fields', 'settings_fields' ),
 		),
+		'seller'          => array(
+			'file'     => 'includes/class-px-seller.php',
+			'class'    => 'PX_Seller',
+			'settings' => array( 'PX_Seller', 'settings_fields' ),
+		),
+		'antispam'        => array(
+			'file'     => 'includes/class-px-antispam.php',
+			'class'    => 'PX_Antispam',
+			// Adds a challenge to forms - a site switches it on with its keys.
+			'default'  => 'no',
+			'settings' => array( 'PX_Antispam', 'settings_fields' ),
+		),
 		'wishlist'        => array(
 			'file'     => 'includes/class-px-wishlist.php',
 			'class'    => 'PX_Wishlist',
@@ -221,6 +233,14 @@ function px_shop_core_module_labels() {
 		'company_fields'  => array(
 			'title' => __( 'Company details', 'px-shop-core' ),
 			'desc'  => __( 'IČO, DIČ and IČ DPH on the checkout, filled in from the RPO/ARES register, VAT id verified in VIES, EU reverse charge and export outside the EU. Off by default - switch it on only once the plugin that used to handle these fields is gone, or the checkout shows them twice.', 'px-shop-core' ),
+		),
+		'seller'          => array(
+			'title' => __( 'Seller details', 'px-shop-core' ),
+			'desc'  => __( 'Trade name, address, IČO, DIČ, IČ DPH, register entry and contact entered once and shown through [px_seller] on the contact page, in the footer and the terms, and through {px_seller} in order e-mails.', 'px-shop-core' ),
+		),
+		'antispam'        => array(
+			'title' => __( 'Anti-spam', 'px-shop-core' ),
+			'desc'  => __( 'Cloudflare Turnstile or Google reCAPTCHA v2 on the waitlist, registration, lost password, reviews and the withdrawal and claim forms. Off by default; does nothing until both keys are set.', 'px-shop-core' ),
 		),
 		'wishlist'        => array(
 			'title' => __( 'Wishlist', 'px-shop-core' ),

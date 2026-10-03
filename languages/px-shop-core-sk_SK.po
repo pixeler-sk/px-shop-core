@@ -317,10 +317,10 @@ msgid "Done - we will e-mail you as soon as the product is back in stock."
 msgstr "Hotovo — ozveme sa hneď, ako bude produkt opäť skladom."
 
 msgid "Done - we will not e-mail you about product availability again."
-msgstr "Hotovo — o dostupnosti produktov ti už písať nebudeme."
+msgstr "Hotovo — o dostupnosti produktov vám už písať nebudeme."
 
 msgid "Almost there - open the e-mail we just sent and confirm your address."
-msgstr "Ešte krok — otvor e-mail, ktorý sme práve poslali, a potvrď adresu."
+msgstr "Ešte krok — otvorte e-mail, ktorý sme vám práve poslali, a potvrďte adresu."
 
 msgid "(not confirmed)"
 msgstr "(nepotvrdené)"
@@ -332,10 +332,10 @@ msgid "Sent right after someone asks to be told when a product is back in stock.
 msgstr "Odchádza hneď po prihlásení na sledovanie dostupnosti. Kým zákazník neklikne na odkaz v ňom, na zozname nie je."
 
 msgid "Confirm you want to hear about {product_name}"
-msgstr "Potvrď sledovanie dostupnosti — {product_name}"
+msgstr "Potvrďte sledovanie dostupnosti — {product_name}"
 
 msgid "One click and you are on the list"
-msgstr "Jedno kliknutie a si na zozname"
+msgstr "Jedno kliknutie a ste na zozname"
 
 msgid "Waitlist: subscription confirmed"
 msgstr "Sledovanie dostupnosti: potvrdené prihlásenie"
@@ -344,10 +344,10 @@ msgid "Sent after the customer confirms the address. Carries the unsubscribe lin
 msgstr "Odchádza po potvrdení adresy. Nesie odkaz na odhlásenie."
 
 msgid "We will let you know about {product_name}"
-msgstr "Dáme vedieť, keď bude {product_name} skladom"
+msgstr "Dáme vám vedieť, keď bude {product_name} skladom"
 
 msgid "You are on the list"
-msgstr "Si na zozname"
+msgstr "Ste na zozname"
 
 msgid "Waitlist: product is back in stock"
 msgstr "Sledovanie dostupnosti: produkt je skladom"
@@ -380,22 +380,22 @@ msgid "Comma separated. Defaults to %s."
 msgstr "Oddelené čiarkou. Predvolene %s."
 
 msgid "Somebody (we hope you) asked us to send an e-mail as soon as %s is available again."
-msgstr "Niekto (dúfame, že ty) nás požiadal, aby sme dali vedieť, keď bude %s opäť dostupný."
+msgstr "Niekto (dúfame, že vy) nás požiadal, aby sme vám dali vedieť, keď bude %s opäť dostupný."
 
 msgid "Confirm the address and we will do exactly that - nothing else, no newsletter."
-msgstr "Potvrď adresu a presne to urobíme — nič iné, žiadny newsletter."
+msgstr "Potvrďte adresu a presne to urobíme — nič iné, žiadny newsletter."
 
 msgid "Yes, let me know"
 msgstr "Áno, dajte mi vedieť"
 
 msgid "If the button does not work, open this address:"
-msgstr "Ak tlačidlo nefunguje, otvor túto adresu:"
+msgstr "Ak tlačidlo nefunguje, otvorte túto adresu:"
 
 msgid "If it was not you, just ignore this message - without the click above nothing happens."
-msgstr "Ak si to nebol ty, správu pokojne ignoruj — bez kliknutia vyššie sa nič nestane."
+msgstr "Ak ste to neboli vy, správu pokojne ignorujte — bez kliknutia vyššie sa nič nestane."
 
 msgid "If it was not you, just ignore this message - without the link above nothing happens."
-msgstr "Ak si to nebol ty, správu pokojne ignoruj — bez odkazu vyššie sa nič nestane."
+msgstr "Ak ste to neboli vy, správu pokojne ignorujte — bez odkazu vyššie sa nič nestane."
 
 msgid "Thank you - we will e-mail you as soon as %s is back in stock."
 msgstr "Ďakujeme — ozveme sa hneď, ako bude %s opäť skladom."
@@ -422,19 +422,19 @@ msgid "Edit product"
 msgstr "Upraviť produkt"
 
 msgid "Out of stock. Leave your e-mail and we will tell you when it is back."
-msgstr "Nie je skladom. Nechaj e-mail a dáme vedieť, keď bude späť."
+msgstr "Nie je skladom. Nechajte nám e-mail a dáme vám vedieť, keď bude opäť skladom."
 
 msgid "Your e-mail"
-msgstr "Tvoj e-mail"
+msgstr "Váš e-mail"
 
 msgid "your@email.com"
-msgstr "tvoj@email.sk"
+msgstr "vas@email.sk"
 
 msgid "Notify me"
 msgstr "Dajte mi vedieť"
 
 msgid "Something went wrong, please try again."
-msgstr "Niečo sa pokazilo, skús to prosím znova."
+msgstr "Niečo sa pokazilo, skúste to, prosím, znova."
 
 msgid "Sale validity"
 msgstr "Platnosť akcie"
@@ -473,7 +473,7 @@ msgid "Shop-wide campaign end"
 msgstr "Koniec kampane pre celý obchod"
 
 msgid "Used for products whose discount carries no date of its own - typically a sitewide discount plugin. Leave empty when every sale has its own dates."
-msgstr "Použije sa pri produktoch, ktorých zľava nemá vlastný dátum — typicky plugin s plošnou zľavou. Nechaj prázdne, keď má každá akcia vlastné dátumy."
+msgstr "Použije sa pri produktoch, ktorých zľava nemá vlastný dátum — typicky plugin s plošnou zľavou. Nechajte prázdne, keď má každá akcia vlastné dátumy."
 
 #. translators: %s: date the sale price stops applying.
 msgid "Sale price valid until %s"
@@ -1404,3 +1404,117 @@ msgstr "Médiá produktov pre MCP"
 
 msgid "Abilities API (WordPress 6.9+) for an MCP connector: read and set product images and gallery, from the media library or a URL, and fix alt text. Switch it on only on a site with an MCP connector."
 msgstr "Abilities API (WordPress 6.9+) pre MCP konektor: čítanie a nastavenie obrázkov a galérie produktu z knižnice médií alebo z URL a oprava alt textu. Zapnite len na webe s MCP konektorom."
+
+msgid "Registration (My account)"
+msgstr "Registrácia (Môj účet)"
+
+msgid "Lost password"
+msgstr "Zabudnuté heslo"
+
+msgid "Product reviews"
+msgstr "Recenzie produktov"
+
+msgid "Withdrawal and claim forms (px-wc-requests)"
+msgstr "Formuláre odstúpenia a reklamácie (px-wc-requests)"
+
+msgid "Login (My account, checkout)"
+msgstr "Prihlásenie (Môj účet, pokladňa)"
+
+msgid "Anti-spam"
+msgstr "Antispam"
+
+msgid "Service"
+msgstr "Služba"
+
+msgid "Cloudflare Turnstile"
+msgstr "Cloudflare Turnstile"
+
+msgid "Google reCAPTCHA v2 (checkbox)"
+msgstr "Google reCAPTCHA v2 (zaškrtávacie políčko)"
+
+msgid "Site key"
+msgstr "Kľúč webu (site key)"
+
+msgid "Secret key"
+msgstr "Tajný kľúč (secret key)"
+
+msgid "Prefer the PX_ANTISPAM_SECRET_KEY constant in wp-config.php - a key in the database travels with every backup and export."
+msgstr "Radšej konštanta PX_ANTISPAM_SECRET_KEY vo wp-config.php – kľúč v databáze putuje s každou zálohou a exportom."
+
+msgid "Protect"
+msgstr "Chrániť"
+
+msgid "A challenge on public forms against spam bots. Turnstile is free in any Cloudflare account and works even when the site does not run through Cloudflare (add the domain to a Turnstile widget). reCAPTCHA sets Google cookies - mention it in the privacy policy, and a consent tool (Complianz) may block it until consent, leaving the forms unusable; prefer Turnstile there. The checkout is never guarded: a failed challenge there costs orders. Only the WooCommerce forms are guarded - wp-login.php is left to the security plugin (Wordfence). After changing the service or the keys, clear the page cache."
+msgstr "Overenie na verejných formulároch proti spamovým robotom. Turnstile je zadarmo v každom Cloudflare účte a funguje, aj keď web nejde cez Cloudflare (doménu pridajte do Turnstile widgetu). reCAPTCHA ukladá cookies Googlu – uveďte ju v zásadách ochrany osobných údajov; nástroj na súhlas (Complianz) ju môže do súhlasu blokovať a formuláre sa potom nedajú odoslať, tam radšej Turnstile. Pokladňa sa nechráni nikdy: neúspešné overenie tam stojí objednávky. Chránia sa len formuláre WooCommerce – wp-login.php stráži bezpečnostný plugin (Wordfence). Po zmene služby alebo kľúčov vyčistite page cache."
+
+msgid "Set in wp-config.php: %s."
+msgstr "Nastavené vo wp-config.php: %s."
+
+msgid "Both keys are missing or incomplete - no form is guarded yet."
+msgstr "Chýba jeden alebo oba kľúče – zatiaľ sa nechráni žiadny formulár."
+
+msgid "Please confirm that you are not a robot."
+msgstr "Potvrďte, prosím, že nie ste robot."
+
+msgid "Review not saved"
+msgstr "Recenzia sa neuložila"
+
+msgid "Seller details"
+msgstr "Údaje predávajúceho"
+
+msgid "Entered once, shown wherever the law asks for them: %s."
+msgstr "Zadané raz, zobrazené všade, kde ich vyžaduje zákon: %s."
+
+msgid "Trade name"
+msgstr "Obchodné meno"
+
+msgid "Exactly as in the register, including the legal form (s. r. o.)."
+msgstr "Presne ako v registri, vrátane právnej formy (s. r. o.)."
+
+msgid "Registered address"
+msgstr "Sídlo"
+
+msgid "Empty uses the store address from WooCommerce → Settings → General."
+msgstr "Prázdne = adresa obchodu z WooCommerce → Nastavenia → Všeobecné."
+
+msgid "Company ID (IČO)"
+msgstr "IČO"
+
+msgid "Tax ID (DIČ)"
+msgstr "DIČ"
+
+msgid "VAT ID (IČ DPH)"
+msgstr "IČ DPH"
+
+msgid "Leave empty when the seller is not a VAT payer."
+msgstr "Prázdne, ak predávajúci nie je platiteľ DPH."
+
+msgid "Register entry"
+msgstr "Zápis v registri"
+
+msgid "E.g. \"Commercial register of the City Court Bratislava III, section Sro, insert no. 12345/B\" or the trade licence office."
+msgstr "Napr. „Obchodný register Mestského súdu Bratislava III, oddiel Sro, vložka č. 12345/B“ alebo živnostenský register okresného úradu."
+
+msgid "Customer e-mail"
+msgstr "E-mail pre zákazníkov"
+
+msgid "Customer phone"
+msgstr "Telefón pre zákazníkov"
+
+msgid "Supervisory authority"
+msgstr "Orgán dozoru"
+
+msgid "Slovak Trade Inspection inspectorate for the seat region, with its address. Used in the terms: [px_seller field=\"supervisor\"]."
+msgstr "Inšpektorát Slovenskej obchodnej inšpekcie pre kraj sídla aj s adresou. V obchodných podmienkach: [px_seller field=\"supervisor\"]."
+
+msgid "E-mail"
+msgstr "E-mail"
+
+msgid "Phone"
+msgstr "Telefón"
+
+msgid "Trade name, address, IČO, DIČ, IČ DPH, register entry and contact entered once and shown through [px_seller] on the contact page, in the footer and the terms, and through {px_seller} in order e-mails."
+msgstr "Obchodné meno, sídlo, IČO, DIČ, IČ DPH, zápis v registri a kontakt zadané raz a zobrazené cez [px_seller] na stránke Kontakt, v pätke a v obchodných podmienkach a cez {px_seller} v e-mailoch objednávok."
+
+msgid "Cloudflare Turnstile or Google reCAPTCHA v2 on the waitlist, registration, lost password, reviews and the withdrawal and claim forms. Off by default; does nothing until both keys are set."
+msgstr "Cloudflare Turnstile alebo Google reCAPTCHA v2 na strážení dostupnosti, registrácii, zabudnutom hesle, recenziách a formulároch odstúpenia a reklamácie. Predvolene vypnutý; kým nie sú zadané oba kľúče, nerobí nič."

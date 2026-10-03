@@ -51,6 +51,22 @@ class PX_Company_Fields {
 	 */
 	private static $vies = null;
 
+	/**
+	 * Fields the last validation in this request found wrong. A checkout
+	 * without JavaScript and the My Account address form re-render in the
+	 * same request, so the rows can be marked where the customer sees them.
+	 *
+	 * @var string[]
+	 */
+	private static $invalid = array();
+
+	/**
+	 * Fields this module adds or takes over.
+	 *
+	 * @var string[]
+	 */
+	const FIELDS = array( 'billing_company', 'billing_ic', 'billing_dic', 'billing_dic_dph' );
+
 	public static function init() {
 		// Both plugins write the same three fields into the same three meta
 		// keys, which is what makes the switch painless - and what would put
@@ -66,8 +82,10 @@ class PX_Company_Fields {
 		add_filter( 'woocommerce_billing_fields', array( __CLASS__, 'billing_fields' ), 10, 2 );
 		add_filter( 'woocommerce_checkout_fields', array( __CLASS__, 'checkout_fields' ) );
 		add_filter( 'woocommerce_form_field', array( __CLASS__, 'clean_toggle_label' ), 10, 2 );
+		add_filter( 'woocommerce_form_field_args', array( __CLASS__, 'form_field_args' ), 10, 2 );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue' ) );
 		add_action( 'woocommerce_after_checkout_validation', array( __CLASS__, 'validate' ), 10, 2 );
+		add_action( 'woocommerce_after_save_address_validation', array( __CLASS__, 'validate_account_address' ), 10, 2 );
 
 		// Admin, e-mails and the formatted address.
 		add_filter( 'woocommerce_admin_billing_fields', array( __CLASS__, 'admin_fields' ) );
@@ -75,6 +93,7 @@ class PX_Company_Fields {
 		add_filter( 'woocommerce_localisation_address_formats', array( __CLASS__, 'address_formats' ) );
 		add_filter( 'woocommerce_formatted_address_replacements', array( __CLASS__, 'address_replacements' ), 10, 2 );
 		add_filter( 'woocommerce_order_formatted_billing_address', array( __CLASS__, 'order_address' ), 10, 2 );
+		add_filter( 'woocommerce_my_account_my_address_formatted_address', array( __CLASS__, 'account_address' ), 10, 3 );
 
 		// Invoicing: SuperFaktúra only reads these fields when WPify Woo is
 		// the active plugin, so it has to be told about ours.
@@ -426,6 +445,99 @@ class PX_Company_Fields {
 	}
 
 	/**
+	 * Marks the company name and the company ID as required while the
+	 * customer buys for a company, flags rows the last validation rejected
+	 * and asks phones for the digit keyboard where the ID is digits only.
+	 *
+	 * The checkout field definitions stay optional - a field marked required
+	 * there would be demanded from private customers too. Only the rendered
+	 * markup follows the state the form is drawn in (stored company details,
+	 * or what was just posted without JavaScript); the script keeps it in
+	 * step while the customer ticks the box or switches the country.
+	 *
+	 * @param array  $args Field arguments.
+	 * @param string $key  Field key.
+	 * @return array
+	 */
+	public static function form_field_args( $args, $key ) {
+		if ( ! in_array( $key, self::FIELDS, true ) ) {
+			return $args;
+		}
+
+		$args['class']             = isset( $args['class'] ) ? (array) $args['class'] : array();
+		$args['custom_attributes'] = isset( $args['custom_attributes'] ) ? (array) $args['custom_attributes'] : array();
+
+		if ( isset( self::$invalid[ $key ] ) ) {
+			$args['class'][]                           = 'woocommerce-invalid';
+			$args['custom_attributes']['aria-invalid'] = 'true';
+		}
+
+		$state = self::render_state();
+
+		if ( 'billing_ic' === $key && in_array( $state['country'], array( 'SK', 'CZ' ), true ) ) {
+			$args['custom_attributes']['inputmode'] = 'numeric';
+		}
+
+		if ( ! function_exists( 'is_checkout' ) || ! is_checkout() || is_wc_endpoint_url() ) {
+			return $args;
+		}
+
+		if ( 'billing_company' === $key && self::company_name_required( $state['company'] ) ) {
+			$args['required'] = true;
+		}
+
+		if ( 'billing_ic' === $key && self::ic_required( $state['company'], $state['country'], $state['name'] ) ) {
+			$args['required'] = true;
+		}
+
+		return $args;
+	}
+
+	/**
+	 * What the billing form is being drawn with: the values just posted when
+	 * a checkout without JavaScript comes back with errors, the customer's
+	 * stored details otherwise.
+	 *
+	 * @return array{company:bool,country:string,name:string}
+	 */
+	private static function render_state() {
+		$customer = function_exists( 'WC' ) ? WC()->customer : null;
+
+		// Read only to redraw the form the customer just sent; WooCommerce
+		// has verified the nonce before it validated anything.
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		if ( isset( $_POST['woocommerce-process-checkout-nonce'] ) || isset( $_POST['woocommerce-edit-address-nonce'] ) ) {
+			$posted  = wp_unslash( $_POST );
+			$country = isset( $posted['billing_country'] ) ? sanitize_text_field( $posted['billing_country'] ) : '';
+			$name    = isset( $posted['billing_company'] ) ? sanitize_text_field( $posted['billing_company'] ) : '';
+			$filled  = '';
+
+			foreach ( self::FIELDS as $field ) {
+				$filled .= isset( $posted[ $field ] ) ? sanitize_text_field( $posted[ $field ] ) : '';
+			}
+
+			$company = px_company_checkbox_on()
+				? ( isset( $posted[ self::TOGGLE ] ) && '1' === (string) $posted[ self::TOGGLE ] )
+				: ( '' !== trim( $filled ) );
+		} else {
+			$country = $customer ? (string) $customer->get_billing_country() : '';
+			$name    = $customer ? (string) $customer->get_billing_company() : '';
+			$company = self::customer_has_company_data();
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
+
+		if ( '' === $country && function_exists( 'WC' ) && WC()->countries ) {
+			$country = WC()->countries->get_base_country();
+		}
+
+		return array(
+			'company' => (bool) $company,
+			'country' => strtoupper( (string) $country ),
+			'name'    => trim( (string) $name ),
+		);
+	}
+
+	/**
 	 * Does the customer already have company details stored?
 	 *
 	 * @return bool
@@ -514,6 +626,13 @@ class PX_Company_Fields {
 				'autofill'  => px_company_autofill_on(),
 				'registers' => PX_Company_Lookup::registers(),
 				'vies'      => px_company_vies_mode(),
+				// What the script needs to mark the required fields the same
+				// way validate() will judge them.
+				'required'  => array(
+					'company'     => px_company_required_company() && self::company_field_shown(),
+					'icRule'      => px_company_required_ic(),
+					'icCountries' => self::ic_countries(),
+				),
 				'i18n'      => array(
 					'load'      => __( 'Load from register', 'px-shop-core' ),
 					'loading'   => __( 'Loading…', 'px-shop-core' ),
@@ -565,7 +684,7 @@ class PX_Company_Fields {
 			// it did not answer at all the order goes through; the outage is
 			// in the log and the customer can do nothing about it.
 			if ( is_wp_error( $details ) && 'px_company_not_found' === $details->get_error_code() ) {
-				$errors->add( 'validation', $details->get_error_message() );
+				self::add_error( $errors, 'billing_ic', 'register', $details->get_error_message() );
 			}
 		}
 
@@ -575,12 +694,54 @@ class PX_Company_Fields {
 			$vies = self::vies( $vat_id );
 
 			if ( false === $vies['valid'] && 'hard' === px_company_vies_mode() ) {
-				$errors->add(
-					'validation',
+				self::add_error(
+					$errors,
+					( 'SK' === $country && '' !== trim( $dic_dph ) ) ? 'billing_dic_dph' : 'billing_dic',
+					'vies',
 					__( 'The VAT id was not found in VIES. Please check it, or leave it empty and the order will be invoiced with VAT.', 'px-shop-core' )
 				);
 			} elseif ( null === $vies['valid'] ) {
 				self::log( sprintf( 'VIES did not answer for %s, the order was let through.', $vat_id ) );
+			}
+		}
+	}
+
+	/**
+	 * The same checks for the billing address in My Account. There is no
+	 * company checkbox there, so only what does not depend on it applies:
+	 * the shape of the numbers and the "IČO when a company name is filled
+	 * in" rule. Without it a malformed number saved here would come back
+	 * prefilled and stop the next checkout.
+	 *
+	 * @param int    $user_id      User ID.
+	 * @param string $address_type billing or shipping.
+	 */
+	public static function validate_account_address( $user_id, $address_type ) {
+		if ( 'billing' !== $address_type ) {
+			return;
+		}
+
+		// WooCommerce verifies the edit-address nonce before this hook runs.
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		$posted = wp_unslash( $_POST );
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
+
+		$value = function ( $key ) use ( $posted ) {
+			return isset( $posted[ $key ] ) ? sanitize_text_field( $posted[ $key ] ) : '';
+		};
+
+		$country = strtoupper( $value( 'billing_country' ) );
+		$errors  = new WP_Error();
+
+		self::validate_required( false, $country, $value( 'billing_company' ), $value( 'billing_ic' ), $errors );
+
+		if ( px_company_validate_format() ) {
+			self::validate_format( $country, $value( 'billing_ic' ), $value( 'billing_dic' ), $value( 'billing_dic_dph' ), $errors );
+		}
+
+		foreach ( $errors->get_error_codes() as $code ) {
+			foreach ( $errors->get_error_messages( $code ) as $message ) {
+				wc_add_notice( $message, 'error', (array) $errors->get_error_data( $code ) );
 			}
 		}
 	}
@@ -593,17 +754,73 @@ class PX_Company_Fields {
 	 * @param WP_Error $errors  Collected errors.
 	 */
 	private static function validate_required( $company, $country, $name, $ic, $errors ) {
-		if ( $company && px_company_required_company() && '' === $name && self::company_field_shown() ) {
-			$errors->add(
-				'required-field',
+		if ( self::company_name_required( $company ) && '' === $name ) {
+			self::add_error(
+				$errors,
+				'billing_company',
+				'required',
 				/* translators: %s: field label */
-				sprintf( __( '%s is a required field when buying for a company.', 'px-shop-core' ), '<strong>' . __( 'Company name', 'px-shop-core' ) . '</strong>' )
+				sprintf( __( '%s is a required field when buying for a company.', 'px-shop-core' ), '<strong>' . esc_html( self::field_label( 'billing_company', __( 'Company name', 'px-shop-core' ) ) ) . '</strong>' )
 			);
 		}
 
+		if ( self::ic_required( $company, $country, $name ) && '' === $ic ) {
+			self::add_error(
+				$errors,
+				'billing_ic',
+				'required',
+				/* translators: %s: field label */
+				sprintf( __( '%s is a required field when buying for a company.', 'px-shop-core' ), '<strong>' . __( 'Company ID', 'px-shop-core' ) . '</strong>' )
+			);
+		}
+	}
+
+	/**
+	 * The label the customer sees on the form, so the error names the field
+	 * the same way ("Názov spoločnosti" from WooCommerce, not ours).
+	 *
+	 * @param string $key      Field key.
+	 * @param string $fallback Label when the field is not found.
+	 * @return string
+	 */
+	private static function field_label( $key, $fallback ) {
+		$fields = ( function_exists( 'WC' ) && WC()->checkout() ) ? WC()->checkout()->get_checkout_fields( 'billing' ) : array();
+
+		return empty( $fields[ $key ]['label'] ) ? $fallback : wp_strip_all_tags( (string) $fields[ $key ]['label'] );
+	}
+
+	/**
+	 * Is the company name required for this purchase?
+	 *
+	 * @param bool $company Buying for a company.
+	 * @return bool
+	 */
+	private static function company_name_required( $company ) {
+		return $company && px_company_required_company() && self::company_field_shown();
+	}
+
+	/**
+	 * Is the company ID required for this purchase?
+	 *
+	 * @param bool   $company Buying for a company.
+	 * @param string $country Billing country.
+	 * @param string $name    Company name.
+	 * @return bool
+	 */
+	private static function ic_required( $company, $country, $name ) {
 		$rule     = px_company_required_ic();
 		$required = ( 'if_checkbox' === $rule && $company ) || ( 'if_company' === $rule && '' !== $name );
 
+		return $required && self::country_has_ic( $country );
+	}
+
+	/**
+	 * Does the country issue a company ID the module can ask for?
+	 *
+	 * @param string $country Billing country.
+	 * @return bool
+	 */
+	private static function country_has_ic( $country ) {
 		// IČO is a Slovak and Czech identifier. An Irish or German company
 		// simply does not have one, and demanding it would block exactly the
 		// customer the reverse charge exists for.
@@ -615,15 +832,38 @@ class PX_Company_Fields {
 		 * @param bool   $has_number Whether the country issues a company ID we know.
 		 * @param string $country    Billing country.
 		 */
-		$has_number = (bool) apply_filters( 'px_company_country_has_ic', $has_number, $country );
+		return (bool) apply_filters( 'px_company_country_has_ic', $has_number, $country );
+	}
 
-		if ( $required && $has_number && '' === $ic ) {
-			$errors->add(
-				'required-field',
-				/* translators: %s: field label */
-				sprintf( __( '%s is a required field when buying for a company.', 'px-shop-core' ), '<strong>' . __( 'Company ID', 'px-shop-core' ) . '</strong>' )
-			);
-		}
+	/**
+	 * Countries in which the company ID can be required, for the script.
+	 *
+	 * @return string[]
+	 */
+	private static function ic_countries() {
+		$countries = ( function_exists( 'WC' ) && WC()->countries ) ? array_keys( WC()->countries->get_allowed_countries() ) : array();
+		$countries = array_unique( array_merge( $countries, PX_Company_Lookup::registers() ) );
+
+		return array_values( array_filter( $countries, array( __CLASS__, 'country_has_ic' ) ) );
+	}
+
+	/**
+	 * Adds an error tied to its field: WooCommerce links the message in the
+	 * summary to the field (data-id) and repeats it under the field, and the
+	 * row gets marked as invalid.
+	 *
+	 * Each field gets its own error code - WP_Error keeps one data array per
+	 * code, so two messages under one code would point at the same field.
+	 *
+	 * @param WP_Error $errors  Collected errors.
+	 * @param string   $key     Field key.
+	 * @param string   $type    Short error type for the code.
+	 * @param string   $message Message.
+	 */
+	private static function add_error( $errors, $key, $type, $message ) {
+		$errors->add( 'px_' . $key . '_' . $type, $message, array( 'id' => $key ) );
+
+		self::$invalid[ $key ] = true;
 	}
 
 	/**
@@ -644,8 +884,10 @@ class PX_Company_Fields {
 			$pattern = in_array( $country, array( 'SK', 'CZ' ), true ) ? '~^\d{8}$~' : '~^[0-9A-Za-z]{6,14}$~';
 
 			if ( ! preg_match( $pattern, $ic ) ) {
-				$errors->add(
-					'validation',
+				self::add_error(
+					$errors,
+					'billing_ic',
+					'format',
 					in_array( $country, array( 'SK', 'CZ' ), true )
 						? __( 'The company ID is not in the expected format (8 digits, no spaces).', 'px-shop-core' )
 						: __( 'The company ID is not in the expected format.', 'px-shop-core' )
@@ -658,24 +900,26 @@ class PX_Company_Fields {
 
 		if ( 'SK' === $country ) {
 			if ( '' !== $dic && ! preg_match( '~^\d{10}$~', $dic ) ) {
-				$errors->add( 'validation', __( 'The tax ID is not in the expected format (10 digits, no spaces).', 'px-shop-core' ) );
+				self::add_error( $errors, 'billing_dic', 'format', __( 'The tax ID is not in the expected format (10 digits, no spaces).', 'px-shop-core' ) );
 			}
 
 			if ( '' !== $dic_dph && ! preg_match( '~^SK\d{10}$~', $dic_dph ) ) {
-				$errors->add( 'validation', __( 'The VAT ID is not in the expected format (SK followed by 10 digits).', 'px-shop-core' ) );
+				self::add_error( $errors, 'billing_dic_dph', 'format', __( 'The VAT ID is not in the expected format (SK followed by 10 digits).', 'px-shop-core' ) );
 			}
 
 			// Both are the same number, the VAT one just carries the prefix.
 			if ( '' !== $dic && '' !== $dic_dph && 'SK' . $dic !== $dic_dph ) {
-				$errors->add( 'validation', __( 'The VAT ID has to be the tax ID with an SK prefix.', 'px-shop-core' ) );
+				self::add_error( $errors, 'billing_dic_dph', 'match', __( 'The VAT ID has to be the tax ID with an SK prefix.', 'px-shop-core' ) );
 			}
 		} elseif ( '' !== $dic && in_array( $country, self::EU, true ) ) {
 			// Greek VAT ids carry EL where the country code is GR.
 			$prefix = ( 'GR' === $country ) ? 'EL' : $country;
 
 			if ( ! preg_match( '~^' . $prefix . '[0-9A-Z]{2,12}$~', strtoupper( $dic ) ) ) {
-				$errors->add(
-					'validation',
+				self::add_error(
+					$errors,
+					'billing_dic',
+					'format',
 					/* translators: %s: country prefix of a VAT id, e.g. CZ */
 					sprintf( __( 'The tax ID is not in the expected format (prefix %s followed by the number).', 'px-shop-core' ), $prefix )
 				);
@@ -1037,6 +1281,27 @@ class PX_Company_Fields {
 		$address['billing_ic']      = $order->get_meta( '_billing_ic' );
 		$address['billing_dic']     = $order->get_meta( '_billing_dic' );
 		$address['billing_dic_dph'] = $order->get_meta( '_billing_dic_dph' );
+
+		return $address;
+	}
+
+	/**
+	 * Feeds the placeholders on the My Account address overview from the
+	 * customer's stored details, as order_address() does for an order.
+	 *
+	 * @param array  $address      Address parts.
+	 * @param int    $customer_id  Customer ID.
+	 * @param string $address_type billing or shipping.
+	 * @return array
+	 */
+	public static function account_address( $address, $customer_id, $address_type ) {
+		if ( 'billing' !== $address_type || ! $customer_id ) {
+			return $address;
+		}
+
+		foreach ( array( 'billing_ic', 'billing_dic', 'billing_dic_dph' ) as $key ) {
+			$address[ $key ] = (string) get_user_meta( $customer_id, $key, true );
+		}
 
 		return $address;
 	}

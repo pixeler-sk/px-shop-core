@@ -41,6 +41,28 @@ for themes.
 
 == Changelog ==
 
+= Nevydané =
+* **Nový modul `seller` – údaje predávajúceho** zadané raz (obchodné meno,
+  sídlo, IČO, DIČ, IČ DPH, register, kontakt, orgán dozoru): shortcode
+  `[px_seller]` / `[px_seller field="ico"]`, `{px_seller}` v e-mailoch
+  WooCommerce, `PX_Seller::get()`.
+* **Nový modul `antispam` (predvolene vypnutý)** – Cloudflare Turnstile alebo
+  Google reCAPTCHA v2 na waitliste, registrácii, zabudnutom hesle,
+  recenziách a formulároch px-wc-requests (filter `pxer_submit_check`);
+  kľúče z wp-config.php alebo nastavení, bez kľúčov nerobí nič.
+* Waitlist posiela token antispamu (`antispam_token` v REST).
+* **Firemné údaje: povinné polia viditeľne povinné.** Po zaškrtnutí „Nakupujem
+  na firmu" majú názov firmy a IČO hviezdičku, `aria-required` a triedu
+  `validate-required` namiesto „(voliteľné)" (aj bez JS podľa uložených
+  alebo odoslaných údajov); chyby sú prepojené s poľom (`data-id`, text pod
+  poľom, `woocommerce-invalid`); IČO pri SK/CZ s numerickou klávesnicou.
+* Firemné údaje v Môj účet: kontrola formátu IČO/DIČ/IČ DPH pri uložení
+  fakturačnej adresy, IČO/DIČ/IČ DPH v prehľade adries.
+* Waitlist: texty formulára, hlásení a e-mailov jednotne vo vykaní (sk_SK).
+* Waitlist variácií: udalosť `px-waitlist-toggle` (`detail.visible`,
+  `variationId`, `parentId`) pri ukázaní a skrytí formulára — kontrakt pre
+  vlastný výber variácií v téme.
+
 = 1.12.0 =
 * **Waitlist: formulár na detail vypredaného produktu vkladá jadro samo** —
   téma ani site plugin ho už nemusia volať. Body

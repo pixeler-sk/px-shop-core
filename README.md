@@ -26,7 +26,8 @@ Každá funkcia je samostatný modul, dá sa vypnúť a téma sa jej pýta cez
   [Obrázky atribútov](#obrázky-atribútov-attribute_image) ·
   [Content bloky](#content-bloky-content) · [Súhlas s cookies](#súhlas-s-cookies-consent) ·
   [Google Consent Mode v2](#google-consent-mode-v2-consent_mode) ·
-  [Staré slugy termov](#staré-slugy-termov-old_term_slugs)
+  [Staré slugy termov](#staré-slugy-termov-old_term_slugs) ·
+  [Údaje predávajúceho](#údaje-predávajúceho-seller) · [Antispam](#antispam-antispam)
 - [Prístupnosť (WCAG)](#prístupnosť-wcag)
 - [WP-CLI](#wp-cli)
 - [Page cache](#page-cache)
@@ -77,6 +78,8 @@ Moduly s vlastnou sekciou nastavení majú v PX Shop vlastnú záložku.
 | Google Consent Mode v2 | `consent_mode` | **vyp.** | signály pre Google popri free Complianze |
 | Staré slugy termov | `old_term_slugs` | zap. | 301 zo starej URL kategórie/značky/štítku po zmene slugu (aj slugu rodiča) |
 | Médiá produktov pre MCP | `media_abilities` | **vyp.** | Abilities API pre MCP konektor: obrázky a galéria produktu, alt text |
+| Údaje predávajúceho | `seller` | zap. | obchodné meno, sídlo, IČO, DIČ, IČ DPH, register, kontakt, orgán dozoru — zadané raz, `[px_seller]` a `{px_seller}` |
+| Antispam | `antispam` | **vyp.** | Cloudflare Turnstile alebo Google reCAPTCHA v2 na verejných formulároch |
 
 ## Omnibus (`omnibus`)
 
@@ -234,12 +237,102 @@ doteraz (WPify Woo `ic_dic`: kým beží, modul sa nespustí a napíše prečo).
 - Údaje idú do admin objednávky, profilu zákazníka, formátovanej adresy,
   e-mailov a cez `sf_client_data` do SuperFaktúry (jej vlastný firemný blok
   sa vypne).
+- **Povinnosť polí v pokladni:** definície polí ostávajú voliteľné, ale
+  pri zaškrtnutom „Nakupujem na firmu" sa názov firmy a IČO (podľa
+  nastavenia a krajiny) vykreslia ako povinné — trieda `validate-required`,
+  hviezdička `.required`, `aria-required="true"` — a skript to prepína
+  spolu s políčkom a krajinou. Chyby jadra nesú `data-id` poľa (odkaz zo
+  súhrnu, text pod poľom) a riadok dostane `woocommerce-invalid` aj bez JS.
+  IČO má pri SK/CZ `inputmode="numeric"`.
+- **Môj účet:** fakturačná adresa kontroluje formát IČO/DIČ/IČ DPH a pravidlo
+  „IČO pri vyplnenom názve firmy"; prehľad adries ukazuje IČO, DIČ a IČ DPH.
 - Šablóny: `px_company_order_details( $order )`,
   `px_company_vat_reason( $order )`. JS len prepína `hidden` a nasadzuje
   `px-company-*` triedy.
 - Ďalšie filtre: `px_company_force_company_field`, `px_company_use_dic_dph`,
   `px_company_vat_destination`, `px_company_vat_decision`,
   `px_company_register_countries`, `px_company_details`.
+
+## Údaje predávajúceho (`seller`)
+
+Povinné údaje predávajúceho (z. 22/2004 § 4, z. 108/2024) sa zadávajú raz
+vo **WooCommerce → Nastavenia → PX Shop → Údaje predávajúceho** (array
+option `px_seller`) a vkladajú sa tam, kde ich zákon chce:
+
+| Kde | Ako |
+| --- | --- |
+| stránka Kontakt, pätka, VOP | `[px_seller]` — blok `<address class="px-seller">` (meno, sídlo, IČO, DIČ, IČ DPH, register, e-mail, telefón) |
+| jedna hodnota vo vete | `[px_seller field="ico"]` — bez obalu; polia `name`, `address`, `ico`, `dic`, `ic_dph`, `register`, `email`, `phone`, `supervisor` |
+| vybrané riadky | `[px_seller field="name,address,ico" labels="no"]` |
+| e-maily WooCommerce | `{px_seller}` v pätke, predmete, nadpise alebo doplnkovom obsahu — jeden riadok oddelený „·" |
+| téma, site plugin | `PX_Seller::get( 'ico' )`, `PX_Seller::get()` (celé pole), `PX_Seller::html( $polia )` |
+
+- Prázdne sídlo = adresa obchodu z WooCommerce → Nastavenia → Všeobecné.
+- Prázdne pole sa v bloku vynechá (IČ DPH neplatiteľa), prázdny blok nevypíše nič.
+- Orgán dozoru (`supervisor`) nie je v predvolenom bloku — patrí do VOP:
+  `[px_seller field="supervisor"]`.
+- Filter `px_seller_data` — údaje z iného zdroja (site plugin).
+- Markup je neutrálny (`px-seller`, `px-seller__<pole>`); `<address>` má
+  v px-shop-theme zrušenú kurzívu.
+
+## Antispam (`antispam`)
+
+Overenie proti spamovým robotom — **Cloudflare Turnstile** alebo **Google
+reCAPTCHA v2** (zaškrtávacie políčko). Predvolene vypnutý a bez oboch kľúčov
+nerobí nič (nezamkne zákazníkov, kým kľúče nie sú).
+
+- **Kľúče:** konštanty vo `wp-config.php` majú prednosť pred nastaveniami
+  (a nastavenia ich potom neukazujú):
+  ```php
+  define( 'PX_ANTISPAM_PROVIDER', 'turnstile' ); // alebo 'recaptcha'
+  define( 'PX_ANTISPAM_SITE_KEY', '…' );
+  define( 'PX_ANTISPAM_SECRET_KEY', '…' );
+  ```
+  Tajný kľúč v DB putuje so zálohami a exportmi — radšej konštanta.
+  Turnstile funguje aj na doméne, ktorá nejde cez Cloudflare (widget
+  v Cloudflare účte). reCAPTCHA ukladá cookies Googlu — uviesť v zásadách.
+- **Miesta** (zaškrtávanie v nastaveniach, option `px_antispam_contexts`):
+  waitlist, registrácia, zabudnuté heslo, recenzie produktov, formuláre
+  px-wc-requests — predvolene áno; prihlásenie (Môj účet aj pokladňa) —
+  predvolene nie (býva za Wordfence). **Pokladňa sa nechráni nikdy.**
+- Skript služby sa načíta len na stránke, kde je widget (explicitné
+  vykreslenie, každý widget má vlastné ID). Markup nesie len verejný kľúč —
+  stránka ostáva v page cache.
+- Výpadok služby formulár nezastaví (zapíše sa do logu WooCommerce
+  `px-antispam`); filter `px_antispam_fail_open` (false = zastaví).
+- **px-wc-requests:** widget cez jeho akciu `pxer_request_form_after_fields`,
+  kontrola cez filter `pxer_submit_check`, po chybe AJAXu (`pxer:failed`)
+  sa widget obnoví (token platí raz). Potrebuje px-wc-requests s týmto filtrom.
+- **Vlastný formulár:** zaregistruj miesto filtrom `px_antispam_contexts`
+  (`id => názov`), vypíš `PX_Antispam::field_html( 'id' )` a over
+  `PX_Antispam::verify( 'id' )` (token z `$_POST`) alebo
+  `PX_Antispam::verify( 'id', $token )`. AJAX formulár pošle
+  `pxAntispamToken( form )` a po chybe zavolá `pxAntispamReset( form )`.
+- `px_antispam_required` — vypnúť overenie podľa miesta alebo požiadavky,
+  **nie podľa prihlásenia** (waitlist ide na REST bez nonce, tam je každý
+  hosť). Hooky sa registrujú podľa nastavení, filter sa vyhodnocuje až pri
+  vykreslení a overení, takže funguje aj z témy.
+- **Kolízie a pasce** (overiť na webe s reálnymi pluginmi):
+  - iný plugin s rovnakým API (CF7 Turnstile, reCAPTCHA v3 inde na webe) —
+    widgety sa vykreslia aj na `DOMContentLoaded`, ak náš `onload` nepríde;
+    formulár vložený neskôr (quick view) vykreslí `pxAntispamLoad()`;
+  - Complianz blokuje `google.com/recaptcha` do súhlasu → na webe s CMP
+    Turnstile, alebo výnimka v CMP;
+  - WP Rocket „Delay JS" — vylúčiť `challenges.cloudflare.com`, `recaptcha`,
+    `pxAntispam` (`rocket_delay_js_exclusions`);
+  - po zmene služby alebo kľúčov vyčistiť page cache;
+  - chráni formuláre WooCommerce, nie `wp-login.php` (Wordfence) ani REST
+    `px-wc-requests/v1/requests` (ten aj tak potrebuje kľúč objednávky);
+  - skrytý formulár waitlistu variácií načíta skript na každom variabilnom
+    produkte skladom (pri reCAPTCHA aj cookies Googlu);
+  - kontext `requests` potrebuje px-wc-requests s filtrom `pxer_submit_check`
+    (verzia po 1.9.0) — so starším sa widget vykreslí, ale neoverí.
+- Zamietnutie s chybou kľúča alebo domény (nie bežný „robot") sa zapíše do
+  logu `px-antispam` ako error.
+- Test kľúče: Turnstile site `1x00000000000000000000AA`, secret
+  `1x0000000000000000000000000000000AA` (vždy prejde) /
+  `2x0000000000000000000000000000000AA` (vždy zlyhá); reCAPTCHA podľa
+  dokumentácie Googlu.
 
 ## Live search (`search`)
 
@@ -400,6 +493,16 @@ Stráženie dostupnosti vypredaného produktu (aj variácie).
   na ID variácie, e-maily nesú jej názov. Pri dostupnej kombinácii alebo
   zrušení výberu sa skryje. Celý vypredaný variabilný produkt má viditeľný
   formulár pre rodiča. Metabox produktu ukazuje prihlásených aj po variáciách.
+- **Kontrakt pre tému (výber variácií):** vlastný výber musí zapisovať do
+  skrytých `select`ov `.variations_form` a spúšťať `change`, aby WooCommerce
+  vystrelil `found_variation` — aj pre vypredanú kombináciu (`is_in_stock:
+  false`; variácia nesmie chýbať v `data-product_variations`, preto nie pri
+  „Skryť vypredané položky"). Pri každej zmene viditeľnosti formulár vyšle
+  bublajúcu udalosť **`px-waitlist-toggle`** s `detail = { visible,
+  variationId, parentId }` (natívny `CustomEvent`, počúva sa aj cez
+  `jQuery(document).on('px-waitlist-toggle', …)` → `e.originalEvent.detail`).
+  Na nej téma zmení stav dostupnosti, presunie fokus a pod.; formulár sama
+  neukazuje ani neskrýva.
 - Ručne: `PX_Waitlist::render_form( $product )` / `::get_form_html()`,
   REST `POST px-shop-core/v1/waitlist`.
 - Metabox na produkte so zoznamom prihlásených, `PX_Waitlist::count()`.
