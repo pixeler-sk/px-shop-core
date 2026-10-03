@@ -3,7 +3,7 @@ Contributors: pixeler
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.12.0
+Stable tag: 1.13.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,7 +41,9 @@ for themes.
 
 == Changelog ==
 
-= Nevydané =
+= 1.13.0 =
+Antispam na formulároch odstúpenia a reklamácie vyžaduje px-wc-requests 1.10.0 (filter `pxer_submit_check`).
+
 * **Nový modul `seller` – údaje predávajúceho** zadané raz (obchodné meno,
   sídlo, IČO, DIČ, IČ DPH, register, kontakt, orgán dozoru): shortcode
   `[px_seller]` / `[px_seller field="ico"]`, `{px_seller}` v e-mailoch
