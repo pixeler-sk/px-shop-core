@@ -1,6 +1,12 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PX Shop Core 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/px-shop-core\n"
+"POT-Creation-Date: 2026-10-16T17:13:46+00:00\n"
+"PO-Revision-Date: 2026-10-16 19:00+0200\n"
+"Last-Translator: Pixelers\n"
+"Language-Team: Slovak\n"
 "Language: sk_SK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -8,1513 +14,2793 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Domain: px-shop-core\n"
 
+#. Plugin Name of the plugin
+#: px-shop-core.php
+msgid "PX Shop Core"
+msgstr "PX Shop Core"
+
+#. Description of the plugin
+#: px-shop-core.php
+msgid ""
+"WooCommerce extensions shared across Pixelers shop projects - live product "
+"search endpoint, brand product tab and future shop features. Presentation "
+"lives in the theme; this plugin only provides functionality."
+msgstr ""
+"Rozšírenia WooCommerce spoločné pre e-shopy Pixelers – endpoint živého "
+"vyhľadávania produktov, karta značky pri produkte a ďalšie funkcie obchodu. "
+"Vzhľad rieši téma; tento plugin poskytuje len funkcie."
+
+#. Author of the plugin
+#: px-shop-core.php
+msgid "Pixelers"
+msgstr "Pixelers"
+
+#. Author URI of the plugin
+#: px-shop-core.php
+msgid "https://pixeler.sk/"
+msgstr "https://pixeler.sk/"
+
+#: includes/abilities-media.php:46
+msgid "PX Shop - media produktu"
+msgstr "PX Shop - médiá produktu"
+
+#: includes/abilities-media.php:47
+msgid ""
+"Abilities for WooCommerce product media: featured image, gallery and "
+"attachment alt texts."
+msgstr ""
+"Abilities pre médiá produktov WooCommerce: hlavný obrázok, galéria a "
+"alternatívne texty príloh."
+
+#: includes/abilities-media.php:169
+msgid "No product found for the given product_id."
+msgstr "Pre zadané product_id sa nenašiel žiadny produkt."
+
+#. translators: %d: parent product ID.
+#: includes/abilities-media.php:184
+#, php-format
+msgid "Product variations are not supported. Use the parent product (ID %d)."
+msgstr ""
+"Varianty produktu nie sú podporované. Použite nadradený produkt (ID %d)."
+
+#: includes/abilities-media.php:281
+msgid "An image must be given as an attachment ID or as an http(s) image URL."
+msgstr "Obrázok musí byť zadaný ako ID prílohy alebo ako URL obrázka http(s)."
+
+#. translators: %s: the rejected value.
+#: includes/abilities-media.php:294
+#, php-format
+msgid ""
+"\"%s\" is neither an attachment ID nor an absolute http(s) URL. Relative "
+"paths and data URIs are not supported."
+msgstr ""
+"„%s“ nie je ID prílohy ani absolútna URL http(s). Relatívne cesty a data URI "
+"nie sú podporované."
+
+#. translators: 1: the rejected URL, 2: list of allowed extensions.
+#: includes/abilities-media.php:307
+#, php-format
+msgid "The URL %1$s has no supported image extension. Allowed: %2$s."
+msgstr "URL %1$s nemá podporovanú príponu obrázka. Povolené: %2$s."
+
+#. translators: %d: attachment ID.
+#: includes/abilities-media.php:346
+#, php-format
+msgid "Attachment %d does not exist."
+msgstr "Príloha %d neexistuje."
+
+#. translators: %d: attachment ID.
+#: includes/abilities-media.php:357
+#, php-format
+msgid "Attachment %d is not an image."
+msgstr "Príloha %d nie je obrázok."
+
+#: includes/abilities-media.php:371
+msgid "The image URL is not a valid, publicly reachable http(s) URL."
+msgstr "URL obrázka nie je platná, verejne dostupná adresa http(s)."
+
+#: includes/abilities-media.php:428
+msgid "The downloaded file is not an image."
+msgstr "Stiahnutý súbor nie je obrázok."
+
+#. translators: 1: file size, 2: maximum allowed size, 3: attachment ID.
+#: includes/abilities-media.php:446
+#, php-format
+msgid ""
+"The downloaded image is too large (%1$s, limit %2$s). It stays in the media "
+"library as attachment %3$d - delete it there if you do not want it."
+msgstr ""
+"Stiahnutý obrázok je príliš veľký (%1$s, limit %2$s). Ostáva v knižnici "
+"médií ako príloha %3$d – ak ho nechcete, zmažte ho tam."
+
+#. translators: 1: MIME type of the remote file, 2: list of allowed MIME types.
+#: includes/abilities-media.php:491
+#, php-format
+msgid "The URL returns %1$s. Allowed image types: %2$s."
+msgstr "URL vracia %1$s. Povolené typy obrázkov: %2$s."
+
+#. translators: 1: file size, 2: maximum allowed size.
+#: includes/abilities-media.php:506
+#, php-format
+msgid "The image is too large (%1$s, limit %2$s)."
+msgstr "Obrázok je príliš veľký (%1$s, limit %2$s)."
+
+#: includes/abilities-media.php:553
+msgid "Product images"
+msgstr "Obrázky produktu"
+
+#: includes/abilities-media.php:554
+msgid ""
+"Returns the featured image and the gallery of a WooCommerce product, "
+"including attachment ID, URL, alt text and title for every image. Product "
+"variations are not supported - ask for the parent product."
+msgstr ""
+"Vráti hlavný obrázok a galériu produktu WooCommerce vrátane ID prílohy, URL, "
+"alternatívneho textu a názvu každého obrázka. Varianty produktu nie sú "
+"podporované – použite nadradený produkt."
+
+#: includes/abilities-media.php:592
+msgid "Set product images"
+msgstr "Nastaviť obrázky produktu"
+
+#: includes/abilities-media.php:593
+msgid ""
+"Sets the featured image and/or the gallery of a WooCommerce product. Each "
+"image is either an existing attachment ID or an image URL, which is "
+"downloaded into the media library and attached to the product. In "
+"\"replace\" mode the product stops pointing at its previous images - the "
+"attachments themselves are never deleted. All inputs are resolved before "
+"anything is written: if one fails, the product is left untouched."
+msgstr ""
+"Nastaví hlavný obrázok a/alebo galériu produktu WooCommerce. Každý obrázok "
+"je buď existujúce ID prílohy, alebo URL obrázka, ktorý sa stiahne do "
+"knižnice médií a pripojí k produktu. V režime „replace“ produkt prestane "
+"odkazovať na svoje predchádzajúce obrázky – samotné prílohy sa nikdy nemažú. "
+"Všetky vstupy sa spracujú skôr, než sa čokoľvek zapíše: ak jeden zlyhá, "
+"produkt ostane nezmenený."
+
+#: includes/abilities-media.php:665
+msgid "Set attachment alt text"
+msgstr "Nastaviť alternatívny text prílohy"
+
+#: includes/abilities-media.php:666
+msgid ""
+"Sets the alt text (and optionally the title and caption) of a media library "
+"attachment. Used to make product images accessible (WCAG 1.1.1)."
+msgstr ""
+"Nastaví alternatívny text (a voliteľne názov a popis) prílohy v knižnici "
+"médií. Slúži na sprístupnenie obrázkov produktov (WCAG 1.1.1)."
+
+#: includes/abilities-media.php:784
+msgid "Provide at least \"featured\" or \"gallery\"."
+msgstr "Zadajte aspoň „featured“ alebo „gallery“."
+
+#. translators: %d: number of inputs that could not be resolved.
+#: includes/abilities-media.php:840
+#, php-format
+msgid "%d image input could not be resolved; the product was not changed."
+msgid_plural ""
+"%d image inputs could not be resolved; the product was not changed."
+msgstr[0] "%d obrázok sa nepodarilo spracovať; produkt sa nezmenil."
+msgstr[1] "%d obrázky sa nepodarilo spracovať; produkt sa nezmenil."
+msgstr[2] "%d obrázkov sa nepodarilo spracovať; produkt sa nezmenil."
+
+#: includes/abilities-media.php:927
+msgid "No attachment found for the given attachment_id."
+msgstr "Pre zadané attachment_id sa nenašla žiadna príloha."
+
+#: includes/admin/class-px-settings.php:27
+msgid "PX Shop"
+msgstr "PX Shop"
+
+#: includes/admin/class-px-settings.php:39
+#: includes/admin/class-px-settings.php:75
+msgid "Modules"
+msgstr "Moduly"
+
+#: includes/admin/class-px-settings.php:77
+msgid ""
+"Only the modules switched on here are loaded. A module that is off registers "
+"no hooks, no REST routes and no admin screens; stored data (waitlist "
+"subscribers, wishlists, GPSR fields) stays untouched and comes back with it."
+msgstr ""
+"Načítajú sa len moduly zapnuté tu. Vypnutý modul neregistruje žiadne hooky, "
+"REST cesty ani obrazovky v administrácii; uložené dáta (prihlásení na "
+"dostupnosť, obľúbené produkty, GPSR polia) ostávajú nedotknuté a vrátia sa "
+"spolu s ním."
+
+#: includes/admin/class-px-settings.php:105
+msgid "Overridden in code - the switch below has no effect."
+msgstr "Prepísané v kóde — prepínač nižšie nemá účinok."
+
+#: includes/class-px-antispam.php:81 includes/modules.php:258
+msgid "Back-in-stock waitlist"
+msgstr "Stráženie dostupnosti"
+
+#: includes/class-px-antispam.php:82
+msgid "Registration (My account)"
+msgstr "Registrácia (Môj účet)"
+
+#: includes/class-px-antispam.php:83
+msgid "Lost password"
+msgstr "Zabudnuté heslo"
+
+#: includes/class-px-antispam.php:84
+msgid "Product reviews"
+msgstr "Recenzie produktov"
+
+#: includes/class-px-antispam.php:85
+msgid "Withdrawal and claim forms (px-wc-requests)"
+msgstr "Formuláre odstúpenia a reklamácie (px-wc-requests)"
+
+#: includes/class-px-antispam.php:86
+msgid "Login (My account, checkout)"
+msgstr "Prihlásenie (Môj účet, pokladňa)"
+
+#: includes/class-px-antispam.php:117 includes/modules.php:242
+msgid "Anti-spam"
+msgstr "Antispam"
+
+#: includes/class-px-antispam.php:126
+msgid "Service"
+msgstr "Služba"
+
+#: includes/class-px-antispam.php:131
+msgid "Cloudflare Turnstile"
+msgstr "Cloudflare Turnstile"
+
+#: includes/class-px-antispam.php:132
+msgid "Google reCAPTCHA v2 (checkbox)"
+msgstr "Google reCAPTCHA v2 (zaškrtávacie políčko)"
+
+#: includes/class-px-antispam.php:139
+msgid "Site key"
+msgstr "Kľúč webu (site key)"
+
+#: includes/class-px-antispam.php:147
+msgid "Secret key"
+msgstr "Tajný kľúč (secret key)"
+
+#: includes/class-px-antispam.php:148
+msgid ""
+"Prefer the PX_ANTISPAM_SECRET_KEY constant in wp-config.php - a key in the "
+"database travels with every backup and export."
+msgstr ""
+"Radšej konštanta PX_ANTISPAM_SECRET_KEY vo wp-config.php – kľúč v databáze "
+"putuje s každou zálohou a exportom."
+
+#: includes/class-px-antispam.php:159
+msgid "Protect"
+msgstr "Chrániť"
+
+#: includes/class-px-antispam.php:178
+msgid ""
+"A challenge on public forms against spam bots. Turnstile is free in any "
+"Cloudflare account and works even when the site does not run through "
+"Cloudflare (add the domain to a Turnstile widget). reCAPTCHA sets Google "
+"cookies - mention it in the privacy policy, and a consent tool (Complianz) "
+"may block it until consent, leaving the forms unusable; prefer Turnstile "
+"there. The checkout is never guarded: a failed challenge there costs orders. "
+"Only the WooCommerce forms are guarded - wp-login.php is left to the "
+"security plugin (Wordfence). After changing the service or the keys, clear "
+"the page cache."
+msgstr ""
+"Overenie na verejných formulároch proti spamovým robotom. Turnstile je "
+"zadarmo v každom Cloudflare účte a funguje, aj keď web nejde cez Cloudflare "
+"(doménu pridajte do Turnstile widgetu). reCAPTCHA ukladá cookies Googlu – "
+"uveďte ju v zásadách ochrany osobných údajov; nástroj na súhlas (Complianz) "
+"ju môže do súhlasu blokovať a formuláre sa potom nedajú odoslať, tam radšej "
+"Turnstile. Pokladňa sa nechráni nikdy: neúspešné overenie tam stojí "
+"objednávky. Chránia sa len formuláre WooCommerce – wp-login.php stráži "
+"bezpečnostný plugin (Wordfence). Po zmene služby alebo kľúčov vyčistite page "
+"cache."
+
+#. translators: %s: list of constant names.
+#: includes/class-px-antispam.php:188
+#, php-format
+msgid "Set in wp-config.php: %s."
+msgstr "Nastavené vo wp-config.php: %s."
+
+#: includes/class-px-antispam.php:192
+msgid "Both keys are missing or incomplete - no form is guarded yet."
+msgstr "Chýba jeden alebo oba kľúče – zatiaľ sa nechráni žiadny formulár."
+
+#: includes/class-px-antispam.php:375
+msgid "Please confirm that you are not a robot."
+msgstr "Potvrďte, prosím, že nie ste robot."
+
+#: includes/class-px-antispam.php:521
+msgid "Review not saved"
+msgstr "Recenzia sa neuložila"
+
+#: includes/class-px-attribute-image.php:63
+#: includes/class-px-attribute-image.php:117
+msgid "Select image"
+msgstr "Vybrať obrázok"
+
+#: includes/class-px-attribute-image.php:64
+msgid "Use image"
+msgstr "Použiť obrázok"
+
+#: includes/class-px-attribute-image.php:118
+msgid "Remove image"
+msgstr "Odstrániť obrázok"
+
+#: includes/class-px-attribute-image.php:127
+#: includes/class-px-attribute-image.php:138
+#: includes/class-px-attribute-image.php:193 includes/class-px-content.php:658
+msgid "Image"
+msgstr "Obrázok"
+
+#: includes/class-px-attribute-image.php:129
+#: includes/class-px-attribute-image.php:141
+msgid "Optional image for this attribute value (swatch, logo, ...)."
+msgstr "Voliteľný obrázok pre túto hodnotu vlastnosti (vzorka, logo, ...)."
+
 #. translators: %s: brand name.
+#: includes/class-px-brand-tab.php:55
+#, php-format
 msgid "About %s"
 msgstr "O značke %s"
 
+#: includes/class-px-brand-tab.php:56
 msgid "About the brand"
 msgstr "O značke"
 
 #. translators: %s: brand name.
+#: includes/class-px-brand-tab.php:90
+#, php-format
 msgid "All products by %s"
 msgstr "Všetky produkty %s"
 
-#. translators: %s: formatted price.
-msgid "Lowest price in the last 30 days: %s"
-msgstr "Najnižšia cena za posledných 30 dní: %s"
-
-msgid "Product safety (GPSR)"
-msgstr "Bezpečnosť produktu (GPSR)"
-
-msgid "Safety & compliance"
-msgstr "Bezpečnosť a súlad"
-
-msgid "Manufacturer"
-msgstr "Výrobca"
-
-msgid "EU responsible person"
-msgstr "Zodpovedná osoba v EÚ"
-
-msgid "Country of origin"
-msgstr "Krajina pôvodu"
-
-msgid "Safety warnings"
-msgstr "Bezpečnostné upozornenia"
-
-msgid "Safety documentation"
-msgstr "Bezpečnostná dokumentácia"
-
-msgid "Filled in once here and shown on every product of this brand. A product overrides it only by filling the same field in its own Product safety (GPSR) tab."
-msgstr "Vyplní sa raz tu a zobrazí sa pri každom produkte tejto značky. Produkt to prebije, len ak rovnaké pole vyplní vo svojej karte Bezpečnosť produktu (GPSR)."
-
-msgid "Taken from brand %s."
-msgstr "Preberá sa zo značky %s."
-
-msgid "Edit source"
-msgstr "Upraviť zdroj"
-
-msgid "Filled in on the product brand (Products → Brands) - it is then used by every product of that brand."
-msgstr "Vypĺňa sa na značke produktu (Produkty → Značky) — použije sa potom pri každom produkte tej značky."
-
-msgid "Content"
-msgstr "Obsah"
-
-msgid "Content item"
-msgstr "Položka obsahu"
-
-msgid "Add content item"
-msgstr "Pridať položku obsahu"
-
-msgid "Edit content item"
-msgstr "Upraviť položku obsahu"
-
-msgid "Search content"
-msgstr "Hľadať v obsahu"
-
-msgid "No content items found."
-msgstr "Nenašli sa žiadne položky obsahu."
-
-msgid "Reusable content blocks (banners etc.) rendered by the theme."
-msgstr "Znovupoužiteľné bloky obsahu (bannery a pod.) vykresľované témou."
-
-msgid "Content categories"
-msgstr "Kategórie obsahu"
-
-msgid "Content category"
-msgstr "Kategória obsahu"
-
-msgid "Add content category"
-msgstr "Pridať kategóriu obsahu"
-
-msgid "Edit content category"
-msgstr "Upraviť kategóriu obsahu"
-
-msgid "Search content categories"
-msgstr "Hľadať kategórie obsahu"
-
-msgid "Invalid product."
-msgstr "Neplatný produkt."
-
-msgid "Your wishlist is empty."
-msgstr "Váš zoznam želaní je prázdny."
-
-msgid "Browse products"
-msgstr "Prezrieť produkty"
-
-msgid "No products to compare yet."
-msgstr "Zatiaľ žiadne produkty na porovnanie."
-
-msgid "Remove"
-msgstr "Odstrániť"
-
-msgid "Product"
-msgstr "Produkt"
-
-msgid "Price"
-msgstr "Cena"
-
-msgid "Availability"
-msgstr "Dostupnosť"
-
-msgid "In stock"
-msgstr "Skladom"
-
-msgid "Out of stock"
-msgstr "Vypredané"
-
-msgid "Please enter a valid e-mail address."
-msgstr "Zadajte platnú e-mailovú adresu."
-
-msgid "The waitlist for this product is full."
-msgstr "Zoznam čakateľov pre tento produkt je plný."
-
-msgid "This product is already in stock."
-msgstr "Tento produkt je už skladom."
-
-msgid "Thank you! We will e-mail you as soon as the product is back in stock."
-msgstr "Ďakujeme! Hneď ako bude produkt opäť skladom, pošleme vám e-mail."
-
-msgid "%s is back in stock"
-msgstr "%s je opäť skladom"
-
-msgid "Good news - %s is available again."
-msgstr "Dobrá správa – %s je opäť dostupný."
-
-msgid "View product"
-msgstr "Zobraziť produkt"
-
-msgid "Waitlist"
-msgstr "Zoznam čakateľov"
-
-msgid "Customers waiting for this product: %d"
-msgstr "Zákazníci čakajúci na tento produkt: %d"
-
-msgid "Banner display"
-msgstr "Zobrazenie bannera"
-
-msgid "Title = heading, Excerpt = intro text above the buttons, editor = free text, Featured image = banner image. Empty fields are simply not rendered."
-msgstr "Titulok = nadpis, Zhrnutie = perex nad tlačidlami, editor = voľný text, Náhľadový obrázok = obrázok bannera. Nevyplnené polia sa jednoducho nevykreslia."
-
-msgid "Layout"
-msgstr "Rozloženie"
-
-msgid "Text left, image right"
-msgstr "Text vľavo, obrázok vpravo"
-
-msgid "Image left, text right"
-msgstr "Obrázok vľavo, text vpravo"
-
-msgid "Image background, text over it"
-msgstr "Obrázok na pozadí, text v prekryve"
-
-msgid "Text and buttons only"
-msgstr "Len text a tlačidlá"
-
-msgid "Eyebrow"
-msgstr "Nadtitulok"
-
-msgid "Small line above the heading."
-msgstr "Krátky riadok nad nadpisom."
-
-msgid "Text alignment"
-msgstr "Zarovnanie textu"
-
-msgid "Left"
-msgstr "Vľavo"
-
-msgid "Center"
-msgstr "Na stred"
-
-msgid "Right"
-msgstr "Vpravo"
-
-msgid "Image dimming (%)"
-msgstr "Stmavenie obrázka (%)"
-
-msgid "Dark layer between image and text, so the text stays readable."
-msgstr "Tmavá vrstva medzi obrázkom a textom, aby text ostal čitateľný."
-
-msgid "Button text"
-msgstr "Text tlačidla"
-
-msgid "Button link"
-msgstr "Odkaz tlačidla"
-
-msgid "Second button text"
-msgstr "Text druhého tlačidla"
-
-msgid "Second button link"
-msgstr "Odkaz druhého tlačidla"
-
-#. translators: %s: shortcode example
-msgid "A button shows only when both its fields are filled. Place the banner anywhere with %s."
-msgstr "Tlačidlo sa zobrazí, len keď sú vyplnené obe jeho polia. Banner sa dá vložiť kamkoľvek cez %s."
-
+#: includes/class-px-catalog.php:39 includes/class-px-catalog.php:45
+#: includes/modules.php:282
 msgid "Catalog mode"
 msgstr "Katalógový režim"
 
-msgid "Turn the shop into a browse-only catalog: add-to-cart buttons and the cart are hidden. Useful for showrooms or price-on-request shops."
-msgstr "Zmení e-shop na katalóg len na prezeranie: tlačidlá do košíka a samotný košík sú skryté. Vhodné pre showroomy alebo obchody s cenou na vyžiadanie."
+#: includes/class-px-catalog.php:41
+msgid ""
+"Turn the shop into a browse-only catalog: add-to-cart buttons and the cart "
+"are hidden. Useful for showrooms or price-on-request shops."
+msgstr ""
+"Zmení e-shop na katalóg len na prezeranie: tlačidlá do košíka a samotný "
+"košík sú skryté. Vhodné pre showroomy alebo obchody s cenou na vyžiadanie."
 
+#: includes/class-px-catalog.php:46
 msgid "Enable catalog mode"
 msgstr "Zapnúť katalógový režim"
 
+#: includes/class-px-catalog.php:52
 msgid "Prices"
 msgstr "Ceny"
 
+#: includes/class-px-catalog.php:53
 msgid "Also hide prices"
 msgstr "Skryť aj ceny"
 
+#: includes/class-px-catalog.php:59
 msgid "Replacement button text"
 msgstr "Text náhradného tlačidla"
 
+#: includes/class-px-catalog.php:60
 msgid "Shown instead of \"Add to cart\". Empty falls back to \"View product\"."
-msgstr "Zobrazí sa namiesto „Pridať do košíka“. Prázdne použije „Zobraziť produkt“."
+msgstr ""
+"Zobrazí sa namiesto „Pridať do košíka“. Prázdne použije „Zobraziť produkt“."
 
+#: includes/class-px-catalog.php:66
 msgid "Replacement button link"
 msgstr "Odkaz náhradného tlačidla"
 
+#: includes/class-px-catalog.php:67
 msgid "Where the button points. Empty links to the product page."
 msgstr "Kam tlačidlo smeruje. Prázdne odkazuje na stránku produktu."
 
-msgid "Image"
-msgstr "Obrázok"
+#: includes/class-px-catalog.php:152
+#: templates/emails/px-waitlist-in-stock.php:27
+#: templates/emails/px-waitlist-subscribed.php:25
+msgid "View product"
+msgstr "Zobraziť produkt"
 
-msgid "Select image"
-msgstr "Vybrať obrázok"
+#: includes/class-px-company-fields.php:145
+msgid ""
+"PX Shop Core: the \"Company details\" module is switched on, but WPify Woo "
+"still handles IČO and DIČ. Turn off its \"IČ DIČ\" module (or deactivate the "
+"plugin) and the fields will be served by PX Shop Core - the stored data is "
+"the same and stays where it is."
+msgstr ""
+"PX Shop Core: modul „Firemné údaje“ je zapnutý, ale IČO a DIČ stále "
+"obsluhuje WPify Woo. Vypnite jeho modul „IČ DIČ“ (alebo plugin deaktivujte) "
+"a polia prevezme PX Shop Core — uložené údaje sú tie isté a zostávajú, kde "
+"sú."
 
-msgid "Use image"
-msgstr "Použiť obrázok"
+#: includes/class-px-company-fields.php:159
+msgid "Checkout fields"
+msgstr "Polia v pokladni"
 
-msgid "Remove image"
-msgstr "Odstrániť obrázok"
+#: includes/class-px-company-fields.php:161
+msgid ""
+"IČO, DIČ and IČ DPH are stored as _billing_ic, _billing_dic and "
+"_billing_dic_dph, the keys invoicing plugins and exports already expect. IČ "
+"DPH is only shown for Slovak billing addresses; elsewhere the VAT id belongs "
+"in DIČ. The company name field is part of the block even when WooCommerce is "
+"set to hide it - an invoice needs a name, not just a number."
+msgstr ""
+"IČO, DIČ a IČ DPH sa ukladajú do kľúčov _billing_ic, _billing_dic a "
+"_billing_dic_dph, teda tam, kde ich fakturačné pluginy a exporty už hľadajú. "
+"IČ DPH sa zobrazuje len pri slovenskej fakturačnej adrese; inde patrí IČ DPH "
+"do poľa DIČ. Pole s názvom firmy je súčasťou bloku aj vtedy, keď ho má "
+"WooCommerce nastavené ako skryté — na faktúre treba meno, nielen číslo."
 
-msgid "Optional image for this attribute value (swatch, logo, ...)."
-msgstr "Voliteľný obrázok pre túto hodnotu vlastnosti (vzorka, logo, ...)."
+#: includes/class-px-company-fields.php:165
+msgid "Company checkbox"
+msgstr "Políčko „nakupujem na firmu“"
 
+#: includes/class-px-company-fields.php:166
+msgid ""
+"Show the \"I'm buying for a company\" checkbox and keep the fields hidden "
+"until it is ticked"
+msgstr ""
+"Zobraziť políčko „Nakupujem na firmu“ a firemné polia ukázať až po jeho "
+"zaškrtnutí"
+
+#: includes/class-px-company-fields.php:172
+msgid "Field position"
+msgstr "Umiestnenie polí"
+
+#: includes/class-px-company-fields.php:173
+msgid "Keep the company block together right after the name"
+msgstr "Držať firemný blok pohromade hneď za menom"
+
+#: includes/class-px-company-fields.php:177
+msgid ""
+"Name, then the checkbox, then the company name and the numbers - all above "
+"the address, so the register lookup has somewhere to fill in. With this off "
+"the block follows wherever the company field already sits."
+msgstr ""
+"Meno, potom políčko, potom názov firmy a čísla — všetko nad adresou, aby "
+"malo načítanie z registra kam doplniť. Pri vypnutom ide blok tam, kde už "
+"pole „Firma\" je."
+
+#. translators: %s: field label
+#: includes/class-px-company-fields.php:180
+#: includes/class-px-company-fields.php:318
+#: includes/class-px-company-fields.php:763
+msgid "Company name"
+msgstr "Názov firmy"
+
+#: includes/class-px-company-fields.php:181
+msgid "Required when buying for a company"
+msgstr "Povinný pri nákupe na firmu"
+
+#: includes/class-px-company-fields.php:187
+msgid "Identification number"
+msgstr "IČO"
+
+#: includes/class-px-company-fields.php:188
+msgid "When is IČO required?"
+msgstr "Kedy je IČO povinné?"
+
+#: includes/class-px-company-fields.php:193
+msgid "When the company checkbox is ticked"
+msgstr "Keď je zaškrtnuté políčko „nakupujem na firmu“"
+
+#: includes/class-px-company-fields.php:194
+msgid "When the company name is filled in"
+msgstr "Keď je vyplnený názov firmy"
+
+#: includes/class-px-company-fields.php:195
+msgid "Never"
+msgstr "Nikdy"
+
+#: includes/class-px-company-fields.php:199
+msgid "Format check"
+msgstr "Kontrola formátu"
+
+#: includes/class-px-company-fields.php:200
+msgid "Reject numbers that cannot be right before the order is placed"
+msgstr ""
+"Odmietnuť čísla, ktoré nemôžu byť správne, ešte pred odoslaním objednávky"
+
+#: includes/class-px-company-fields.php:204
+msgid ""
+"IČO 8 digits, SK DIČ 10 digits, SK IČ DPH SK + 10 digits, other EU VAT ids "
+"country prefix + number."
+msgstr ""
+"IČO 8 číslic, SK DIČ 10 číslic, SK IČ DPH SK + 10 číslic, ostatné EÚ "
+"predpona krajiny + číslo."
+
+#: includes/class-px-company-fields.php:212
+msgid "Public registers"
+msgstr "Verejné registre"
+
+#: includes/class-px-company-fields.php:214
+msgid ""
+"RPO (Statistical Office) for Slovak numbers, ARES (Ministry of Finance) for "
+"Czech ones. Both are free, need no key and are queried straight from the "
+"shop; answers are cached for a week."
+msgstr ""
+"RPO (Štatistický úrad SR) pre slovenské čísla, ARES (MF ČR) pre české. Oboje "
+"je zadarmo, bez kľúča a volá sa priamo z obchodu; odpovede sa kešujú na "
+"týždeň."
+
+#: includes/class-px-company-fields.php:218
+msgid "Fill in from the register"
+msgstr "Doplniť z registra"
+
+#: includes/class-px-company-fields.php:219
+msgid "Offer a \"Load from register\" button next to IČO"
+msgstr "Ponúknuť pri IČO tlačidlo „Načítať z registra“"
+
+#: includes/class-px-company-fields.php:223
+msgid ""
+"Fills the company name and registered address. The customer can still edit "
+"everything afterwards."
+msgstr "Doplní názov firmy a sídlo. Zákazník môže všetko potom upraviť."
+
+#: includes/class-px-company-fields.php:226
+msgid "Verify the number"
+msgstr "Overiť číslo"
+
+#: includes/class-px-company-fields.php:227
+msgid "Refuse an IČO the register does not know"
+msgstr "Odmietnuť IČO, ktoré register nepozná"
+
+#: includes/class-px-company-fields.php:231
+msgid ""
+"Checked when the order is placed. If the register is down the order goes "
+"through - the outage is ours to log, not the customer's to solve."
+msgstr ""
+"Kontroluje sa pri odoslaní objednávky. Keď register nefunguje, objednávka "
+"prejde — výpadok je náš na zalogovanie, nie zákazníkov na riešenie."
+
+#: includes/class-px-company-fields.php:239
+msgid "VAT id verification (VIES)"
+msgstr "Overenie IČ DPH (VIES)"
+
+#: includes/class-px-company-fields.php:241
+msgid ""
+"VIES is the European Commission register of VAT identification numbers. It "
+"is the only evidence that a reverse-charge invoice was issued to a real VAT "
+"payer, so keep it on wherever the reverse charge is on."
+msgstr ""
+"VIES je register identifikačných čísel pre DPH Európskej komisie. Je jediným "
+"dokladom, že faktúra s prenesením daňovej povinnosti šla skutočnému "
+"platiteľovi DPH — nechajte ho preto zapnutý všade, kde je zapnuté prenesenie."
+
+#: includes/class-px-company-fields.php:245
+msgid "VIES check"
+msgstr "Kontrola vo VIES"
+
+#: includes/class-px-company-fields.php:250
+msgid "Off"
+msgstr "Vypnutá"
+
+#: includes/class-px-company-fields.php:251
+msgid "Check and warn, let the order through"
+msgstr "Overiť a upozorniť, objednávku pustiť"
+
+#: includes/class-px-company-fields.php:252
+msgid "Check and refuse an unverified VAT id"
+msgstr "Overiť a neoverené IČ DPH odmietnuť"
+
+#: includes/class-px-company-fields.php:254
+msgid ""
+"A VIES outage never blocks an order, not even in the strict setting - only "
+"an answer saying the number is unknown does."
+msgstr ""
+"Výpadok VIES objednávku nezastaví nikdy, ani pri prísnom nastavení — zastaví "
+"ju len odpoveď, že číslo neexistuje."
+
+#: includes/class-px-company-fields.php:262
+msgid "VAT exemption"
+msgstr "Oslobodenie od DPH"
+
+#: includes/class-px-company-fields.php:266
+#, php-format
+msgid ""
+"Which country decides follows the WooCommerce setting <em>Calculate tax "
+"based on</em> (%s): the shipping country for goods, the billing country for "
+"services. Leave both switches off in a shop that sells at home only."
+msgstr ""
+"Ktorá krajina rozhoduje, sa riadi nastavením WooCommerce <em>Vypočítať daň "
+"podľa</em> (%s): pri tovare dodacia krajina, pri službách fakturačná. V "
+"obchode, ktorý predáva len doma, nechajte oba prepínače vypnuté."
+
+#: includes/class-px-company-fields.php:267
+msgid "WooCommerce → Settings → Tax"
+msgstr "WooCommerce → Nastavenia → Daň"
+
+#: includes/class-px-company-fields.php:272
+msgid "EU reverse charge"
+msgstr "Prenesenie daňovej povinnosti (EÚ)"
+
+#: includes/class-px-company-fields.php:273
+msgid "No VAT for a business customer in another EU country"
+msgstr "Bez DPH pre firemného zákazníka v inej krajine EÚ"
+
+#: includes/class-px-company-fields.php:277
+msgid ""
+"The invoice has to carry the \"reverse charge\" notice and the order belongs "
+"in the EC Sales List."
+msgstr ""
+"Faktúra musí niesť poznámku „prenesenie daňovej povinnosti“ a objednávka "
+"patrí do súhrnného výkazu."
+
+#: includes/class-px-company-fields.php:280
+msgid "Export outside the EU"
+msgstr "Vývoz mimo EÚ"
+
+#: includes/class-px-company-fields.php:281
+msgid "No VAT when the goods leave the EU"
+msgstr "Bez DPH, keď tovar opúšťa EÚ"
+
+#: includes/class-px-company-fields.php:285
+msgid ""
+"Applies to consumers as well as businesses. You need the customs proof of "
+"export to defend it."
+msgstr ""
+"Platí pre občanov aj firmy. Na obhájenie potrebujete colný doklad o vývoze."
+
+#: includes/class-px-company-fields.php:288
+msgid "Proof required"
+msgstr "Vyžadovať doklad"
+
+#: includes/class-px-company-fields.php:289
+msgid "Only drop the VAT when VIES confirms the VAT id"
+msgstr "DPH odpustiť len vtedy, keď VIES potvrdí IČ DPH"
+
+#: includes/class-px-company-fields.php:293
+msgid ""
+"With this off, any correctly formatted VAT id is enough and the tax risk is "
+"the shop's. Turning it on with the VIES check off leaves the reverse charge "
+"inactive."
+msgstr ""
+"Pri vypnutom stačí správne naformátované IČ DPH a daňové riziko nesie "
+"obchod. So zapnutým a s vypnutou kontrolou vo VIES prenesenie daňovej "
+"povinnosti nenastane nikdy."
+
+#. translators: %s: field label
+#: includes/class-px-company-fields.php:348
+#: includes/class-px-company-fields.php:773
+#: includes/class-px-company-fields.php:1191
+#: includes/class-px-company-fields.php:1220
+#: includes/class-px-company-fields.php:1259
+#: includes/class-px-company-fields.php:1519 includes/class-px-seller.php:93
+msgid "Company ID"
+msgstr "IČO"
+
+#: includes/class-px-company-fields.php:349
+msgid "12345678"
+msgstr "12345678"
+
+#: includes/class-px-company-fields.php:357
+#: includes/class-px-company-fields.php:1196
+#: includes/class-px-company-fields.php:1225
+#: includes/class-px-company-fields.php:1260
+#: includes/class-px-company-fields.php:1520 includes/class-px-seller.php:94
+msgid "Tax ID"
+msgstr "DIČ"
+
+#: includes/class-px-company-fields.php:365
+#: includes/class-px-company-fields.php:1201
+#: includes/class-px-company-fields.php:1230
+#: includes/class-px-company-fields.php:1261
+#: includes/class-px-company-fields.php:1521 includes/class-px-seller.php:95
+msgid "VAT ID"
+msgstr "IČ DPH"
+
+#: includes/class-px-company-fields.php:366
+msgid "SK1234567890"
+msgstr "SK1234567890"
+
+#: includes/class-px-company-fields.php:415
+msgid "I'm buying for a company"
+msgstr "Nakupujem na firmu"
+
+#: includes/class-px-company-fields.php:637
+msgid "Load from register"
+msgstr "Načítať z registra"
+
+#: includes/class-px-company-fields.php:638
+msgid "Loading…"
+msgstr "Načítavam…"
+
+#: includes/class-px-company-fields.php:639
+msgid "Details filled in from the register."
+msgstr "Údaje doplnené z registra."
+
+#: includes/class-px-company-fields.php:640
+msgid "VAT id verified in VIES."
+msgstr "IČ DPH overené vo VIES."
+
+#: includes/class-px-company-fields.php:641
+msgid "VIES does not know this VAT id."
+msgstr "VIES toto IČ DPH nepozná."
+
+#: includes/class-px-company-fields.php:642
+msgid "VIES did not answer, the number could not be verified."
+msgstr "VIES neodpovedal, číslo sa nepodarilo overiť."
+
+#: includes/class-px-company-fields.php:643
+#: includes/class-px-company-lookup.php:460
+msgid "The register did not answer. Please fill the details in by hand."
+msgstr "Register neodpovedal. Vyplňte údaje, prosím, ručne."
+
+#: includes/class-px-company-fields.php:701
+msgid ""
+"The VAT id was not found in VIES. Please check it, or leave it empty and the "
+"order will be invoiced with VAT."
+msgstr ""
+"IČ DPH sa vo VIES nenašlo. Skontrolujte ho, prosím, alebo pole nechajte "
+"prázdne a objednávka sa vyfakturuje s DPH."
+
+#. translators: %s: field label
+#: includes/class-px-company-fields.php:763
+#: includes/class-px-company-fields.php:773
+#, php-format
+msgid "%s is a required field when buying for a company."
+msgstr "%s je pri nákupe na firmu povinné pole."
+
+#: includes/class-px-company-fields.php:892
+msgid "The company ID is not in the expected format (8 digits, no spaces)."
+msgstr "IČO nie je v očakávanom formáte (8 číslic, bez medzier)."
+
+#: includes/class-px-company-fields.php:893
+msgid "The company ID is not in the expected format."
+msgstr "IČO nie je v očakávanom formáte."
+
+#: includes/class-px-company-fields.php:903
+msgid "The tax ID is not in the expected format (10 digits, no spaces)."
+msgstr "DIČ nie je v očakávanom formáte (10 číslic, bez medzier)."
+
+#: includes/class-px-company-fields.php:907
+msgid "The VAT ID is not in the expected format (SK followed by 10 digits)."
+msgstr "IČ DPH nie je v očakávanom formáte (SK a 10 číslic)."
+
+#: includes/class-px-company-fields.php:912
+msgid "The VAT ID has to be the tax ID with an SK prefix."
+msgstr "IČ DPH musí byť DIČ s predponou SK."
+
+#. translators: %s: country prefix of a VAT id, e.g. CZ
+#: includes/class-px-company-fields.php:924
+#, php-format
+msgid ""
+"The tax ID is not in the expected format (prefix %s followed by the number)."
+msgstr "DIČ nie je v očakávanom formáte (predpona %s a číslo)."
+
+#: includes/class-px-company-fields.php:1372
+msgid "Domestic sale, VAT charged."
+msgstr "Tuzemský predaj, DPH účtovaná."
+
+#: includes/class-px-company-fields.php:1373
+msgid "VAT charged."
+msgstr "DPH účtovaná."
+
+#: includes/class-px-company-fields.php:1374
+msgid "Export outside the EU, VAT not charged."
+msgstr "Vývoz mimo EÚ, DPH neúčtovaná."
+
+#: includes/class-px-company-fields.php:1375
+msgid "EU reverse charge, VAT not charged (VAT id verified)."
+msgstr "Prenesenie daňovej povinnosti v EÚ, DPH neúčtovaná (IČ DPH overené)."
+
+#: includes/class-px-company-fields.php:1376
+msgid "VAT id could not be verified, VAT charged."
+msgstr "IČ DPH sa nepodarilo overiť, DPH účtovaná."
+
+#: includes/class-px-company-fields.php:1379
+msgid "VAT"
+msgstr "DPH"
+
+#: includes/class-px-company-fields.php:1421
+msgid "Register lookup is switched off."
+msgstr "Načítanie z registra je vypnuté."
+
+#: includes/class-px-company-fields.php:1425
+#: includes/class-px-company-fields.php:1452
+msgid "Too many requests, please wait a moment."
+msgstr "Priveľa požiadaviek, chvíľu, prosím, počkajte."
+
+#: includes/class-px-company-fields.php:1448
+msgid "VAT id verification is switched off."
+msgstr "Overovanie IČ DPH je vypnuté."
+
+#: includes/class-px-company-lookup.php:80
+msgid "Enter an identification number first."
+msgstr "Najprv zadajte IČO."
+
+#: includes/class-px-company-lookup.php:87
+msgid "There is no register available for this country."
+msgstr "Pre túto krajinu nie je dostupný register."
+
+#: includes/class-px-company-lookup.php:182
+msgid "This company is no longer registered in RPO."
+msgstr "Táto firma už nie je v RPO zapísaná."
+
+#: includes/class-px-company-lookup.php:240
+msgid "This company is no longer registered in ARES."
+msgstr "Táto firma už nie je v ARES zapísaná."
+
+#: includes/class-px-company-lookup.php:363
+msgid "Not found in the register."
+msgstr "V registri sa nenašlo."
+
+#: includes/class-px-company-lookup.php:452
+msgid "This identification number is not in the ARES register."
+msgstr "Toto IČO nie je v registri ARES."
+
+#: includes/class-px-company-lookup.php:453
+msgid "This identification number is not in the RPO register."
+msgstr "Toto IČO nie je v registri RPO."
+
+#: includes/class-px-compare.php:106 includes/class-px-waitlist.php:201
+#: includes/class-px-waitlist.php:467 includes/class-px-wishlist.php:128
+msgid "Invalid product."
+msgstr "Neplatný produkt."
+
+#: includes/class-px-compare.php:126
+msgid "No products to compare yet."
+msgstr "Zatiaľ žiadne produkty na porovnanie."
+
+#: includes/class-px-compare.php:129 includes/class-px-wishlist.php:160
+msgid "Browse products"
+msgstr "Prezrieť produkty"
+
+#: includes/class-px-compare.php:151 includes/class-px-content.php:526
+msgid "Remove"
+msgstr "Odstrániť"
+
+#: includes/class-px-compare.php:158
+msgid "Product"
+msgstr "Produkt"
+
+#: includes/class-px-compare.php:165
+msgid "Price"
+msgstr "Cena"
+
+#: includes/class-px-compare.php:172
+msgid "Availability"
+msgstr "Dostupnosť"
+
+#: includes/class-px-compare.php:174
+msgid "In stock"
+msgstr "Skladom"
+
+#: includes/class-px-compare.php:174
+msgid "Out of stock"
+msgstr "Vypredané"
+
+#: includes/class-px-compare.php:251 includes/modules.php:250
+msgid "Compare"
+msgstr "Porovnanie produktov"
+
+#: includes/class-px-compare.php:253
+msgid ""
+"Page where the comparison table is rendered. Themes link to it from the "
+"compare counter; with no page set the link is simply not rendered."
+msgstr ""
+"Stránka, na ktorej sa vykreslí porovnávacia tabuľka. Téma na ňu odkazuje z "
+"počítadla porovnania; bez nastavenej stránky sa odkaz jednoducho nevykreslí."
+
+#: includes/class-px-compare.php:257
+msgid "Compare page"
+msgstr "Stránka Porovnanie"
+
+# Modul Cookie consent - opravy po review.
+#: includes/class-px-consent.php:219
+msgid ""
+"Not loaded: the \"Cookie consent\" module sends the consent signals itself. "
+"Switch this one off."
+msgstr ""
+"Nenačítané: signály súhlasu posiela modul „Súhlas s cookies“ sám. Tento "
+"vypnite."
+
+#. translators: %s: name of the other consent plugin.
+#: includes/class-px-consent.php:235
+#, php-format
+msgid ""
+"PX Shop Core: the \"Cookie consent\" module is switched on, but %s is active "
+"as well. Two consent banners would fight over one answer, so this module is "
+"doing nothing. Deactivate the other plugin, or switch this module off."
+msgstr ""
+"PX Shop Core: modul „Súhlas s cookies“ je zapnutý, ale zároveň je aktívny "
+"%s. Dve lišty by sa bili o jednu odpoveď, takže tento modul nerobí nič. "
+"Deaktivujte druhý plugin, alebo vypnite tento modul."
+
+#: includes/class-px-consent.php:260
+msgid ""
+"PX Shop Core: the \"Google Consent Mode v2\" module (the Complianz bridge) "
+"is not loaded - the \"Cookie consent\" module sends the signals itself. "
+"Switch the bridge off, so the screen does not promise something the site no "
+"longer does."
+msgstr ""
+"PX Shop Core: modul „Google Consent Mode v2“ (most na Complianz) sa "
+"nenačítal — signály posiela modul „Súhlas s cookies“ sám. Most vypnite, nech "
+"obrazovka nesľubuje niečo, čo web už nerobí."
+
+#. translators: %s: comma separated service names.
+#: includes/class-px-consent.php:270
+#, php-format
+msgid ""
+"PX Shop Core: these services are switched on but have no id filled in, so "
+"they are not loaded: %s"
+msgstr ""
+"PX Shop Core: tieto služby sú zapnuté, ale nemajú vyplnené ID, takže sa "
+"nenačítajú: %s"
+
+# Modul Cookie consent (px_consent).
+#: includes/class-px-consent.php:287 includes/modules.php:274
+#: templates/consent/banner.php:48
+msgid "Cookie consent"
+msgstr "Súhlas s cookies"
+
+#: includes/class-px-consent.php:289
+msgid ""
+"The shop's own consent banner. Switch on only the services the site really "
+"uses - each one adds a row to the banner, to the cookie policy page and, "
+"where it applies, a script to the page. Known limit: without IAB TCF "
+"certification this banner is not enough for AdSense or Ad Manager; GA4 and "
+"Ads conversion measurement are unaffected."
+msgstr ""
+"Vlastná cookie lišta obchodu. Zapnite len služby, ktoré web naozaj používa — "
+"každá pridá riadok do lišty, na stránku so zásadami cookies a tam, kde to "
+"platí, aj skript do stránky. Známy limit: bez certifikácie IAB TCF táto "
+"lišta nestačí pre AdSense ani Ad Manager; merania GA4 a konverzií v Ads sa "
+"to netýka."
+
+#: includes/class-px-consent.php:293
+msgid "Policy version"
+msgstr "Verzia zásad"
+
+#: includes/class-px-consent.php:294
+msgid ""
+"Change it whenever a service or a purpose changes - everyone is asked again. "
+"Any short value works: 1, 2, 2026-08."
+msgstr ""
+"Zmeňte ju vždy, keď pribudne služba alebo sa zmení účel — lišta sa spýta "
+"znova všetkých. Stačí krátka hodnota: 1, 2, 2026-08."
+
+#: includes/class-px-consent.php:301
+msgid "Cookie policy page"
+msgstr "Stránka so zásadami cookies"
+
+#: includes/class-px-consent.php:302
+msgid ""
+"The banner links to it. The page holding [px_cookie_policy] is created as a "
+"draft when this module is switched on; publish it and link it from the "
+"footer."
+msgstr ""
+"Lišta na ňu odkazuje. Stránka so shortcodom [px_cookie_policy] vznikne ako "
+"koncept pri zapnutí modulu; publikujte ju a dajte odkaz do pätičky."
+
+#: includes/class-px-consent.php:310 includes/modules.php:278
+msgid "Google Consent Mode v2"
+msgstr "Google Consent Mode v2"
+
+#: includes/class-px-consent.php:311
+msgid "Send the consent signals to Google"
+msgstr "Posielať Googlu signály súhlasu"
+
+#: includes/class-px-consent.php:315
+msgid ""
+"Keep it on even when the tags come from somewhere else - the \"denied by "
+"default\" state has to be in the page before any Google tag runs."
+msgstr ""
+"Nechajte zapnuté aj vtedy, keď tagy vkladá niekto iný — stav „predvolene "
+"odmietnuté“ musí byť v stránke skôr, než sa spustí akýkoľvek tag Googlu."
+
+#: includes/class-px-consent.php:340
+msgid "On"
+msgstr "Zapnuté"
+
+#: includes/class-px-content.php:126
+msgid "Content"
+msgstr "Obsah"
+
+#: includes/class-px-content.php:127
+msgid "Content item"
+msgstr "Položka obsahu"
+
+#: includes/class-px-content.php:128
+msgid "Add content item"
+msgstr "Pridať položku obsahu"
+
+#: includes/class-px-content.php:129
+msgid "Edit content item"
+msgstr "Upraviť položku obsahu"
+
+#: includes/class-px-content.php:130
+msgid "Search content"
+msgstr "Hľadať v obsahu"
+
+#: includes/class-px-content.php:131
+msgid "No content items found."
+msgstr "Nenašli sa žiadne položky obsahu."
+
+#: includes/class-px-content.php:133
+msgid "Reusable content blocks (banners etc.) rendered by the theme."
+msgstr "Znovupoužiteľné bloky obsahu (bannery a pod.) vykresľované témou."
+
+#: includes/class-px-content.php:151
+msgid "Content categories"
+msgstr "Kategórie obsahu"
+
+#: includes/class-px-content.php:152
+msgid "Content category"
+msgstr "Kategória obsahu"
+
+#: includes/class-px-content.php:153
+msgid "Add content category"
+msgstr "Pridať kategóriu obsahu"
+
+#: includes/class-px-content.php:154
+msgid "Edit content category"
+msgstr "Upraviť kategóriu obsahu"
+
+#: includes/class-px-content.php:155
+msgid "Search content categories"
+msgstr "Hľadať kategórie obsahu"
+
+#: includes/class-px-content.php:259
+msgid "Text left, image right"
+msgstr "Text vľavo, obrázok vpravo"
+
+#: includes/class-px-content.php:264
+msgid "Image left, text right"
+msgstr "Obrázok vľavo, text vpravo"
+
+#: includes/class-px-content.php:269
+msgid "Image background, text over it"
+msgstr "Obrázok na pozadí, text v prekryve"
+
+#: includes/class-px-content.php:275
+msgid "Text and buttons only"
+msgstr "Len text a tlačidlá"
+
+#: includes/class-px-content.php:348
+msgid "Banner display"
+msgstr "Zobrazenie bannera"
+
+# Content: video na pozadí, odkaz celého bannera, karusel (1.10.0)
+#: includes/class-px-content.php:381
+#: templates/content/parts/banner-video.php:58
+msgid "Background video"
+msgstr "Video na pozadí"
+
+#: includes/class-px-content.php:382
+msgid "Use this video"
+msgstr "Použiť toto video"
+
+#: includes/class-px-content.php:407
+msgid ""
+"Title = heading, Excerpt = intro text above the buttons, editor = free text, "
+"Featured image = banner image. Empty fields are simply not rendered."
+msgstr ""
+"Titulok = nadpis, Zhrnutie = perex nad tlačidlami, editor = voľný text, "
+"Náhľadový obrázok = obrázok bannera. Nevyplnené polia sa jednoducho "
+"nevykreslia."
+
+#: includes/class-px-content.php:413 includes/class-px-content.php:664
+msgid "Layout"
+msgstr "Rozloženie"
+
+#: includes/class-px-content.php:424
+msgid "Eyebrow"
+msgstr "Nadtitulok"
+
+#: includes/class-px-content.php:426
+msgid "Small line above the heading."
+msgstr "Krátky riadok nad nadpisom."
+
+#: includes/class-px-content.php:430
+msgid "Text alignment"
+msgstr "Zarovnanie textu"
+
+#: includes/class-px-content.php:441
+msgid "Image dimming (%)"
+msgstr "Stmavenie obrázka (%)"
+
+#: includes/class-px-content.php:443
+msgid "Dark layer between image and text, so the text stays readable."
+msgstr "Tmavá vrstva medzi obrázkom a textom, aby text ostal čitateľný."
+
+#: includes/class-px-content.php:451
+msgid "Button text"
+msgstr "Text tlačidla"
+
+#: includes/class-px-content.php:456
+msgid "Button link"
+msgstr "Odkaz tlačidla"
+
+#: includes/class-px-content.php:461
+msgid "Second button text"
+msgstr "Text druhého tlačidla"
+
+#: includes/class-px-content.php:466
+msgid "Second button link"
+msgstr "Odkaz druhého tlačidla"
+
+#: includes/class-px-content.php:477
+msgid "Whole banner link"
+msgstr "Odkaz celého bannera"
+
+#: includes/class-px-content.php:479
+msgid ""
+"Optional. The whole banner area becomes clickable; the buttons keep their "
+"own links."
+msgstr ""
+"Nepovinné. Klikateľná bude celá plocha bannera, tlačidlá si ponechajú "
+"vlastné odkazy."
+
+#. translators: %s: shortcode example
+#: includes/class-px-content.php:488
+#, php-format
+msgid ""
+"A button shows only when both its fields are filled. Place the banner "
+"anywhere with %s."
+msgstr ""
+"Tlačidlo sa zobrazí, len keď sú vyplnené obe jeho polia. Banner sa dá vložiť "
+"kamkoľvek cez %s."
+
+#: includes/class-px-content.php:512
+msgid "Background video (YouTube / Vimeo)"
+msgstr "Video na pozadí (YouTube / Vimeo)"
+
+#: includes/class-px-content.php:514
+msgid ""
+"Plays muted in a loop behind the text; the banner image is shown until it "
+"starts and whenever it cannot play."
+msgstr ""
+"Prehráva sa bez zvuku v slučke za textom. Kým sa nerozbehne, a všade, kde sa "
+"prehrať nemôže, ostáva obrázok bannera."
+
+#: includes/class-px-content.php:516
+msgid ""
+"This address is not a YouTube or Vimeo video - the banner shows only the "
+"image."
+msgstr ""
+"Táto adresa nie je video z YouTube ani Vimea – banner ukáže len obrázok."
+
+#: includes/class-px-content.php:521
+msgid "Or a video file (MP4 / WebM)"
+msgstr "Alebo videosúbor (MP4 / WebM)"
+
+#: includes/class-px-content.php:525
+msgid "Choose video"
+msgstr "Vybrať video"
+
+#: includes/class-px-content.php:528
+msgid ""
+"From the media library; needs no cookie consent. When both are filled, the "
+"file is used."
+msgstr ""
+"Z knižnice médií, nepotrebuje súhlas s cookies. Keď je vyplnené oboje, "
+"použije sa súbor."
+
+#: includes/class-px-content.php:534
+msgid "Play on mobile too"
+msgstr "Prehrávať aj na mobile"
+
+#: includes/class-px-content.php:536
+msgid "Off: phones show only the image (saves data and battery)."
+msgstr "Vypnuté: na telefóne sa ukáže len obrázok (šetrí dáta aj batériu)."
+
+#: includes/class-px-content.php:550
+msgid "Left"
+msgstr "Vľavo"
+
+#: includes/class-px-content.php:551
+msgid "Center"
+msgstr "Na stred"
+
+#: includes/class-px-content.php:552
+msgid "Right"
+msgstr "Vpravo"
+
+#: includes/class-px-content.php:1421
+msgid "Banners"
+msgstr "Bannery"
+
+#: includes/class-px-content.php:1422
+msgid "carousel"
+msgstr "karusel"
+
+#: includes/class-px-content.php:1423
+msgid "slide"
+msgstr "snímka"
+
+#: includes/class-px-content.php:1424
+msgid "Previous slide"
+msgstr "Predchádzajúca snímka"
+
+#: includes/class-px-content.php:1425
+msgid "Next slide"
+msgstr "Ďalšia snímka"
+
+#: includes/class-px-content.php:1426
+msgid "Pause slide show"
+msgstr "Pozastaviť prezentáciu"
+
+#: includes/class-px-content.php:1427
+msgid "Play slide show"
+msgstr "Spustiť prezentáciu"
+
+#: includes/class-px-content.php:1428
+msgid "Choose slide"
+msgstr "Výber snímky"
+
+#. translators: 1: slide number, 2: number of slides
+#: includes/class-px-content.php:1450
+#, php-format
+msgid "%1$d of %2$d"
+msgstr "%1$d z %2$d"
+
+#: includes/class-px-gpsr.php:40
+msgid "Manufacturer"
+msgstr "Výrobca"
+
+#: includes/class-px-gpsr.php:41
+msgid "EU responsible person"
+msgstr "Zodpovedná osoba v EÚ"
+
+#: includes/class-px-gpsr.php:42
+msgid "Country of origin"
+msgstr "Krajina pôvodu"
+
+#: includes/class-px-gpsr.php:43
+msgid "Safety warnings"
+msgstr "Bezpečnostné upozornenia"
+
+#: includes/class-px-gpsr.php:44
+msgid "Safety documentation"
+msgstr "Bezpečnostná dokumentácia"
+
+#: includes/class-px-gpsr.php:76
+msgid "Product safety (GPSR)"
+msgstr "Bezpečnosť produktu (GPSR)"
+
+#: includes/class-px-gpsr.php:144
+msgid "Edit source"
+msgstr "Upraviť zdroj"
+
+#: includes/class-px-gpsr.php:150
+msgid ""
+"Filled in on the product brand (Products → Brands) - it is then used by "
+"every product of that brand."
+msgstr ""
+"Vypĺňa sa na značke produktu (Produkty → Značky) — použije sa potom pri "
+"každom produkte tej značky."
+
+#. translators: %s: brand name.
+#: includes/class-px-gpsr.php:255
+#, php-format
+msgid "Taken from brand %s."
+msgstr "Preberá sa zo značky %s."
+
+#: includes/class-px-gpsr.php:352
+msgid ""
+"Filled in once here and shown on every product of this brand. A product "
+"overrides it only by filling the same field in its own Product safety (GPSR) "
+"tab."
+msgstr ""
+"Vyplní sa raz tu a zobrazí sa pri každom produkte tejto značky. Produkt to "
+"prebije, len ak rovnaké pole vyplní vo svojej karte Bezpečnosť produktu "
+"(GPSR)."
+
+#: includes/class-px-gpsr.php:404
+msgid "Safety & compliance"
+msgstr "Bezpečnosť a súlad"
+
+#: includes/class-px-old-term-slugs.php:449
+msgid "Old slugs"
+msgstr "Staré slugy"
+
+#. translators: %s: old slug.
+#: includes/class-px-old-term-slugs.php:472
+#, php-format
+msgid "Remove %s"
+msgstr "Odstrániť %s"
+
+#: includes/class-px-old-term-slugs.php:479
+msgid ""
+"Addresses with these slugs are redirected (301) to this term. They are "
+"recorded automatically when the slug changes."
+msgstr ""
+"Adresy s týmito slugmi sa presmerujú (301) na tento term. Zapisujú sa "
+"automaticky pri zmene slugu."
+
+#: includes/class-px-old-term-slugs.php:498
+msgid "Sorry, you are not allowed to edit this item."
+msgstr "Na úpravu tejto položky nemáte oprávnenie."
+
+#. translators: %s: formatted price.
+#: includes/class-px-omnibus.php:623
+#, php-format
+msgid "Lowest price in the last 30 days: %s"
+msgstr "Najnižšia cena za posledných 30 dní: %s"
+
+#: includes/class-px-related-cats.php:85 includes/class-px-related-cats.php:664
+#: includes/class-px-related-cats.php:684 includes/modules.php:266
+msgid "Related categories"
+msgstr "Súvisiace kategórie"
+
+#: includes/class-px-related-cats.php:87
+msgid ""
+"Which categories go with which is set on the category itself (Products → "
+"Categories). Subcategories inherit from their parent, so one setting usually "
+"covers a whole branch."
+msgstr ""
+"Čo s čím súvisí sa nastavuje priamo na kategórii (Produkty → Kategórie). "
+"Podkategórie dedia od rodiča, takže jedno nastavenie zvyčajne pokryje celú "
+"vetvu."
+
+#: includes/class-px-related-cats.php:91
+msgid "Number of products"
+msgstr "Počet produktov"
+
+#: includes/class-px-related-cats.php:92
+msgid ""
+"How many products the theme gets. They are taken in turn from each related "
+"category, so one category cannot fill the whole row."
+msgstr ""
+"Koľko produktov dostane téma. Berú sa striedavo z každej súvisiacej "
+"kategórie, takže jedna kategória nezaplní celý riadok."
+
+#: includes/class-px-related-cats.php:103
+msgid "Which products first"
+msgstr "Ktoré produkty najskôr"
+
+#: includes/class-px-related-cats.php:104
+msgid "Order inside each related category."
+msgstr "Poradie v rámci každej súvisiacej kategórie."
+
+#: includes/class-px-related-cats.php:110
+msgid "Best selling"
+msgstr "Najpredávanejšie"
+
+#: includes/class-px-related-cats.php:111
+msgid "Newest"
+msgstr "Najnovšie"
+
+#: includes/class-px-related-cats.php:112
+msgid "Category order (menu order)"
+msgstr "Poradie v kategórii (menu order)"
+
+#: includes/class-px-related-cats.php:116
+#: includes/class-px-related-cats.php:669
+#: includes/class-px-related-cats.php:692
+msgid "Heading"
+msgstr "Nadpis"
+
+#: includes/class-px-related-cats.php:117
+msgid ""
+"Used when the category does not set its own. Empty falls back to \"Goes well "
+"with this\"."
+msgstr ""
+"Použije sa, keď kategória nemá vlastný. Prázdne znamená „Hodí sa k tomuto“."
+
+#: includes/class-px-related-cats.php:123
+msgid "Cart"
+msgstr "Košík"
+
+#: includes/class-px-related-cats.php:124
+msgid "Offer them in the cart as well"
+msgstr "Ponúkať ich aj v košíku"
+
+#. translators: no placeholders.
+#: includes/class-px-related-cats.php:129
+msgid ""
+"Adds them to the cart cross-sells, after the ones the products name "
+"themselves. Applies to the classic cart; the block cart draws its own."
+msgstr ""
+"Pridá ich ku krížovému predaju v košíku, za tie, ktoré majú produkty "
+"nastavené samy. Platí pre klasický košík; blokový si kreslí vlastné."
+
+#: includes/class-px-related-cats.php:132
+msgid "Cache"
+msgstr "Cache"
+
+#: includes/class-px-related-cats.php:133
+msgid ""
+"Hours before the product list is looked up again. 0 turns caching off "
+"(development only)."
+msgstr ""
+"Po koľkých hodinách sa zoznam produktov vyhľadá nanovo. 0 vypne cache (len "
+"pri vývoji)."
+
+#: includes/class-px-related-cats.php:225
+msgid "Goes well with this"
+msgstr "Hodí sa k tomuto"
+
+#: includes/class-px-related-cats.php:671
+#: includes/class-px-related-cats.php:696
+msgid "Optional. Shown above the products instead of the default one."
+msgstr "Voliteľné. Zobrazí sa nad produktmi namiesto predvoleného."
+
+#: includes/class-px-related-cats.php:706
+msgid ""
+"Products in this category will offer products from the categories ticked "
+"here. Subcategories inherit this, so ticking it on the top category is "
+"usually enough."
+msgstr ""
+"Produkty v tejto kategórii budú ponúkať produkty z tu zaškrtnutých "
+"kategórií. Podkategórie to dedia, takže zvyčajne stačí zaškrtnúť na "
+"najvyššej kategórii."
+
+#. translators: %s: name of the parent category the setting is inherited from.
+#: includes/class-px-related-cats.php:737
+#, php-format
+msgid "Nothing ticked: the list is inherited from %s."
+msgstr "Nič nie je zaškrtnuté: zoznam sa dedí z %s."
+
+#: includes/class-px-related-cats.php:768
+msgid "No product categories yet."
+msgstr "Zatiaľ nie sú žiadne kategórie produktov."
+
+#: includes/class-px-related-cats.php:796
+msgid "Search categories…"
+msgstr "Hľadať kategórie…"
+
+#: includes/class-px-related-cats.php:799
+msgid "Selected only"
+msgstr "Len vybrané"
+
+#: includes/class-px-related-cats.php:970
+msgid "Related"
+msgstr "Súvisiace"
+
+#: includes/class-px-related-cats.php:989
+msgid "inherited"
+msgstr "zdedené"
+
+#: includes/class-px-sale-dates.php:58 includes/modules.php:222
+msgid "Sale validity"
+msgstr "Platnosť akcie"
+
+#: includes/class-px-sale-dates.php:60
+msgid ""
+"Shows how long a discounted price applies. The date comes from the product "
+"(Sale price dates); products discounted by a plugin that sets no dates fall "
+"back to the shop-wide campaign end below."
+msgstr ""
+"Ukáže, ako dlho platí akciová cena. Dátum berie z produktu (Platnosť "
+"akciovej ceny); produkty zľavnené pluginom, ktorý dátumy nenastavuje, "
+"použijú koniec kampane pre celý obchod nižšie."
+
+#: includes/class-px-sale-dates.php:64
+msgid "Product cards"
+msgstr "Produktové karty"
+
+#: includes/class-px-sale-dates.php:65
+msgid "Show the end of the sale on product cards"
+msgstr "Zobraziť koniec akcie na produktových kartách"
+
+#: includes/class-px-sale-dates.php:71
+msgid "Product detail"
+msgstr "Detail produktu"
+
+#: includes/class-px-sale-dates.php:72
+msgid "Show the end of the sale on the product page"
+msgstr "Zobraziť koniec akcie na stránke produktu"
+
+#: includes/class-px-sale-dates.php:78
+msgid "Live countdown under"
+msgstr "Živý odpočet menej než"
+
+#: includes/class-px-sale-dates.php:79
+msgid ""
+"hours before the end. The date turns into a ticking countdown; 0 keeps the "
+"date."
+msgstr "hodín do konca. Dátum sa zmení na bežiaci odpočet; 0 nechá dátum."
+
+#: includes/class-px-sale-dates.php:89
+msgid "Hide when further away than"
+msgstr "Skryť, ak je koniec ďalej než"
+
+#: includes/class-px-sale-dates.php:90
+msgid "days. A sale running for months is not news; 0 always shows the date."
+msgstr "dní. Akcia bežiaca mesiace nie je novina; 0 zobrazí dátum vždy."
+
+#: includes/class-px-sale-dates.php:100
+msgid "Shop-wide campaign end"
+msgstr "Koniec kampane pre celý obchod"
+
+#: includes/class-px-sale-dates.php:101
+msgid ""
+"Used for products whose discount carries no date of its own - typically a "
+"sitewide discount plugin. Leave empty when every sale has its own dates."
+msgstr ""
+"Použije sa pri produktoch, ktorých zľava nemá vlastný dátum — typicky plugin "
+"s plošnou zľavou. Nechajte prázdne, keď má každá akcia vlastné dátumy."
+
+#. translators: %s: date the sale price stops applying.
+#: includes/class-px-sale-dates.php:285
+#, php-format
+msgid "Sale price valid until %s"
+msgstr "Akciová cena platí do %s"
+
+#. translators: %d: maximum number of characters.
+#: includes/class-px-search.php:72
+#, php-format
+msgid "The search phrase must be a string of at most %d characters."
+msgstr "Hľadaný výraz musí byť reťazec s najviac %d znakmi."
+
+#: includes/class-px-seller.php:60 includes/modules.php:238
+msgid "Seller details"
+msgstr "Údaje predávajúceho"
+
+#. translators: %s: shortcode and placeholder examples.
+#: includes/class-px-seller.php:63
+#, php-format
+msgid "Entered once, shown wherever the law asks for them: %s."
+msgstr "Zadané raz, zobrazené všade, kde ich vyžaduje zákon: %s."
+
+#: includes/class-px-seller.php:66
+msgid "Trade name"
+msgstr "Obchodné meno"
+
+#: includes/class-px-seller.php:66
+msgid "Exactly as in the register, including the legal form (s. r. o.)."
+msgstr "Presne ako v registri, vrátane právnej formy (s. r. o.)."
+
+#: includes/class-px-seller.php:67
+msgid "Registered address"
+msgstr "Sídlo"
+
+#: includes/class-px-seller.php:67
+msgid "Empty uses the store address from WooCommerce → Settings → General."
+msgstr "Prázdne = adresa obchodu z WooCommerce → Nastavenia → Všeobecné."
+
+#: includes/class-px-seller.php:68
+msgid "Company ID (IČO)"
+msgstr "IČO"
+
+#: includes/class-px-seller.php:69
+msgid "Tax ID (DIČ)"
+msgstr "DIČ"
+
+#: includes/class-px-seller.php:70
+msgid "VAT ID (IČ DPH)"
+msgstr "IČ DPH"
+
+#: includes/class-px-seller.php:70
+msgid "Leave empty when the seller is not a VAT payer."
+msgstr "Prázdne, ak predávajúci nie je platiteľ DPH."
+
+#: includes/class-px-seller.php:71
+msgid "Register entry"
+msgstr "Zápis v registri"
+
+#: includes/class-px-seller.php:71
+msgid ""
+"E.g. \"Commercial register of the City Court Bratislava III, section Sro, "
+"insert no. 12345/B\" or the trade licence office."
+msgstr ""
+"Napr. „Obchodný register Mestského súdu Bratislava III, oddiel Sro, vložka "
+"č. 12345/B“ alebo živnostenský register okresného úradu."
+
+#: includes/class-px-seller.php:72
+msgid "Customer e-mail"
+msgstr "E-mail pre zákazníkov"
+
+#: includes/class-px-seller.php:73
+msgid "Customer phone"
+msgstr "Telefón pre zákazníkov"
+
+#: includes/class-px-seller.php:74 includes/class-px-seller.php:99
+msgid "Supervisory authority"
+msgstr "Orgán dozoru"
+
+#: includes/class-px-seller.php:74
+msgid ""
+"Slovak Trade Inspection inspectorate for the seat region, with its address. "
+"Used in the terms: [px_seller field=\"supervisor\"]."
+msgstr ""
+"Inšpektorát Slovenskej obchodnej inšpekcie pre kraj sídla aj s adresou. V "
+"obchodných podmienkach: [px_seller field=\"supervisor\"]."
+
+#: includes/class-px-seller.php:97
+msgid "E-mail"
+msgstr "E-mail"
+
+#: includes/class-px-seller.php:98
+msgid "Phone"
+msgstr "Telefón"
+
+#: includes/class-px-size-guide.php:115 includes/modules.php:262
 msgid "Size guides"
 msgstr "Veľkostné tabuľky"
 
+#: includes/class-px-size-guide.php:116 includes/class-px-size-guide.php:325
+#: includes/class-px-size-guide.php:499 includes/class-px-size-guide.php:682
+#: includes/class-px-size-guide.php:699
 msgid "Size guide"
 msgstr "Veľkostná tabuľka"
 
+#: includes/class-px-size-guide.php:117
 msgid "Add size guide"
 msgstr "Pridať veľkostnú tabuľku"
 
+#: includes/class-px-size-guide.php:118
 msgid "Edit size guide"
 msgstr "Upraviť veľkostnú tabuľku"
 
+#: includes/class-px-size-guide.php:119
 msgid "Search size guides"
 msgstr "Hľadať veľkostné tabuľky"
 
+#: includes/class-px-size-guide.php:120 includes/class-px-size-guide.php:644
 msgid "No size guides yet."
 msgstr "Zatiaľ tu nie je žiadna veľkostná tabuľka."
 
+#: includes/class-px-size-guide.php:121
 msgid "No size guides in the trash."
 msgstr "V koši nie je žiadna veľkostná tabuľka."
 
+#: includes/class-px-size-guide.php:338
+msgid "Close"
+msgstr "Zavrieť"
+
+#: includes/class-px-size-guide.php:490
 msgid "Size table"
 msgstr "Tabuľka veľkostí"
 
-msgid "One row per line, cells separated by | (a table pasted from a spreadsheet works too). The first row is the header."
-msgstr "Jeden riadok tabuľky na riadok, bunky oddelené znakom | (funguje aj tabuľka vložená z tabuľkového procesora). Prvý riadok je hlavička."
+#: includes/class-px-size-guide.php:524
+msgid ""
+"One row per line, cells separated by | (a table pasted from a spreadsheet "
+"works too). The first row is the header."
+msgstr ""
+"Jeden riadok tabuľky na riadok, bunky oddelené znakom | (funguje aj tabuľka "
+"vložená z tabuľkového procesora). Prvý riadok je hlavička."
 
+#: includes/class-px-size-guide.php:531
 msgid "Hide the table and show only the content above"
 msgstr "Skryť tabuľku a zobraziť len obsah nad ňou"
 
+#: includes/class-px-size-guide.php:540
 msgid "Assigned categories:"
 msgstr "Priradené kategórie:"
 
-msgid "Not assigned to any category yet - a guide is picked on the product, or on the product category screen."
-msgstr "Zatiaľ bez kategórie — tabuľka sa priraďuje pri produkte alebo na stránke kategórie produktov."
+#: includes/class-px-size-guide.php:553
+msgid ""
+"Not assigned to any category yet - a guide is picked on the product, or on "
+"the product category screen."
+msgstr ""
+"Zatiaľ bez kategórie — tabuľka sa priraďuje pri produkte alebo na stránke "
+"kategórie produktov."
 
+#: includes/class-px-size-guide.php:650
 msgid "— inherit from category —"
 msgstr "— podľa kategórie —"
 
+#: includes/class-px-size-guide.php:657
 msgid "— do not show —"
 msgstr "— nezobrazovať —"
 
+#: includes/class-px-size-guide.php:684 includes/class-px-size-guide.php:702
+msgid "Used by products in this category that do not pick a guide themselves."
+msgstr ""
+"Použije sa pri produktoch tejto kategórie, ktoré nemajú vlastnú tabuľku."
+
+#: includes/class-px-size-guide.php:718
 msgid "— none —"
 msgstr "— žiadna —"
 
-msgid "Used by products in this category that do not pick a guide themselves."
-msgstr "Použije sa pri produktoch tejto kategórie, ktoré nemajú vlastnú tabuľku."
-
+#: includes/class-px-size-guide.php:839
 msgid "do not show"
 msgstr "nezobrazovať"
 
 #. translators: %s: name of the size guide inherited from the old theme.
+#: includes/class-px-size-guide.php:845
+#, php-format
 msgid "Still using the guide from the old theme: %s"
 msgstr "Zatiaľ platí tabuľka zo starej témy: %s"
 
-msgid "Close"
-msgstr "Zavrieť"
+#: includes/class-px-unit-price.php:114
+msgctxt "unit: piece"
+msgid "pc"
+msgstr "ks"
 
+#: includes/class-px-unit-price.php:147
+msgctxt "unit price reference: one piece"
+msgid "1 pc"
+msgstr "1 ks"
+
+#: includes/class-px-unit-price.php:382
+msgid "Unit price:"
+msgstr "Jednotková cena:"
+
+#. translators: 1: formatted price, 2: reference quantity ("1 l", "1 kg").
+#: includes/class-px-unit-price.php:385
+#, php-format
+msgctxt "unit price line"
+msgid "%1$s / %2$s"
+msgstr "%1$s / %2$s"
+
+#: includes/class-px-unit-price.php:445 includes/class-px-unit-price.php:477
+msgid "Package content"
+msgstr "Obsah balenia"
+
+#: includes/class-px-unit-price.php:446
+msgid ""
+"Quantity in the package, for the unit price the price marking rules require "
+"(per 1 kg, 1 l, 1 m or 1 piece). Leave empty for goods sold as one piece and "
+"for sets of different goods at one price; packs of at most 50 g / 50 ml show "
+"no unit price either way."
+msgstr ""
+"Množstvo v balení pre jednotkovú cenu, ktorú vyžaduje označovanie cenami (za "
+"1 kg, 1 l, 1 m alebo 1 ks). Nechajte prázdne pri tovare predávanom ako jeden "
+"kus a pri súboroch rôznych tovarov za jednu cenu; balenia do 50 g / 50 ml "
+"jednotkovú cenu nezobrazia tak či tak."
+
+#: includes/class-px-unit-price.php:454 includes/class-px-unit-price.php:488
+msgid "Unit"
+msgstr "Jednotka"
+
+#: includes/class-px-unit-price.php:478
+msgid "Empty inherits the parent product."
+msgstr "Prázdne dedí z nadradeného produktu."
+
+#: includes/class-px-waitlist.php:196
+msgid "Please enter a valid e-mail address."
+msgstr "Zadajte platnú e-mailovú adresu."
+
+#: includes/class-px-waitlist.php:214
+msgid "The waitlist for this product is full."
+msgstr "Zoznam čakateľov pre tento produkt je plný."
+
+#: includes/class-px-waitlist.php:355
 msgid "This link is no longer valid."
 msgstr "Tento odkaz už neplatí."
 
+#: includes/class-px-waitlist.php:427
 msgid "Done - we will e-mail you as soon as the product is back in stock."
 msgstr "Hotovo — ozveme sa hneď, ako bude produkt opäť skladom."
 
+#: includes/class-px-waitlist.php:428
 msgid "Done - we will not e-mail you about product availability again."
 msgstr "Hotovo — o dostupnosti produktov vám už písať nebudeme."
 
+#: includes/class-px-waitlist.php:470
+msgid "This product is already in stock."
+msgstr "Tento produkt je už skladom."
+
+#: includes/class-px-waitlist.php:488
 msgid "Almost there - open the e-mail we just sent and confirm your address."
-msgstr "Ešte krok — otvorte e-mail, ktorý sme vám práve poslali, a potvrďte adresu."
+msgstr ""
+"Ešte krok — otvorte e-mail, ktorý sme vám práve poslali, a potvrďte adresu."
 
-msgid "(not confirmed)"
-msgstr "(nepotvrdené)"
+#: includes/class-px-waitlist.php:489
+msgid "Thank you! We will e-mail you as soon as the product is back in stock."
+msgstr "Ďakujeme! Hneď ako bude produkt opäť skladom, pošleme vám e-mail."
 
-msgid "Waitlist: confirm the address"
-msgstr "Sledovanie dostupnosti: potvrdenie adresy"
-
-msgid "Sent right after someone asks to be told when a product is back in stock. Until they click the link in it, they are not on the list."
-msgstr "Odchádza hneď po prihlásení na sledovanie dostupnosti. Kým zákazník neklikne na odkaz v ňom, na zozname nie je."
-
-msgid "Confirm you want to hear about {product_name}"
-msgstr "Potvrďte sledovanie dostupnosti — {product_name}"
-
-msgid "One click and you are on the list"
-msgstr "Jedno kliknutie a ste na zozname"
-
-msgid "Waitlist: subscription confirmed"
-msgstr "Sledovanie dostupnosti: potvrdené prihlásenie"
-
-msgid "Sent after the customer confirms the address. Carries the unsubscribe link."
-msgstr "Odchádza po potvrdení adresy. Nesie odkaz na odhlásenie."
-
-msgid "We will let you know about {product_name}"
-msgstr "Dáme vám vedieť, keď bude {product_name} skladom"
-
-msgid "You are on the list"
-msgstr "Ste na zozname"
-
-msgid "Waitlist: product is back in stock"
-msgstr "Sledovanie dostupnosti: produkt je skladom"
-
-msgid "Sent to confirmed subscribers when the product they are waiting for is available again."
-msgstr "Odchádza potvrdeným záujemcom, keď je sledovaný produkt opäť dostupný."
-
-msgid "{product_name} is back in stock"
-msgstr "{product_name} je opäť skladom"
-
-msgid "Back in stock"
-msgstr "Opäť skladom"
-
-msgid "Waitlist: new subscriber (admin)"
-msgstr "Sledovanie dostupnosti: nový záujemca (admin)"
-
-msgid "Tells the shop that somebody is waiting for a product that is out of stock."
-msgstr "Oznámi obchodu, že niekto čaká na produkt, ktorý nie je skladom."
-
-msgid "Waitlist: somebody is waiting for {product_name}"
-msgstr "Sledovanie dostupnosti: niekto čaká na {product_name}"
-
-msgid "New waitlist subscriber"
-msgstr "Nový záujemca o naskladnenie"
-
-msgid "Recipient(s)"
-msgstr "Príjemca(ovia)"
-
-msgid "Comma separated. Defaults to %s."
-msgstr "Oddelené čiarkou. Predvolene %s."
-
-msgid "Somebody (we hope you) asked us to send an e-mail as soon as %s is available again."
-msgstr "Niekto (dúfame, že vy) nás požiadal, aby sme vám dali vedieť, keď bude %s opäť dostupný."
-
-msgid "Confirm the address and we will do exactly that - nothing else, no newsletter."
-msgstr "Potvrďte adresu a presne to urobíme — nič iné, žiadny newsletter."
-
-msgid "Yes, let me know"
-msgstr "Áno, dajte mi vedieť"
-
-msgid "If the button does not work, open this address:"
-msgstr "Ak tlačidlo nefunguje, otvorte túto adresu:"
-
-msgid "If it was not you, just ignore this message - without the click above nothing happens."
-msgstr "Ak ste to neboli vy, správu pokojne ignorujte — bez kliknutia vyššie sa nič nestane."
-
-msgid "If it was not you, just ignore this message - without the link above nothing happens."
-msgstr "Ak ste to neboli vy, správu pokojne ignorujte — bez odkazu vyššie sa nič nestane."
-
-msgid "Thank you - we will e-mail you as soon as %s is back in stock."
-msgstr "Ďakujeme — ozveme sa hneď, ako bude %s opäť skladom."
-
-msgid "Stop e-mailing me about availability"
-msgstr "Nechcem už e-maily o dostupnosti"
-
-msgid "Stop e-mailing me about availability:"
-msgstr "Nechcem už e-maily o dostupnosti:"
-
-msgid "Stock is limited - this message went to everybody who was waiting."
-msgstr "Zásoba je obmedzená — správa odišla všetkým, ktorí čakali."
-
-msgid "%1$s is waiting for %2$s."
-msgstr "%1$s čaká na %2$s."
-
-msgid "SKU:"
-msgstr "SKU:"
-
-msgid "Waiting in total:"
-msgstr "Čakajúcich spolu:"
-
-msgid "Edit product"
-msgstr "Upraviť produkt"
-
+#: includes/class-px-waitlist.php:609
 msgid "Out of stock. Leave your e-mail and we will tell you when it is back."
-msgstr "Nie je skladom. Nechajte nám e-mail a dáme vám vedieť, keď bude opäť skladom."
+msgstr ""
+"Nie je skladom. Nechajte nám e-mail a dáme vám vedieť, keď bude opäť skladom."
 
+#: includes/class-px-waitlist.php:611
 msgid "Your e-mail"
 msgstr "Váš e-mail"
 
+#: includes/class-px-waitlist.php:619
 msgid "your@email.com"
 msgstr "vas@email.sk"
 
+#: includes/class-px-waitlist.php:621
 msgid "Notify me"
 msgstr "Dajte mi vedieť"
 
+#: includes/class-px-waitlist.php:704 includes/class-px-waitlist.php:705
 msgid "Something went wrong, please try again."
 msgstr "Niečo sa pokazilo, skúste to, prosím, znova."
 
-msgid "Sale validity"
-msgstr "Platnosť akcie"
+#: includes/class-px-waitlist.php:743
+msgid "Waitlist"
+msgstr "Zoznam čakateľov"
 
-msgid "Shows until when a discounted price applies, as a date or a countdown near the end."
-msgstr "Ukáže, dokedy platí akciová cena — dátumom, tesne pred koncom odpočtom."
+#. translators: %d: number of subscribers.
+#: includes/class-px-waitlist.php:796
+#, php-format
+msgid "Customers waiting for this product: %d"
+msgstr "Zákazníci čakajúci na tento produkt: %d"
 
-msgid "Shows how long a discounted price applies. The date comes from the product (Sale price dates); products discounted by a plugin that sets no dates fall back to the shop-wide campaign end below."
-msgstr "Ukáže, ako dlho platí akciová cena. Dátum berie z produktu (Platnosť akciovej ceny); produkty zľavnené pluginom, ktorý dátumy nenastavuje, použijú koniec kampane pre celý obchod nižšie."
+#: includes/class-px-waitlist.php:807
+msgid "(not confirmed)"
+msgstr "(nepotvrdené)"
 
-msgid "Product cards"
-msgstr "Produktové karty"
+#: includes/class-px-wishlist.php:157
+msgid "Your wishlist is empty."
+msgstr "Váš zoznam želaní je prázdny."
 
-msgid "Show the end of the sale on product cards"
-msgstr "Zobraziť koniec akcie na produktových kartách"
-
-msgid "Product detail"
-msgstr "Detail produktu"
-
-msgid "Show the end of the sale on the product page"
-msgstr "Zobraziť koniec akcie na stránke produktu"
-
-msgid "Live countdown under"
-msgstr "Živý odpočet menej než"
-
-msgid "hours before the end. The date turns into a ticking countdown; 0 keeps the date."
-msgstr "hodín do konca. Dátum sa zmení na bežiaci odpočet; 0 nechá dátum."
-
-msgid "Hide when further away than"
-msgstr "Skryť, ak je koniec ďalej než"
-
-msgid "days. A sale running for months is not news; 0 always shows the date."
-msgstr "dní. Akcia bežiaca mesiace nie je novina; 0 zobrazí dátum vždy."
-
-msgid "Shop-wide campaign end"
-msgstr "Koniec kampane pre celý obchod"
-
-msgid "Used for products whose discount carries no date of its own - typically a sitewide discount plugin. Leave empty when every sale has its own dates."
-msgstr "Použije sa pri produktoch, ktorých zľava nemá vlastný dátum — typicky plugin s plošnou zľavou. Nechajte prázdne, keď má každá akcia vlastné dátumy."
-
-#. translators: %s: date the sale price stops applying.
-msgid "Sale price valid until %s"
-msgstr "Akciová cena platí do %s"
-
-msgid "Related categories"
-msgstr "Súvisiace kategórie"
-
-msgid "Accessories set once per product category instead of product by product (\"bicycles\" go with \"lights\" and \"bottle cages\"). Subcategories inherit from their parent."
-msgstr "Doplnky sa nastavia raz na kategórii, nie na každom produkte („bicykle“ idú so „svetlami“ a „košíkmi na fľaše“). Podkategórie dedia od rodiča."
-
-msgid "Which categories go with which is set on the category itself (Products → Categories). Subcategories inherit from their parent, so one setting usually covers a whole branch."
-msgstr "Čo s čím súvisí sa nastavuje priamo na kategórii (Produkty → Kategórie). Podkategórie dedia od rodiča, takže jedno nastavenie zvyčajne pokryje celú vetvu."
-
-msgid "Number of products"
-msgstr "Počet produktov"
-
-msgid "How many products the theme gets. They are taken in turn from each related category, so one category cannot fill the whole row."
-msgstr "Koľko produktov dostane téma. Berú sa striedavo z každej súvisiacej kategórie, takže jedna kategória nezaplní celý riadok."
-
-msgid "Which products first"
-msgstr "Ktoré produkty najskôr"
-
-msgid "Order inside each related category."
-msgstr "Poradie v rámci každej súvisiacej kategórie."
-
-msgid "Best selling"
-msgstr "Najpredávanejšie"
-
-msgid "Newest"
-msgstr "Najnovšie"
-
-msgid "Category order (menu order)"
-msgstr "Poradie v kategórii (menu order)"
-
-msgid "Heading"
-msgstr "Nadpis"
-
-msgid "Used when the category does not set its own. Empty falls back to \"Goes well with this\"."
-msgstr "Použije sa, keď kategória nemá vlastný. Prázdne znamená „Hodí sa k tomuto“."
-
-msgid "Cart"
-msgstr "Košík"
-
-msgid "Offer them in the cart as well"
-msgstr "Ponúkať ich aj v košíku"
-
-msgid "Adds them to the cart cross-sells, after the ones the products name themselves. Applies to the classic cart; the block cart draws its own."
-msgstr "Pridá ich ku krížovému predaju v košíku, za tie, ktoré majú produkty nastavené samy. Platí pre klasický košík; blokový si kreslí vlastné."
-
-msgid "Cache"
-msgstr "Cache"
-
-msgid "Hours before the product list is looked up again. 0 turns caching off (development only)."
-msgstr "Po koľkých hodinách sa zoznam produktov vyhľadá nanovo. 0 vypne cache (len pri vývoji)."
-
-msgid "Goes well with this"
-msgstr "Hodí sa k tomuto"
-
-msgid "Optional. Shown above the products instead of the default one."
-msgstr "Voliteľné. Zobrazí sa nad produktmi namiesto predvoleného."
-
-msgid "Products in this category will offer products from the categories ticked here. Subcategories inherit this, so ticking it on the top category is usually enough."
-msgstr "Produkty v tejto kategórii budú ponúkať produkty z tu zaškrtnutých kategórií. Podkategórie to dedia, takže zvyčajne stačí zaškrtnúť na najvyššej kategórii."
-
-#. translators: %s: name of the parent category the setting is inherited from.
-msgid "Nothing ticked: the list is inherited from %s."
-msgstr "Nič nie je zaškrtnuté: zoznam sa dedí z %s."
-
-msgid "No product categories yet."
-msgstr "Zatiaľ nie sú žiadne kategórie produktov."
-
-msgid "Related"
-msgstr "Súvisiace"
-
-msgid "inherited"
-msgstr "zdedené"
-
-msgid "Search categories…"
-msgstr "Hľadať kategórie…"
-
-msgid "Selected only"
-msgstr "Len vybrané"
-
-msgid "PX Shop"
-msgstr "PX Shop"
-
-msgid "Modules"
-msgstr "Moduly"
-
-msgid "Only the modules switched on here are loaded. A module that is off registers no hooks, no REST routes and no admin screens; stored data (waitlist subscribers, wishlists, GPSR fields) stays untouched and comes back with it."
-msgstr "Načítajú sa len moduly zapnuté tu. Vypnutý modul neregistruje žiadne hooky, REST cesty ani obrazovky v administrácii; uložené dáta (prihlásení na dostupnosť, obľúbené produkty, GPSR polia) ostávajú nedotknuté a vrátia sa spolu s ním."
-
-msgid "Overridden in code - the switch below has no effect."
-msgstr "Prepísané v kóde — prepínač nižšie nemá účinok."
-
-msgid "Content blocks"
-msgstr "Obsahové bloky"
-
-msgid "Non-public \"Content\" post type for reusable blocks (banners, USP strips) rendered by the theme."
-msgstr "Neverejný typ obsahu „Obsah“ pre opakovane použiteľné bloky (bannery, pásy výhod), ktoré vykresľuje téma."
-
-msgid "Live search"
-msgstr "Živé vyhľadávanie"
-
-msgid "REST endpoint behind the search field in the header."
-msgstr "REST endpoint za vyhľadávacím poľom v hlavičke."
-
-msgid "Brand tab"
-msgstr "Karta značky"
-
-msgid "Adds an \"About the brand\" product tab from the product_brand term description."
-msgstr "Pridá k produktu kartu „O značke“ z popisu značky (term product_brand)."
-
-msgid "EU Omnibus"
-msgstr "EU Omnibus"
-
-msgid "Records price history and shows the lowest price of the last 30 days on discounted products."
-msgstr "Zaznamenáva históriu cien a pri zľavnených produktoch ukazuje najnižšiu cenu za posledných 30 dní."
-
-msgid "GPSR product safety"
-msgstr "Bezpečnosť produktov (GPSR)"
-
-msgid "Manufacturer, safety warnings and instructions on products, with the data tab in admin."
-msgstr "Výrobca, bezpečnostné upozornenia a návody pri produktoch, aj s kartou údajov v administrácii."
-
+#: includes/class-px-wishlist.php:195 includes/modules.php:246
 msgid "Wishlist"
 msgstr "Obľúbené produkty"
 
-msgid "Favourite products per customer (user meta, cookie for guests) with REST endpoints."
-msgstr "Obľúbené produkty pre každého zákazníka (user meta, pri neprihlásených cookie) s REST endpointmi."
+#: includes/class-px-wishlist.php:197
+msgid ""
+"Page holding the [px_wishlist] shortcode. Themes link to it from the header "
+"icon; with no page set the link is simply not rendered."
+msgstr ""
+"Stránka so shortcode [px_wishlist]. Téma na ňu odkazuje z ikony v hlavičke; "
+"bez nastavenej stránky sa odkaz jednoducho nevykreslí."
 
-msgid "Compare"
-msgstr "Porovnanie produktov"
-
-msgid "Side-by-side comparison of up to four products (cookie based) with REST endpoints."
-msgstr "Porovnanie až štyroch produktov vedľa seba (na základe cookie) s REST endpointmi."
-
-msgid "Free shipping bar"
-msgstr "Pás dopravy zadarmo"
-
-msgid "Data for the \"how much is left to free shipping\" progress bar drawn by the theme."
-msgstr "Údaje pre ukazovateľ „koľko chýba do dopravy zadarmo“, ktorý kreslí téma."
-
-msgid "Back-in-stock waitlist"
-msgstr "Stráženie dostupnosti"
-
-msgid "Visitors subscribe to an out-of-stock product (double opt-in) and are mailed once it is back."
-msgstr "Návštevník sa prihlási pri vypredanom produkte (double opt-in) a dostane e-mail, keď bude opäť skladom."
-
-msgid "Size tables assigned to a product or inherited from its category."
-msgstr "Tabuľky veľkostí priradené produktu alebo zdedené z jeho kategórie."
-
-msgid "Attribute images"
-msgstr "Obrázky atribútov"
-
-msgid "Image field on every product attribute term (pa_*), used by swatches and filters."
-msgstr "Pole s obrázkom pri každom terme atribútu produktu (pa_*), používajú ho vzorkovníky a filtre."
-
-msgid "Makes a browse-only shop possible. The mode itself is switched on in this module's settings."
-msgstr "Umožní obchod len na prezeranie. Samotný režim sa zapína v nastaveniach tohto modulu."
-
-msgid "Page holding the [px_wishlist] shortcode. Themes link to it from the header icon; with no page set the link is simply not rendered."
-msgstr "Stránka so shortcode [px_wishlist]. Téma na ňu odkazuje z ikony v hlavičke; bez nastavenej stránky sa odkaz jednoducho nevykreslí."
-
+#: includes/class-px-wishlist.php:201
 msgid "Wishlist page"
 msgstr "Stránka Obľúbené"
 
-msgid "Page where the comparison table is rendered. Themes link to it from the compare counter; with no page set the link is simply not rendered."
-msgstr "Stránka, na ktorej sa vykreslí porovnávacia tabuľka. Téma na ňu odkazuje z počítadla porovnania; bez nastavenej stránky sa odkaz jednoducho nevykreslí."
-
-msgid "Compare page"
-msgstr "Stránka Porovnanie"
-
-msgid "PX Shop Core: the \"Company details\" module is switched on, but WPify Woo still handles IČO and DIČ. Turn off its \"IČ DIČ\" module (or deactivate the plugin) and the fields will be served by PX Shop Core - the stored data is the same and stays where it is."
-msgstr "PX Shop Core: modul „Firemné údaje“ je zapnutý, ale IČO a DIČ stále obsluhuje WPify Woo. Vypnite jeho modul „IČ DIČ“ (alebo plugin deaktivujte) a polia prevezme PX Shop Core — uložené údaje sú tie isté a zostávajú, kde sú."
-
-msgid "Checkout fields"
-msgstr "Polia v pokladni"
-
-msgid "IČO, DIČ and IČ DPH are stored as _billing_ic, _billing_dic and _billing_dic_dph, the keys invoicing plugins and exports already expect. IČ DPH is only shown for Slovak billing addresses; elsewhere the VAT id belongs in DIČ."
-msgstr "IČO, DIČ a IČ DPH sa ukladajú do kľúčov _billing_ic, _billing_dic a _billing_dic_dph, teda tam, kde ich fakturačné pluginy a exporty už hľadajú. IČ DPH sa zobrazuje len pri slovenskej fakturačnej adrese; inde patrí IČ DPH do poľa DIČ."
-
-msgid "Company checkbox"
-msgstr "Políčko „nakupujem na firmu“"
-
-msgid "Show the \"I'm buying for a company\" checkbox and keep the fields hidden until it is ticked"
-msgstr "Zobraziť políčko „Nakupujem na firmu“ a firemné polia ukázať až po jeho zaškrtnutí"
-
-msgid "Field position"
-msgstr "Umiestnenie polí"
-
-msgid "Move the company block above the name and address"
-msgstr "Presunúť firemný blok nad meno a adresu"
-
-msgid "Company customers then fill the register lookup first and get the rest of the form filled for them."
-msgstr "Firemný zákazník potom začne načítaním z registra a zvyšok formulára sa mu vyplní sám."
-
-msgid "Company name"
-msgstr "Názov firmy"
-
-msgid "Required when buying for a company"
-msgstr "Povinný pri nákupe na firmu"
-
-msgid "Identification number"
-msgstr "IČO"
-
-msgid "When is IČO required?"
-msgstr "Kedy je IČO povinné?"
-
-msgid "When the company checkbox is ticked"
-msgstr "Keď je zaškrtnuté políčko „nakupujem na firmu“"
-
-msgid "When the company name is filled in"
-msgstr "Keď je vyplnený názov firmy"
-
-msgid "Never"
-msgstr "Nikdy"
-
-msgid "Format check"
-msgstr "Kontrola formátu"
-
-msgid "Reject numbers that cannot be right before the order is placed"
-msgstr "Odmietnuť čísla, ktoré nemôžu byť správne, ešte pred odoslaním objednávky"
-
-msgid "IČO 8 digits, SK DIČ 10 digits, SK IČ DPH SK + 10 digits, other EU VAT ids country prefix + number."
-msgstr "IČO 8 číslic, SK DIČ 10 číslic, SK IČ DPH SK + 10 číslic, ostatné EÚ predpona krajiny + číslo."
-
-msgid "Public registers"
-msgstr "Verejné registre"
-
-msgid "RPO (Statistical Office) for Slovak numbers, ARES (Ministry of Finance) for Czech ones. Both are free, need no key and are queried straight from the shop; answers are cached for a week."
-msgstr "RPO (Štatistický úrad SR) pre slovenské čísla, ARES (MF ČR) pre české. Oboje je zadarmo, bez kľúča a volá sa priamo z obchodu; odpovede sa kešujú na týždeň."
-
-msgid "Fill in from the register"
-msgstr "Doplniť z registra"
-
-msgid "Offer a \"Load from register\" button next to IČO"
-msgstr "Ponúknuť pri IČO tlačidlo „Načítať z registra“"
-
-msgid "Fills the company name and registered address. The customer can still edit everything afterwards."
-msgstr "Doplní názov firmy a sídlo. Zákazník môže všetko potom upraviť."
-
-msgid "Verify the number"
-msgstr "Overiť číslo"
-
-msgid "Refuse an IČO the register does not know"
-msgstr "Odmietnuť IČO, ktoré register nepozná"
-
-msgid "Checked when the order is placed. If the register is down the order goes through - the outage is ours to log, not the customer's to solve."
-msgstr "Kontroluje sa pri odoslaní objednávky. Keď register nefunguje, objednávka prejde — výpadok je náš na zalogovanie, nie zákazníkov na riešenie."
-
-msgid "VAT id verification (VIES)"
-msgstr "Overenie IČ DPH (VIES)"
-
-msgid "VIES is the European Commission register of VAT identification numbers. It is the only evidence that a reverse-charge invoice was issued to a real VAT payer, so keep it on wherever the reverse charge is on."
-msgstr "VIES je register identifikačných čísel pre DPH Európskej komisie. Je jediným dokladom, že faktúra s prenesením daňovej povinnosti šla skutočnému platiteľovi DPH — nechajte ho preto zapnutý všade, kde je zapnuté prenesenie."
-
-msgid "VIES check"
-msgstr "Kontrola vo VIES"
-
-msgid "Off"
-msgstr "Vypnutá"
-
-msgid "Check and warn, let the order through"
-msgstr "Overiť a upozorniť, objednávku pustiť"
-
-msgid "Check and refuse an unverified VAT id"
-msgstr "Overiť a neoverené IČ DPH odmietnuť"
-
-msgid "A VIES outage never blocks an order, not even in the strict setting - only an answer saying the number is unknown does."
-msgstr "Výpadok VIES objednávku nezastaví nikdy, ani pri prísnom nastavení — zastaví ju len odpoveď, že číslo neexistuje."
-
-msgid "VAT exemption"
-msgstr "Oslobodenie od DPH"
-
-msgid "Which country decides follows the WooCommerce setting <em>Calculate tax based on</em> (%s): the shipping country for goods, the billing country for services. Leave both switches off in a shop that sells at home only."
-msgstr "Ktorá krajina rozhoduje, sa riadi nastavením WooCommerce <em>Vypočítať daň podľa</em> (%s): pri tovare dodacia krajina, pri službách fakturačná. V obchode, ktorý predáva len doma, nechajte oba prepínače vypnuté."
-
-msgid "WooCommerce → Settings → Tax"
-msgstr "WooCommerce → Nastavenia → Daň"
-
-msgid "EU reverse charge"
-msgstr "Prenesenie daňovej povinnosti (EÚ)"
-
-msgid "No VAT for a business customer in another EU country"
-msgstr "Bez DPH pre firemného zákazníka v inej krajine EÚ"
-
-msgid "The invoice has to carry the \"reverse charge\" notice and the order belongs in the EC Sales List."
-msgstr "Faktúra musí niesť poznámku „prenesenie daňovej povinnosti“ a objednávka patrí do súhrnného výkazu."
-
-msgid "Export outside the EU"
-msgstr "Vývoz mimo EÚ"
-
-msgid "No VAT when the goods leave the EU"
-msgstr "Bez DPH, keď tovar opúšťa EÚ"
-
-msgid "Applies to consumers as well as businesses. You need the customs proof of export to defend it."
-msgstr "Platí pre občanov aj firmy. Na obhájenie potrebujete colný doklad o vývoze."
-
-msgid "Proof required"
-msgstr "Vyžadovať doklad"
-
-msgid "Only drop the VAT when VIES confirms the VAT id"
-msgstr "DPH odpustiť len vtedy, keď VIES potvrdí IČ DPH"
-
-msgid "With this off, any correctly formatted VAT id is enough and the tax risk is the shop's. Turning it on with the VIES check off leaves the reverse charge inactive."
-msgstr "Pri vypnutom stačí správne naformátované IČ DPH a daňové riziko nesie obchod. So zapnutým a s vypnutou kontrolou vo VIES prenesenie daňovej povinnosti nenastane nikdy."
-
-msgid "Company ID"
-msgstr "IČO"
-
-msgid "12345678"
-msgstr "12345678"
-
-msgid "Tax ID"
-msgstr "DIČ"
-
-msgid "VAT ID"
-msgstr "IČ DPH"
-
-msgid "SK1234567890"
-msgstr "SK1234567890"
-
-msgid "I'm buying for a company"
-msgstr "Nakupujem na firmu"
-
-msgid "Load from register"
-msgstr "Načítať z registra"
-
-msgid "Loading…"
-msgstr "Načítavam…"
-
-msgid "Details filled in from the register."
-msgstr "Údaje doplnené z registra."
-
-msgid "VAT id verified in VIES."
-msgstr "IČ DPH overené vo VIES."
-
-msgid "VIES does not know this VAT id."
-msgstr "VIES toto IČ DPH nepozná."
-
-msgid "VIES did not answer, the number could not be verified."
-msgstr "VIES neodpovedal, číslo sa nepodarilo overiť."
-
-msgid "The register did not answer. Please fill the details in by hand."
-msgstr "Register neodpovedal. Vyplňte údaje, prosím, ručne."
-
-msgid "The VAT id was not found in VIES. Please check it, or leave it empty and the order will be invoiced with VAT."
-msgstr "IČ DPH sa vo VIES nenašlo. Skontrolujte ho, prosím, alebo pole nechajte prázdne a objednávka sa vyfakturuje s DPH."
-
-msgid "%s is a required field when buying for a company."
-msgstr "%s je pri nákupe na firmu povinné pole."
-
-msgid "The company ID is not in the expected format (8 digits, no spaces)."
-msgstr "IČO nie je v očakávanom formáte (8 číslic, bez medzier)."
-
-msgid "The company ID is not in the expected format."
-msgstr "IČO nie je v očakávanom formáte."
-
-msgid "The tax ID is not in the expected format (10 digits, no spaces)."
-msgstr "DIČ nie je v očakávanom formáte (10 číslic, bez medzier)."
-
-msgid "The VAT ID is not in the expected format (SK followed by 10 digits)."
-msgstr "IČ DPH nie je v očakávanom formáte (SK a 10 číslic)."
-
-msgid "The VAT ID has to be the tax ID with an SK prefix."
-msgstr "IČ DPH musí byť DIČ s predponou SK."
-
-msgid "The tax ID is not in the expected format (prefix %s followed by the number)."
-msgstr "DIČ nie je v očakávanom formáte (predpona %s a číslo)."
-
-msgid "Domestic sale, VAT charged."
-msgstr "Tuzemský predaj, DPH účtovaná."
-
-msgid "VAT charged."
-msgstr "DPH účtovaná."
-
-msgid "Export outside the EU, VAT not charged."
-msgstr "Vývoz mimo EÚ, DPH neúčtovaná."
-
-msgid "EU reverse charge, VAT not charged (VAT id verified)."
-msgstr "Prenesenie daňovej povinnosti v EÚ, DPH neúčtovaná (IČ DPH overené)."
-
-msgid "VAT id could not be verified, VAT charged."
-msgstr "IČ DPH sa nepodarilo overiť, DPH účtovaná."
-
-msgid "VAT"
-msgstr "DPH"
-
-msgid "Register lookup is switched off."
-msgstr "Načítanie z registra je vypnuté."
-
-msgid "Too many requests, please wait a moment."
-msgstr "Priveľa požiadaviek, chvíľu, prosím, počkajte."
-
-msgid "VAT id verification is switched off."
-msgstr "Overovanie IČ DPH je vypnuté."
-
-msgid "Enter an identification number first."
-msgstr "Najprv zadajte IČO."
-
-msgid "There is no register available for this country."
-msgstr "Pre túto krajinu nie je dostupný register."
-
-msgid "This company is no longer registered in RPO."
-msgstr "Táto firma už nie je v RPO zapísaná."
-
-msgid "This company is no longer registered in ARES."
-msgstr "Táto firma už nie je v ARES zapísaná."
-
-msgid "Not found in the register."
-msgstr "V registri sa nenašlo."
-
-msgid "This identification number is not in the ARES register."
-msgstr "Toto IČO nie je v registri ARES."
-
-msgid "This identification number is not in the RPO register."
-msgstr "Toto IČO nie je v registri RPO."
-
-msgid "Company details"
-msgstr "Firemné údaje"
-
-msgid "IČO, DIČ and IČ DPH on the checkout, filled in from the RPO/ARES register, VAT id verified in VIES, EU reverse charge and export outside the EU. Off by default - switch it on only once the plugin that used to handle these fields is gone, or the checkout shows them twice."
-msgstr "IČO, DIČ a IČ DPH v pokladni, doplnenie z registra RPO/ARES, overenie IČ DPH vo VIES, prenesenie daňovej povinnosti v EÚ a vývoz mimo EÚ. Predvolene vypnuté — zapnite až potom, čo je preč plugin, ktorý tieto polia obsluhoval doteraz, inak budú v pokladni dvakrát."
-
-msgid "IČO, DIČ and IČ DPH are stored as _billing_ic, _billing_dic and _billing_dic_dph, the keys invoicing plugins and exports already expect. IČ DPH is only shown for Slovak billing addresses; elsewhere the VAT id belongs in DIČ. The company name field is part of the block even when WooCommerce is set to hide it - an invoice needs a name, not just a number."
-msgstr "IČO, DIČ a IČ DPH sa ukladajú do kľúčov _billing_ic, _billing_dic a _billing_dic_dph, teda tam, kde ich fakturačné pluginy a exporty už hľadajú. IČ DPH sa zobrazuje len pri slovenskej fakturačnej adrese; inde patrí IČ DPH do poľa DIČ. Pole s názvom firmy je súčasťou bloku aj vtedy, keď ho má WooCommerce nastavené ako skryté — na faktúre treba meno, nielen číslo."
-
-msgid "Keep the company block together right after the name"
-msgstr "Držať firemný blok pohromade hneď za menom"
-
-msgid "Name, then the checkbox, then the company name and the numbers - all above the address, so the register lookup has somewhere to fill in. With this off the block follows wherever the company field already sits."
-msgstr "Meno, potom políčko, potom názov firmy a čísla — všetko nad adresou, aby malo načítanie z registra kam doplniť. Pri vypnutom ide blok tam, kde už pole „Firma\" je."
-
-
-# Modul Cookie consent (px_consent).
-
-msgid "Cookie consent"
-msgstr "Súhlas s cookies"
-
-msgid "The shop's own consent banner: a service is asked about before it loads, the answer is kept in a first-party cookie and translated into Google Consent Mode v2 signals. Replaces Complianz and friends - it does not run next to them. Off by default; a site that keeps an external CMP leaves it off and nothing of this module is loaded."
-msgstr "Vlastná cookie lišta obchodu: na každú službu sa pýta skôr, než sa načíta, odpoveď drží vo vlastnej cookie a prekladá ju do signálov Google Consent Mode v2. Nahrádza Complianz a spol. — nebeží vedľa nich. Predvolene vypnuté; web, ktorý si necháva externú CMP, ho nechá vypnutý a z modulu sa nenačíta vôbec nič."
-
-msgid "The shop's own consent banner. Switch on only the services the site really uses - each one adds a row to the banner, to the cookie policy page and, where it applies, a script to the page. Known limit: without IAB TCF certification this banner is not enough for AdSense or Ad Manager; GA4 and Ads conversion measurement are unaffected."
-msgstr "Vlastná cookie lišta obchodu. Zapnite len služby, ktoré web naozaj používa — každá pridá riadok do lišty, na stránku so zásadami cookies a tam, kde to platí, aj skript do stránky. Známy limit: bez certifikácie IAB TCF táto lišta nestačí pre AdSense ani Ad Manager; merania GA4 a konverzií v Ads sa to netýka."
-
-msgid "PX Shop Core: the \"Cookie consent\" module is switched on, but %s is active as well. Two consent banners would fight over one answer, so this module is doing nothing. Deactivate the other plugin, or switch this module off."
-msgstr "PX Shop Core: modul „Súhlas s cookies“ je zapnutý, ale zároveň je aktívny %s. Dve lišty by sa bili o jednu odpoveď, takže tento modul nerobí nič. Deaktivujte druhý plugin, alebo vypnite tento modul."
-
-msgid "PX Shop Core: the \"Google Consent Mode v2\" module (the Complianz bridge) is not loaded - the \"Cookie consent\" module sends the signals itself. Switch the bridge off, so the screen does not promise something the site no longer does."
-msgstr "PX Shop Core: modul „Google Consent Mode v2“ (most na Complianz) sa nenačítal — signály posiela modul „Súhlas s cookies“ sám. Most vypnite, nech obrazovka nesľubuje niečo, čo web už nerobí."
-
-msgid "PX Shop Core: these services are switched on but have no id filled in, so they are not loaded: %s"
-msgstr "PX Shop Core: tieto služby sú zapnuté, ale nemajú vyplnené ID, takže sa nenačítajú: %s"
-
-msgid "Policy version"
-msgstr "Verzia zásad"
-
-msgid "Change it whenever a service or a purpose changes - everyone is asked again. Any short value works: 1, 2, 2026-08."
-msgstr "Zmeňte ju vždy, keď pribudne služba alebo sa zmení účel — lišta sa spýta znova všetkých. Stačí krátka hodnota: 1, 2, 2026-08."
-
-msgid "Cookie policy page"
-msgstr "Stránka so zásadami cookies"
-
-msgid "The banner links to it. The page holding [px_cookie_policy] is created as a draft when this module is switched on; publish it and link it from the footer."
-msgstr "Lišta na ňu odkazuje. Stránka so shortcodom [px_cookie_policy] vznikne ako koncept pri zapnutí modulu; publikujte ju a dajte odkaz do pätičky."
-
-msgid "Google Consent Mode v2"
-msgstr "Google Consent Mode v2"
-
-msgid "Send the consent signals to Google"
-msgstr "Posielať Googlu signály súhlasu"
-
-msgid "Keep it on even when the tags come from somewhere else - the \"denied by default\" state has to be in the page before any Google tag runs."
-msgstr "Nechajte zapnuté aj vtedy, keď tagy vkladá niekto iný — stav „predvolene odmietnuté“ musí byť v stránke skôr, než sa spustí akýkoľvek tag Googlu."
-
-msgid "On"
-msgstr "Zapnuté"
-
+#: includes/consent/class-px-consent-page.php:59
+#: templates/consent/banner.php:56 templates/consent/modal.php:42
 msgid "Cookie policy"
 msgstr "Zásady používania cookies"
 
-msgid "cookie-policy"
-msgstr "zasady-cookies"
+#: includes/consent/class-px-consent-page.php:87
+msgid ""
+"Cookies are small files that a website stores in your browser. Some are "
+"needed for the shop to work at all - without them the cart would forget what "
+"you put in it. Others are only used with your consent: they measure how the "
+"site is used or make our advertising more relevant."
+msgstr ""
+"Cookies sú malé súbory, ktoré si web ukladá vo vašom prehliadači. Niektoré "
+"sú potrebné na to, aby obchod vôbec fungoval — bez nich by košík zabudol, čo "
+"ste doň vložili. Ostatné používame len s vaším súhlasom: merajú, ako sa web "
+"používa, alebo robia našu reklamu zmysluplnejšou."
 
-msgid "Cookies are small files that a website stores in your browser. Some are needed for the shop to work at all - without them the cart would forget what you put in it. Others are only used with your consent: they measure how the site is used or make our advertising more relevant."
-msgstr "Cookies sú malé súbory, ktoré si web ukladá vo vašom prehliadači. Niektoré sú potrebné na to, aby obchod vôbec fungoval — bez nich by košík zabudol, čo ste doň vložili. Ostatné používame len s vaším súhlasom: merajú, ako sa web používa, alebo robia našu reklamu zmysluplnejšou."
+#: includes/consent/class-px-consent-page.php:88
+msgid ""
+"You decide about the optional ones when you first arrive and you can change "
+"your mind at any time - the button at the end of this page opens the "
+"settings again. Withdrawing consent is as easy as giving it and does not "
+"affect what happened before."
+msgstr ""
+"O tých voliteľných rozhodujete pri prvej návšteve a kedykoľvek to môžete "
+"zmeniť — tlačidlo na konci tejto stránky otvorí nastavenia znova. Odvolanie "
+"súhlasu je rovnako jednoduché ako jeho udelenie a netýka sa toho, čo sa "
+"stalo predtým."
 
-msgid "You decide about the optional ones when you first arrive and you can change your mind at any time - the button at the end of this page opens the settings again. Withdrawing consent is as easy as giving it and does not affect what happened before."
-msgstr "O tých voliteľných rozhodujete pri prvej návšteve a kedykoľvek to môžete zmeniť — tlačidlo na konci tejto stránky otvorí nastavenia znova. Odvolanie súhlasu je rovnako jednoduché ako jeho udelenie a netýka sa toho, čo sa stalo predtým."
+#: includes/consent/class-px-consent-page.php:89
+msgid ""
+"You also have the right to access your data, to have it corrected or erased, "
+"to restrict or object to its processing and to lodge a complaint with the "
+"supervisory authority. Details are in the privacy policy."
+msgstr ""
+"Máte tiež právo na prístup k svojim údajom, na ich opravu či vymazanie, na "
+"obmedzenie spracúvania, právo namietať a podať sťažnosť dozornému orgánu. "
+"Podrobnosti nájdete v zásadách ochrany osobných údajov."
 
-msgid "You also have the right to access your data, to have it corrected or erased, to restrict or object to its processing and to lodge a complaint with the supervisory authority. Details are in the privacy policy."
-msgstr "Máte tiež právo na prístup k svojim údajom, na ich opravu či vymazanie, na obmedzenie spracúvania, právo namietať a podať sťažnosť dozornému orgánu. Podrobnosti nájdete v zásadách ochrany osobných údajov."
-
+#: includes/consent/class-px-consent-services.php:71
 msgid "Necessary"
 msgstr "Nevyhnutné"
 
-msgid "Needed for the site to work - the cart, logging in, remembering the choice you are making right now. They cannot be switched off."
-msgstr "Potrebné na fungovanie webu — košík, prihlásenie, zapamätanie voľby, ktorú práve robíte. Nedajú sa vypnúť."
+#: includes/consent/class-px-consent-services.php:72
+msgid ""
+"Needed for the site to work - the cart, logging in, remembering the choice "
+"you are making right now. They cannot be switched off."
+msgstr ""
+"Potrebné na fungovanie webu — košík, prihlásenie, zapamätanie voľby, ktorú "
+"práve robíte. Nedajú sa vypnúť."
 
+#: includes/consent/class-px-consent-services.php:76
 msgid "Preferences"
 msgstr "Preferencie"
 
-msgid "Remember your settings, such as the language or the way products are listed, so you do not have to choose again."
-msgstr "Zapamätajú si vaše nastavenia, napríklad jazyk alebo spôsob výpisu produktov, aby ste ich nemuseli voliť znova."
+#: includes/consent/class-px-consent-services.php:77
+msgid ""
+"Remember your settings, such as the language or the way products are listed, "
+"so you do not have to choose again."
+msgstr ""
+"Zapamätajú si vaše nastavenia, napríklad jazyk alebo spôsob výpisu "
+"produktov, aby ste ich nemuseli voliť znova."
 
+#: includes/consent/class-px-consent-services.php:81
 msgid "Statistics"
 msgstr "Štatistika"
 
-msgid "Tell us how the site is used - which pages are visited and where visitors get lost. The data is used to improve the shop."
-msgstr "Hovoria nám, ako sa web používa — ktoré stránky ľudia navštevujú a kde sa strácajú. Údaje slúžia na zlepšovanie obchodu."
+#: includes/consent/class-px-consent-services.php:82
+msgid ""
+"Tell us how the site is used - which pages are visited and where visitors "
+"get lost. The data is used to improve the shop."
+msgstr ""
+"Hovoria nám, ako sa web používa — ktoré stránky ľudia navštevujú a kde sa "
+"strácajú. Údaje slúžia na zlepšovanie obchodu."
 
+#: includes/consent/class-px-consent-services.php:86
 msgid "Marketing"
 msgstr "Marketing"
 
-msgid "Used to measure the results of advertising and to show you offers that are relevant to you, here and on other sites."
-msgstr "Slúžia na meranie výsledkov reklamy a na to, aby sme vám tu aj inde ukazovali ponuky, ktoré vás môžu zaujímať."
-
-msgid "Keeps you logged in and remembers settings of the administration. Without them the site cannot tell one visitor from another."
-msgstr "Udržiavajú vás prihlásených a pamätajú si nastavenia administrácie. Bez nich web nerozozná jedného návštevníka od druhého."
-
-msgid "Session, or 14 days when \"remember me\" is used"
-msgstr "Relácia, pri voľbe „zapamätať si ma“ 14 dní"
-
-msgid "Identifies a logged-in user."
-msgstr "Identifikuje prihláseného používateľa."
-
-msgid "1 year"
-msgstr "1 rok"
-
-msgid "Settings of the administration screens."
-msgstr "Nastavenia obrazoviek administrácie."
-
-msgid "Runs the cart and the checkout - remembers what you put in the cart and keeps the order together until it is placed."
-msgstr "Zabezpečujú košík a pokladňu — pamätajú si, čo ste vložili do košíka, a držia objednávku pokope, kým ju neodošlete."
-
-msgid "Session"
-msgstr "Relácia"
-
-msgid "Tells the site the cart has changed."
-msgstr "Oznamuje webu, že sa obsah košíka zmenil."
-
-msgid "Says whether the cart holds anything."
-msgstr "Hovorí, či je v košíku niečo vložené."
-
-msgid "2 days"
-msgstr "2 dni"
-
-msgid "Links the browser to its cart on the server."
-msgstr "Spája prehliadač s jeho košíkom na serveri."
-
-msgid "Remembers your cookie choice and the products you added to favourites or to the comparison - each of them stored only after you clicked."
-msgstr "Pamätajú si vašu voľbu cookies a produkty, ktoré ste pridali do obľúbených alebo do porovnania — každý z nich sa uloží až po vašom kliknutí."
-
-msgid "182 days"
-msgstr "182 dní"
-
-msgid "Your cookie choice, so you are not asked on every page."
-msgstr "Vaša voľba cookies, aby sa vás lišta nepýtala na každej stránke."
-
-msgid "1 month"
-msgstr "1 mesiac"
-
-msgid "Products added to favourites by a visitor who is not logged in."
-msgstr "Produkty, ktoré do obľúbených pridal neprihlásený návštevník."
-
-msgid "Products added to the comparison."
-msgstr "Produkty pridané do porovnania."
-
-msgid "Protects forms from automated abuse. Without it the contact and registration forms would be filled by robots."
-msgstr "Chráni formuláre pred automatizovaným zneužitím. Bez neho by kontaktný a registračný formulár vypĺňali roboty."
-
-msgid "Classified as necessary: it only runs on forms you submit yourself and is not used for advertising. A site that would rather ask for consent moves it with the px_consent_services filter."
-msgstr "Zaradené medzi nevyhnutné: spúšťa sa len na formulároch, ktoré sami odosielate, a na reklamu sa nepoužíva. Web, ktorý sa radšej spýta na súhlas, ho presunie filtrom px_consent_services."
-
-msgid "6 months"
-msgstr "6 mesiacov"
-
-msgid "Distinguishes a person from a robot."
-msgstr "Rozlišuje človeka od robota."
-
-msgid "Measures traffic: which pages are visited, how visitors got here and where they leave. The results are used to improve the shop."
-msgstr "Meria návštevnosť: ktoré stránky ľudia navštevujú, ako sa sem dostali a kde odchádzajú. Výsledky slúžia na zlepšovanie obchodu."
-
-msgid "Measurement ID"
-msgstr "Measurement ID"
-
-msgid "2 years"
-msgstr "2 roky"
-
-msgid "Tells one visitor from another."
-msgstr "Rozlišuje jedného návštevníka od druhého."
-
-msgid "Keeps the state of the visit."
-msgstr "Drží stav návštevy."
-
-msgid "Loads the measurement tags of the shop. On its own it stores nothing; the tags inside it follow the choice you make here."
-msgstr "Načítava meracie tagy obchodu. Sám o sebe nič neukladá; tagy v ňom sa riadia voľbou, ktorú tu urobíte."
-
-msgid "Container ID"
-msgstr "ID kontajnera"
-
-msgid "The container is loaded with Consent Mode already set to denied, so tags inside it stay quiet until consent. Do not also switch on Google Analytics 4 here when the container already carries the GA4 tag - it would be measured twice."
-msgstr "Kontajner sa načíta už s Consent Mode nastaveným na odmietnuté, takže tagy v ňom mlčia až do súhlasu. Ak kontajner nesie tag GA4, nezapínajte tu zároveň Google Analytics 4 — meralo by sa dvakrát."
-
-msgid "Records how the site is used - movement of the mouse, scrolling and clicks - so we can see where the shop is confusing."
-msgstr "Zaznamenáva, ako sa web používa — pohyb myši, posúvanie a kliknutia — aby sme videli, kde je obchod neprehľadný."
-
-msgid "Project ID"
-msgstr "ID projektu"
-
-msgid "Keeps the visitor id for the recording."
-msgstr "Drží identifikátor návštevníka pre záznam."
-
-msgid "1 day"
-msgstr "1 deň"
-
-msgid "Joins the page views of one visit."
-msgstr "Spája zobrazenia stránok jednej návštevy."
-
-msgid "Live chat with the shop. It remembers the conversation between page views and records the visit, so the operator knows what you were looking at."
-msgstr "Živý chat s obchodom. Pamätá si konverzáciu medzi stránkami a zaznamenáva návštevu, aby operátor vedel, na čo ste sa pozerali."
-
-msgid "Chat key"
-msgstr "Kľúč chatu"
-
-msgid "Filed under statistics because Smartsupp also records the visit. A shop that only uses the chat itself can move it to preferences with the px_consent_services filter."
-msgstr "Zaradené do štatistiky, lebo Smartsupp zároveň zaznamenáva návštevu. Obchod, ktorý používa len samotný chat, ho presunie do preferencií filtrom px_consent_services."
-
-msgid "Visitor id of the chat."
-msgstr "Identifikátor návštevníka v chate."
-
-msgid "Number of visits, shown to the operator."
-msgstr "Počet návštev, ktorý vidí operátor."
-
-msgid "After an order it lets Heureka send you a questionnaire about the purchase and measures how many visits from Heureka end in an order."
-msgstr "Po objednávke umožní Heureke poslať vám dotazník o nákupe a meria, koľko návštev z Heureky skončí objednávkou."
-
-msgid "The measuring code is inserted by the Heureka integration of the shop, not by this module. For it to wait for consent, give the script the attributes type=\"text/plain\" and data-px-consent=\"statistics\" data-px-service=\"heureka\"."
-msgstr "Merací kód vkladá integrácia Heureky na webe, nie tento modul. Aby počkal na súhlas, dajte skriptu atribúty type=\"text/plain\" a data-px-consent=\"statistics\" data-px-service=\"heureka\"."
-
-msgid "Joins the visit from Heureka to the order."
-msgstr "Spája návštevu z Heureky s objednávkou."
-
-msgid "Measures which advertisement led to an order and allows us to show you our offer again on other sites."
-msgstr "Meria, ktorá reklama viedla k objednávke, a umožňuje nám znova vám ukázať našu ponuku na iných weboch."
-
-msgid "Conversion ID"
-msgstr "Konverzné ID"
-
-msgid "3 months"
-msgstr "3 mesiace"
-
-msgid "Remembers the click on the advertisement that brought you here."
-msgstr "Pamätá si kliknutie na reklamu, ktoré vás sem priviedlo."
-
-msgid "13 months"
-msgstr "13 mesiacov"
-
-msgid "Third-party cookies of the advertising system, set on Google domains."
-msgstr "Cookies tretej strany reklamného systému, ukladané na doménach Googlu."
-
-msgid "Measures the results of advertising on Facebook and Instagram and allows us to address you there with the products you looked at."
-msgstr "Meria výsledky reklamy na Facebooku a Instagrame a umožňuje nám osloviť vás tam produktmi, ktoré ste si prezerali."
-
-msgid "Pixel ID"
-msgstr "ID pixelu"
-
-msgid "Identifies the browser for advertising measurement."
-msgstr "Identifikuje prehliadač pre meranie reklamy."
-
-msgid "Third-party cookie of the advertising system on Meta domains."
-msgstr "Cookie tretej strany reklamného systému na doménach Meta."
-
-msgid "Plays videos inserted into the pages. YouTube learns which video you played and can link it to your Google account."
-msgstr "Prehráva videá vložené do stránok. YouTube sa dozvie, ktoré video ste pustili, a vie si to spojiť s vaším účtom Google."
-
-msgid "Player settings and measurement of playback."
-msgstr "Nastavenia prehrávača a meranie prehrávania."
-
-msgid "Counts the views of a video."
-msgstr "Počíta zhliadnutia videa."
-
-msgid "Shows the interactive map with our address. Google learns that the map was loaded from this site."
-msgstr "Zobrazuje interaktívnu mapu s našou adresou. Google sa dozvie, že sa mapa načítala z tohto webu."
-
-msgid "Third-party cookies of Google needed to draw the map."
-msgstr "Cookies tretej strany Googlu potrebné na vykreslenie mapy."
-
-msgid "We care about your privacy"
-msgstr "Záleží nám na vašom súkromí"
-
-msgid "We use cookies to run the shop, to measure how it is used and to make our offers relevant. The necessary ones are always on, everything else is up to you."
-msgstr "Cookies používame na fungovanie obchodu, na meranie jeho používania a na to, aby naše ponuky dávali zmysel. Nevyhnutné sú zapnuté vždy, o zvyšku rozhodujete vy."
-
-msgid "Accept all"
-msgstr "Prijať všetko"
-
-msgid "Reject all"
-msgstr "Odmietnuť všetko"
-
-msgid "Settings"
-msgstr "Nastavenia"
-
-msgid "Content from %s is blocked"
-msgstr "Obsah zo služby %s je zablokovaný"
-
-msgid "Allow %s and show the content"
-msgstr "Povoliť %s a zobraziť obsah"
-
-msgid "Open the content in a new window"
-msgstr "Otvoriť obsah v novom okne"
-
-msgid "Cookie settings"
-msgstr "Nastavenia cookies"
-
-msgid "%d service"
-msgid_plural "%d services"
-msgstr[0] "%d služba"
-msgstr[1] "%d služby"
-msgstr[2] "%d služieb"
-
-msgid "Close settings"
-msgstr "Zavrieť nastavenia"
-
-msgid "Choose what you allow. You can change your choice at any time - the link in the footer opens this window again."
-msgstr "Vyberte, čo povolíte. Voľbu môžete kedykoľvek zmeniť — odkaz v pätičke otvorí toto okno znova."
-
-msgid "Allow %s"
-msgstr "Povoliť %s"
-
-msgid "Always on"
-msgstr "Vždy zapnuté"
-
-msgid "Details"
-msgstr "Podrobnosti"
-
-msgid "Provider: %s"
-msgstr "Prevádzkovateľ: %s"
-
-msgid "Privacy policy"
-msgstr "Zásady ochrany osobných údajov"
-
-msgid "Cookies stored by %s"
-msgstr "Cookies, ktoré ukladá %s"
-
-msgid "Name"
-msgstr "Názov"
-
-msgid "Expiry"
-msgstr "Platnosť"
-
-msgid "Purpose"
-msgstr "Účel"
-
-msgid "Save choice"
-msgstr "Uložiť výber"
-
-msgid "Provider"
-msgstr "Prevádzkovateľ"
-
-msgid "Legal basis"
-msgstr "Právny základ"
-
-msgid "Necessary for the service you asked for - no consent needed"
-msgstr "Nevyhnutné pre službu, ktorú ste si vyžiadali — súhlas sa nevyžaduje"
-
-msgid "Your consent, which you can withdraw at any time"
-msgstr "Váš súhlas, ktorý môžete kedykoľvek odvolať"
-
-msgid "Change cookie settings"
-msgstr "Zmeniť nastavenia cookies"
-
-msgid "Sends Google the consent signals the free Complianz build cannot. Complianz stays the consent banner, this only translates its decisions for gtag. Needs Complianz; off by default, so switch it on only once nothing else on the site emits gtag - otherwise it loads twice."
-msgstr "Posiela Googlu signály súhlasu, ktoré free verzia Complianzu nevie. Complianz ostáva cookie lištou, tento modul len prekladá jeho rozhodnutia pre gtag. Vyžaduje Complianz; predvolene vypnuté — zapnite až vtedy, keď na webe nič iné nevydáva gtag, inak sa načíta dvakrát."
-
-# Modul Cookie consent - opravy po review.
-
-msgid "Not loaded: the \"Cookie consent\" module sends the consent signals itself. Switch this one off."
-msgstr "Nenačítané: signály súhlasu posiela modul „Súhlas s cookies“ sám. Tento vypnite."
-
+#: includes/consent/class-px-consent-services.php:87
+msgid ""
+"Used to measure the results of advertising and to show you offers that are "
+"relevant to you, here and on other sites."
+msgstr ""
+"Slúžia na meranie výsledkov reklamy a na to, aby sme vám tu aj inde "
+"ukazovali ponuky, ktoré vás môžu zaujímať."
+
+#. translators: %d: number of days.
+#: includes/consent/class-px-consent-services.php:359
+#, php-format
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] "%d deň"
 msgstr[1] "%d dni"
 msgstr[2] "%d dní"
 
+#: includes/consent/class-px-consent-services.php:362
+msgid "Your cookie choice, so you are not asked on every page."
+msgstr "Vaša voľba cookies, aby sa vás lišta nepýtala na každej stránke."
+
+#: includes/consent/class-px-consent-services.php:370
 msgid "30 days"
 msgstr "30 dní"
 
+#: includes/consent/class-px-consent-services.php:371
 msgid "How many products you chose to see on one page."
 msgstr "Koľko produktov ste si zvolili zobraziť na jednej stránke."
 
-msgid "Remembers your cookie choice, the way you set the product listing and the products you added to favourites or to the comparison - each of them stored only after you clicked."
-msgstr "Pamätajú si vašu voľbu cookies, nastavenie výpisu produktov a produkty, ktoré ste pridali do obľúbených alebo do porovnania — každý z nich sa uloží až po vašom kliknutí."
+#: includes/consent/class-px-consent-services.php:377
+#: includes/consent/class-px-consent-services.php:385
+msgid "1 month"
+msgstr "1 mesiac"
 
-msgid "Switch on only when the site really runs reCAPTCHA. Classified as necessary: it only runs on forms you submit yourself and is not used for advertising. A site that would rather ask for consent moves it with the px_consent_services filter."
-msgstr "Zapnite len vtedy, keď web reCAPTCHU naozaj používa. Zaradené medzi nevyhnutné: spúšťa sa len na formulároch, ktoré sami odosielate, a na reklamu sa nepoužíva. Web, ktorý sa radšej spýta na súhlas, ho presunie filtrom px_consent_services."
+#: includes/consent/class-px-consent-services.php:378
+msgid "Products added to favourites by a visitor who is not logged in."
+msgstr "Produkty, ktoré do obľúbených pridal neprihlásený návštevník."
 
+#: includes/consent/class-px-consent-services.php:386
+msgid "Products added to the comparison."
+msgstr "Produkty pridané do porovnania."
+
+#: includes/consent/class-px-consent-services.php:409
+msgid ""
+"Keeps you logged in and remembers settings of the administration. Without "
+"them the site cannot tell one visitor from another."
+msgstr ""
+"Udržiavajú vás prihlásených a pamätajú si nastavenia administrácie. Bez nich "
+"web nerozozná jedného návštevníka od druhého."
+
+#: includes/consent/class-px-consent-services.php:415
+msgid "Session, or 14 days when \"remember me\" is used"
+msgstr "Relácia, pri voľbe „zapamätať si ma“ 14 dní"
+
+#: includes/consent/class-px-consent-services.php:416
+msgid "Identifies a logged-in user."
+msgstr "Identifikuje prihláseného používateľa."
+
+#: includes/consent/class-px-consent-services.php:420
+#: includes/consent/class-px-consent-services.php:546
+#: includes/consent/class-px-consent-services.php:577
+#: includes/consent/class-px-consent-services.php:582
+#: includes/consent/class-px-consent-services.php:599
+msgid "1 year"
+msgstr "1 rok"
+
+#: includes/consent/class-px-consent-services.php:421
+msgid "Settings of the administration screens."
+msgstr "Nastavenia obrazoviek administrácie."
+
+#: includes/consent/class-px-consent-services.php:429
+msgid ""
+"Runs the cart and the checkout - remembers what you put in the cart and "
+"keeps the order together until it is placed."
+msgstr ""
+"Zabezpečujú košík a pokladňu — pamätajú si, čo ste vložili do košíka, a "
+"držia objednávku pokope, kým ju neodošlete."
+
+#: includes/consent/class-px-consent-services.php:435
+#: includes/consent/class-px-consent-services.php:440
+#: includes/consent/class-px-consent-services.php:684
+msgid "Session"
+msgstr "Relácia"
+
+#: includes/consent/class-px-consent-services.php:436
+msgid "Tells the site the cart has changed."
+msgstr "Oznamuje webu, že sa obsah košíka zmenil."
+
+#: includes/consent/class-px-consent-services.php:441
+msgid "Says whether the cart holds anything."
+msgstr "Hovorí, či je v košíku niečo vložené."
+
+#: includes/consent/class-px-consent-services.php:445
+msgid "2 days"
+msgstr "2 dni"
+
+#: includes/consent/class-px-consent-services.php:446
+msgid "Links the browser to its cart on the server."
+msgstr "Spája prehliadač s jeho košíkom na serveri."
+
+#: includes/consent/class-px-consent-services.php:454
+msgid ""
+"Remembers your cookie choice, the way you set the product listing and the "
+"products you added to favourites or to the comparison - each of them stored "
+"only after you clicked."
+msgstr ""
+"Pamätajú si vašu voľbu cookies, nastavenie výpisu produktov a produkty, "
+"ktoré ste pridali do obľúbených alebo do porovnania — každý z nich sa uloží "
+"až po vašom kliknutí."
+
+#: includes/consent/class-px-consent-services.php:463
+msgid ""
+"Protects forms from automated abuse. Without it the contact and registration "
+"forms would be filled by robots."
+msgstr ""
+"Chráni formuláre pred automatizovaným zneužitím. Bez neho by kontaktný a "
+"registračný formulár vypĺňali roboty."
+
+#: includes/consent/class-px-consent-services.php:469
+msgid ""
+"Switch on only when the site really runs reCAPTCHA. Classified as necessary: "
+"it only runs on forms you submit yourself and is not used for advertising. A "
+"site that would rather ask for consent moves it with the px_consent_services "
+"filter."
+msgstr ""
+"Zapnite len vtedy, keď web reCAPTCHU naozaj používa. Zaradené medzi "
+"nevyhnutné: spúšťa sa len na formulároch, ktoré sami odosielate, a na "
+"reklamu sa nepoužíva. Web, ktorý sa radšej spýta na súhlas, ho presunie "
+"filtrom px_consent_services."
+
+#: includes/consent/class-px-consent-services.php:473
+#: includes/consent/class-px-consent-services.php:679
+#: includes/consent/class-px-consent-services.php:700
+msgid "6 months"
+msgstr "6 mesiacov"
+
+#: includes/consent/class-px-consent-services.php:474
+msgid "Distinguishes a person from a robot."
+msgstr "Rozlišuje človeka od robota."
+
+#: includes/consent/class-px-consent-services.php:485
+msgid ""
+"Measures traffic: which pages are visited, how visitors got here and where "
+"they leave. The results are used to improve the shop."
+msgstr ""
+"Meria návštevnosť: ktoré stránky ľudia navštevujú, ako sa sem dostali a kde "
+"odchádzajú. Výsledky slúžia na zlepšovanie obchodu."
+
+#: includes/consent/class-px-consent-services.php:490
+msgid "Measurement ID"
+msgstr "Measurement ID"
+
+#: includes/consent/class-px-consent-services.php:499
+#: includes/consent/class-px-consent-services.php:504
+msgid "2 years"
+msgstr "2 roky"
+
+#: includes/consent/class-px-consent-services.php:500
+msgid "Tells one visitor from another."
+msgstr "Rozlišuje jedného návštevníka od druhého."
+
+#: includes/consent/class-px-consent-services.php:505
+msgid "Keeps the state of the visit."
+msgstr "Drží stav návštevy."
+
+#: includes/consent/class-px-consent-services.php:514
+msgid ""
+"Loads the measurement tags of the shop. On its own it stores nothing; the "
+"tags inside it follow the choice you make here."
+msgstr ""
+"Načítava meracie tagy obchodu. Sám o sebe nič neukladá; tagy v ňom sa riadia "
+"voľbou, ktorú tu urobíte."
+
+#: includes/consent/class-px-consent-services.php:519
+msgid "Container ID"
+msgstr "ID kontajnera"
+
+#: includes/consent/class-px-consent-services.php:525
+msgid ""
+"The container is loaded with Consent Mode already set to denied, so tags "
+"inside it stay quiet until consent. Do not also switch on Google Analytics 4 "
+"here when the container already carries the GA4 tag - it would be measured "
+"twice."
+msgstr ""
+"Kontajner sa načíta už s Consent Mode nastaveným na odmietnuté, takže tagy v "
+"ňom mlčia až do súhlasu. Ak kontajner nesie tag GA4, nezapínajte tu zároveň "
+"Google Analytics 4 — meralo by sa dvakrát."
+
+#: includes/consent/class-px-consent-services.php:531
+msgid ""
+"Records how the site is used - movement of the mouse, scrolling and clicks - "
+"so we can see where the shop is confusing."
+msgstr ""
+"Zaznamenáva, ako sa web používa — pohyb myši, posúvanie a kliknutia — aby "
+"sme videli, kde je obchod neprehľadný."
+
+#: includes/consent/class-px-consent-services.php:536
+msgid "Project ID"
+msgstr "ID projektu"
+
+#: includes/consent/class-px-consent-services.php:547
+msgid "Keeps the visitor id for the recording."
+msgstr "Drží identifikátor návštevníka pre záznam."
+
+#: includes/consent/class-px-consent-services.php:551
+msgid "1 day"
+msgstr "1 deň"
+
+#: includes/consent/class-px-consent-services.php:552
+msgid "Joins the page views of one visit."
+msgstr "Spája zobrazenia stránok jednej návštevy."
+
+#: includes/consent/class-px-consent-services.php:561
+msgid ""
+"Live chat with the shop. It remembers the conversation between page views "
+"and records the visit, so the operator knows what you were looking at."
+msgstr ""
+"Živý chat s obchodom. Pamätá si konverzáciu medzi stránkami a zaznamenáva "
+"návštevu, aby operátor vedel, na čo ste sa pozerali."
+
+#: includes/consent/class-px-consent-services.php:566
+msgid "Chat key"
+msgstr "Kľúč chatu"
+
+#: includes/consent/class-px-consent-services.php:573
+msgid ""
+"Filed under statistics because Smartsupp also records the visit. A shop that "
+"only uses the chat itself can move it to preferences with the "
+"px_consent_services filter."
+msgstr ""
+"Zaradené do štatistiky, lebo Smartsupp zároveň zaznamenáva návštevu. Obchod, "
+"ktorý používa len samotný chat, ho presunie do preferencií filtrom "
+"px_consent_services."
+
+#: includes/consent/class-px-consent-services.php:578
+msgid "Visitor id of the chat."
+msgstr "Identifikátor návštevníka v chate."
+
+#: includes/consent/class-px-consent-services.php:583
+msgid "Number of visits, shown to the operator."
+msgstr "Počet návštev, ktorý vidí operátor."
+
+#: includes/consent/class-px-consent-services.php:592
+msgid ""
+"After an order it lets Heureka send you a questionnaire about the purchase "
+"and measures how many visits from Heureka end in an order."
+msgstr ""
+"Po objednávke umožní Heureke poslať vám dotazník o nákupe a meria, koľko "
+"návštev z Heureky skončí objednávkou."
+
+#: includes/consent/class-px-consent-services.php:595
+msgid ""
+"The measuring code is inserted by the Heureka integration of the shop, not "
+"by this module. For it to wait for consent, give the script the attributes "
+"type=\"text/plain\" and data-px-consent=\"statistics\" data-px-"
+"service=\"heureka\"."
+msgstr ""
+"Merací kód vkladá integrácia Heureky na webe, nie tento modul. Aby počkal na "
+"súhlas, dajte skriptu atribúty type=\"text/plain\" a data-px-"
+"consent=\"statistics\" data-px-service=\"heureka\"."
+
+#: includes/consent/class-px-consent-services.php:600
+msgid "Joins the visit from Heureka to the order."
+msgstr "Spája návštevu z Heureky s objednávkou."
+
+#: includes/consent/class-px-consent-services.php:611
+msgid ""
+"Measures which advertisement led to an order and allows us to show you our "
+"offer again on other sites."
+msgstr ""
+"Meria, ktorá reklama viedla k objednávke, a umožňuje nám znova vám ukázať "
+"našu ponuku na iných weboch."
+
+#: includes/consent/class-px-consent-services.php:616
+msgid "Conversion ID"
+msgstr "Konverzné ID"
+
+#: includes/consent/class-px-consent-services.php:625
+#: includes/consent/class-px-consent-services.php:655
+#: includes/consent/class-px-consent-services.php:660
+msgid "3 months"
+msgstr "3 mesiace"
+
+#: includes/consent/class-px-consent-services.php:626
+msgid "Remembers the click on the advertisement that brought you here."
+msgstr "Pamätá si kliknutie na reklamu, ktoré vás sem priviedlo."
+
+#: includes/consent/class-px-consent-services.php:630
+msgid "13 months"
+msgstr "13 mesiacov"
+
+#: includes/consent/class-px-consent-services.php:631
+msgid "Third-party cookies of the advertising system, set on Google domains."
+msgstr "Cookies tretej strany reklamného systému, ukladané na doménach Googlu."
+
+#: includes/consent/class-px-consent-services.php:640
+msgid ""
+"Measures the results of advertising on Facebook and Instagram and allows us "
+"to address you there with the products you looked at."
+msgstr ""
+"Meria výsledky reklamy na Facebooku a Instagrame a umožňuje nám osloviť vás "
+"tam produktmi, ktoré ste si prezerali."
+
+#: includes/consent/class-px-consent-services.php:645
+msgid "Pixel ID"
+msgstr "ID pixelu"
+
+#: includes/consent/class-px-consent-services.php:656
+msgid "Identifies the browser for advertising measurement."
+msgstr "Identifikuje prehliadač pre meranie reklamy."
+
+#: includes/consent/class-px-consent-services.php:661
+msgid "Third-party cookie of the advertising system on Meta domains."
+msgstr "Cookie tretej strany reklamného systému na doménach Meta."
+
+#: includes/consent/class-px-consent-services.php:670
+msgid ""
+"Plays videos inserted into the pages. YouTube learns which video you played "
+"and can link it to your Google account."
+msgstr ""
+"Prehráva videá vložené do stránok. YouTube sa dozvie, ktoré video ste "
+"pustili, a vie si to spojiť s vaším účtom Google."
+
+#: includes/consent/class-px-consent-services.php:680
+msgid "Player settings and measurement of playback."
+msgstr "Nastavenia prehrávača a meranie prehrávania."
+
+#: includes/consent/class-px-consent-services.php:685
+msgid "Counts the views of a video."
+msgstr "Počíta zhliadnutia videa."
+
+#: includes/consent/class-px-consent-services.php:693
+msgid ""
+"Shows the interactive map with our address. Google learns that the map was "
+"loaded from this site."
+msgstr ""
+"Zobrazuje interaktívnu mapu s našou adresou. Google sa dozvie, že sa mapa "
+"načítala z tohto webu."
+
+#: includes/consent/class-px-consent-services.php:701
+msgid "Third-party cookies of Google needed to draw the map."
+msgstr "Cookies tretej strany Googlu potrebné na vykreslenie mapy."
+
+#: includes/emails/class-px-email-waitlist-admin.php:24
+msgid "Waitlist: new subscriber (admin)"
+msgstr "Sledovanie dostupnosti: nový záujemca (admin)"
+
+#: includes/emails/class-px-email-waitlist-admin.php:25
+msgid ""
+"Tells the shop that somebody is waiting for a product that is out of stock."
+msgstr "Oznámi obchodu, že niekto čaká na produkt, ktorý nie je skladom."
+
+#: includes/emails/class-px-email-waitlist-admin.php:38
+msgid "Waitlist: somebody is waiting for {product_name}"
+msgstr "Sledovanie dostupnosti: niekto čaká na {product_name}"
+
+#: includes/emails/class-px-email-waitlist-admin.php:42
+msgid "New waitlist subscriber"
+msgstr "Nový záujemca o naskladnenie"
+
+#: includes/emails/class-px-email-waitlist-admin.php:64
+msgid "Recipient(s)"
+msgstr "Príjemca(ovia)"
+
+#. translators: %s: admin e-mail address.
+#: includes/emails/class-px-email-waitlist-admin.php:67
+#, php-format
+msgid "Comma separated. Defaults to %s."
+msgstr "Oddelené čiarkou. Predvolene %s."
+
+#: includes/emails/class-px-email-waitlist-confirm.php:21
+msgid "Waitlist: confirm the address"
+msgstr "Sledovanie dostupnosti: potvrdenie adresy"
+
+#: includes/emails/class-px-email-waitlist-confirm.php:22
+msgid ""
+"Sent right after someone asks to be told when a product is back in stock. "
+"Until they click the link in it, they are not on the list."
+msgstr ""
+"Odchádza hneď po prihlásení na sledovanie dostupnosti. Kým zákazník neklikne "
+"na odkaz v ňom, na zozname nie je."
+
+#: includes/emails/class-px-email-waitlist-confirm.php:33
+msgid "Confirm you want to hear about {product_name}"
+msgstr "Potvrďte sledovanie dostupnosti — {product_name}"
+
+#: includes/emails/class-px-email-waitlist-confirm.php:37
+msgid "One click and you are on the list"
+msgstr "Jedno kliknutie a ste na zozname"
+
+#: includes/emails/class-px-email-waitlist-in-stock.php:21
+msgid "Waitlist: product is back in stock"
+msgstr "Sledovanie dostupnosti: produkt je skladom"
+
+#: includes/emails/class-px-email-waitlist-in-stock.php:22
+msgid ""
+"Sent to confirmed subscribers when the product they are waiting for is "
+"available again."
+msgstr "Odchádza potvrdeným záujemcom, keď je sledovaný produkt opäť dostupný."
+
+#: includes/emails/class-px-email-waitlist-in-stock.php:33
+msgid "{product_name} is back in stock"
+msgstr "{product_name} je opäť skladom"
+
+#: includes/emails/class-px-email-waitlist-in-stock.php:37
+msgid "Back in stock"
+msgstr "Opäť skladom"
+
+#: includes/emails/class-px-email-waitlist-subscribed.php:21
+msgid "Waitlist: subscription confirmed"
+msgstr "Sledovanie dostupnosti: potvrdené prihlásenie"
+
+#: includes/emails/class-px-email-waitlist-subscribed.php:22
+msgid ""
+"Sent after the customer confirms the address. Carries the unsubscribe link."
+msgstr "Odchádza po potvrdení adresy. Nesie odkaz na odhlásenie."
+
+#: includes/emails/class-px-email-waitlist-subscribed.php:33
+msgid "We will let you know about {product_name}"
+msgstr "Dáme vám vedieť, keď bude {product_name} skladom"
+
+#: includes/emails/class-px-email-waitlist-subscribed.php:37
+msgid "You are on the list"
+msgstr "Ste na zozname"
+
+#: includes/modules.php:206
+msgid "Content blocks"
+msgstr "Obsahové bloky"
+
+#: includes/modules.php:207
+msgid ""
+"Non-public \"Content\" post type for reusable blocks (banners, USP strips) "
+"rendered by the theme."
+msgstr ""
+"Neverejný typ obsahu „Obsah“ pre opakovane použiteľné bloky (bannery, pásy "
+"výhod), ktoré vykresľuje téma."
+
+#: includes/modules.php:210
+msgid "Live search"
+msgstr "Živé vyhľadávanie"
+
+#: includes/modules.php:211
+msgid "REST endpoint behind the search field in the header."
+msgstr "REST endpoint za vyhľadávacím poľom v hlavičke."
+
+#: includes/modules.php:214
+msgid "Brand tab"
+msgstr "Karta značky"
+
+#: includes/modules.php:215
+msgid ""
+"Adds an \"About the brand\" product tab from the product_brand term "
+"description."
+msgstr ""
+"Pridá k produktu kartu „O značke“ z popisu značky (term product_brand)."
+
+#: includes/modules.php:218
+msgid "EU Omnibus"
+msgstr "EU Omnibus"
+
+#: includes/modules.php:219
+msgid ""
+"Records price history and shows the lowest price of the last 30 days on "
+"discounted products."
+msgstr ""
+"Zaznamenáva históriu cien a pri zľavnených produktoch ukazuje najnižšiu cenu "
+"za posledných 30 dní."
+
+#: includes/modules.php:223
+msgid ""
+"Shows until when a discounted price applies, as a date or a countdown near "
+"the end."
+msgstr ""
+"Ukáže, dokedy platí akciová cena — dátumom, tesne pred koncom odpočtom."
+
+#: includes/modules.php:226
 msgid "Unit price"
 msgstr "Jednotková cena"
 
-msgid "Price per 1 kg / 1 l / 1 m / 1 piece next to the selling price, as the price marking rules require (Directive 98/6/EC; act 108/2024 § 6). Package content is entered under the price of each product; without it nothing is shown."
-msgstr "Cena za 1 kg / 1 l / 1 m / 1 ks vedľa predajnej ceny, ako to vyžaduje označovanie cenami (smernica 98/6/ES; zákon 108/2024 § 6). Obsah balenia sa vypĺňa pod cenou každého produktu; bez neho sa nič nezobrazí."
+#: includes/modules.php:227
+msgid ""
+"Price per 1 kg / 1 l / 1 m / 1 piece next to the selling price, as the price "
+"marking rules require (Directive 98/6/EC; act 108/2024 § 6). Package content "
+"is entered under the price of each product; without it nothing is shown."
+msgstr ""
+"Cena za 1 kg / 1 l / 1 m / 1 ks vedľa predajnej ceny, ako to vyžaduje "
+"označovanie cenami (smernica 98/6/ES; zákon 108/2024 § 6). Obsah balenia sa "
+"vypĺňa pod cenou každého produktu; bez neho sa nič nezobrazí."
 
-msgctxt "unit: piece"
-msgid "pc"
-msgstr "ks"
+#: includes/modules.php:230
+msgid "GPSR product safety"
+msgstr "Bezpečnosť produktov (GPSR)"
 
-msgctxt "unit price reference: one piece"
-msgid "1 pc"
-msgstr "1 ks"
+#: includes/modules.php:231
+msgid ""
+"Manufacturer, safety warnings and instructions on products, with the data "
+"tab in admin."
+msgstr ""
+"Výrobca, bezpečnostné upozornenia a návody pri produktoch, aj s kartou "
+"údajov v administrácii."
 
-msgid "Unit price:"
-msgstr "Jednotková cena:"
+#: includes/modules.php:234
+msgid "Company details"
+msgstr "Firemné údaje"
 
-#. translators: 1: formatted price, 2: reference quantity ("1 l", "1 kg").
-msgctxt "unit price line"
-msgid "%1$s / %2$s"
-msgstr "%1$s / %2$s"
+#: includes/modules.php:235
+msgid ""
+"IČO, DIČ and IČ DPH on the checkout, filled in from the RPO/ARES register, "
+"VAT id verified in VIES, EU reverse charge and export outside the EU. Off by "
+"default - switch it on only once the plugin that used to handle these fields "
+"is gone, or the checkout shows them twice."
+msgstr ""
+"IČO, DIČ a IČ DPH v pokladni, doplnenie z registra RPO/ARES, overenie IČ DPH "
+"vo VIES, prenesenie daňovej povinnosti v EÚ a vývoz mimo EÚ. Predvolene "
+"vypnuté — zapnite až potom, čo je preč plugin, ktorý tieto polia obsluhoval "
+"doteraz, inak budú v pokladni dvakrát."
 
-msgid "Package content"
-msgstr "Obsah balenia"
+#: includes/modules.php:239
+msgid ""
+"Trade name, address, IČO, DIČ, IČ DPH, register entry and contact entered "
+"once and shown through [px_seller] on the contact page, in the footer and "
+"the terms, and through {px_seller} in order e-mails."
+msgstr ""
+"Obchodné meno, sídlo, IČO, DIČ, IČ DPH, zápis v registri a kontakt zadané "
+"raz a zobrazené cez [px_seller] na stránke Kontakt, v pätke a v obchodných "
+"podmienkach a cez {px_seller} v e-mailoch objednávok."
 
-msgid "Quantity in the package, for the unit price the price marking rules require (per 1 kg, 1 l, 1 m or 1 piece). Leave empty for goods sold as one piece and for sets of different goods at one price; packs of at most 50 g / 50 ml show no unit price either way."
-msgstr "Množstvo v balení pre jednotkovú cenu, ktorú vyžaduje označovanie cenami (za 1 kg, 1 l, 1 m alebo 1 ks). Nechajte prázdne pri tovare predávanom ako jeden kus a pri súboroch rôznych tovarov za jednu cenu; balenia do 50 g / 50 ml jednotkovú cenu nezobrazia tak či tak."
+#: includes/modules.php:243
+msgid ""
+"Cloudflare Turnstile or Google reCAPTCHA v2 on the waitlist, registration, "
+"lost password, reviews and the withdrawal and claim forms. Off by default; "
+"does nothing until both keys are set."
+msgstr ""
+"Cloudflare Turnstile alebo Google reCAPTCHA v2 na strážení dostupnosti, "
+"registrácii, zabudnutom hesle, recenziách a formulároch odstúpenia a "
+"reklamácie. Predvolene vypnutý; kým nie sú zadané oba kľúče, nerobí nič."
 
-msgid "Unit"
-msgstr "Jednotka"
+#: includes/modules.php:247
+msgid ""
+"Favourite products per customer (user meta, cookie for guests) with REST "
+"endpoints."
+msgstr ""
+"Obľúbené produkty pre každého zákazníka (user meta, pri neprihlásených "
+"cookie) s REST endpointmi."
 
-msgid "Empty inherits the parent product."
-msgstr "Prázdne dedí z nadradeného produktu."
+#: includes/modules.php:251
+msgid ""
+"Side-by-side comparison of up to four products (cookie based) with REST "
+"endpoints."
+msgstr ""
+"Porovnanie až štyroch produktov vedľa seba (na základe cookie) s REST "
+"endpointmi."
 
-# Content: video na pozadí, odkaz celého bannera, karusel (1.10.0)
-msgid "Background video"
-msgstr "Video na pozadí"
+#: includes/modules.php:254
+msgid "Free shipping bar"
+msgstr "Pás dopravy zadarmo"
 
-msgid "Use this video"
-msgstr "Použiť toto video"
+#: includes/modules.php:255
+msgid ""
+"Data for the \"how much is left to free shipping\" progress bar drawn by the "
+"theme."
+msgstr ""
+"Údaje pre ukazovateľ „koľko chýba do dopravy zadarmo“, ktorý kreslí téma."
 
-msgid "Background video (YouTube / Vimeo)"
-msgstr "Video na pozadí (YouTube / Vimeo)"
+#: includes/modules.php:259
+msgid ""
+"Visitors subscribe to an out-of-stock product (double opt-in) and are mailed "
+"once it is back."
+msgstr ""
+"Návštevník sa prihlási pri vypredanom produkte (double opt-in) a dostane e-"
+"mail, keď bude opäť skladom."
 
-msgid "Plays muted in a loop behind the text; the banner image is shown until it starts and whenever it cannot play."
-msgstr "Prehráva sa bez zvuku v slučke za textom. Kým sa nerozbehne, a všade, kde sa prehrať nemôže, ostáva obrázok bannera."
+#: includes/modules.php:263
+msgid "Size tables assigned to a product or inherited from its category."
+msgstr "Tabuľky veľkostí priradené produktu alebo zdedené z jeho kategórie."
 
-msgid "This address is not a YouTube or Vimeo video - the banner shows only the image."
-msgstr "Táto adresa nie je video z YouTube ani Vimea – banner ukáže len obrázok."
+#: includes/modules.php:267
+msgid ""
+"Accessories set once per product category instead of product by product "
+"(\"bicycles\" go with \"lights\" and \"bottle cages\"). Subcategories "
+"inherit from their parent."
+msgstr ""
+"Doplnky sa nastavia raz na kategórii, nie na každom produkte („bicykle“ idú "
+"so „svetlami“ a „košíkmi na fľaše“). Podkategórie dedia od rodiča."
 
-msgid "Or a video file (MP4 / WebM)"
-msgstr "Alebo videosúbor (MP4 / WebM)"
+#: includes/modules.php:270
+msgid "Attribute images"
+msgstr "Obrázky atribútov"
 
-msgid "Choose video"
-msgstr "Vybrať video"
+#: includes/modules.php:271
+msgid ""
+"Image field on every product attribute term (pa_*), used by swatches and "
+"filters."
+msgstr ""
+"Pole s obrázkom pri každom terme atribútu produktu (pa_*), používajú ho "
+"vzorkovníky a filtre."
 
-msgid "From the media library; needs no cookie consent. When both are filled, the file is used."
-msgstr "Z knižnice médií, nepotrebuje súhlas s cookies. Keď je vyplnené oboje, použije sa súbor."
+#: includes/modules.php:275
+msgid ""
+"The shop's own consent banner: a service is asked about before it loads, the "
+"answer is kept in a first-party cookie and translated into Google Consent "
+"Mode v2 signals. Replaces Complianz and friends - it does not run next to "
+"them. Off by default; a site that keeps an external CMP leaves it off and "
+"nothing of this module is loaded."
+msgstr ""
+"Vlastná cookie lišta obchodu: na každú službu sa pýta skôr, než sa načíta, "
+"odpoveď drží vo vlastnej cookie a prekladá ju do signálov Google Consent "
+"Mode v2. Nahrádza Complianz a spol. — nebeží vedľa nich. Predvolene vypnuté; "
+"web, ktorý si necháva externú CMP, ho nechá vypnutý a z modulu sa nenačíta "
+"vôbec nič."
 
-msgid "Play on mobile too"
-msgstr "Prehrávať aj na mobile"
+#: includes/modules.php:279
+msgid ""
+"Sends Google the consent signals the free Complianz build cannot. Complianz "
+"stays the consent banner, this only translates its decisions for gtag. Needs "
+"Complianz; off by default, so switch it on only once nothing else on the "
+"site emits gtag - otherwise it loads twice."
+msgstr ""
+"Posiela Googlu signály súhlasu, ktoré free verzia Complianzu nevie. "
+"Complianz ostáva cookie lištou, tento modul len prekladá jeho rozhodnutia "
+"pre gtag. Vyžaduje Complianz; predvolene vypnuté — zapnite až vtedy, keď na "
+"webe nič iné nevydáva gtag, inak sa načíta dvakrát."
 
-msgid "Off: phones show only the image (saves data and battery)."
-msgstr "Vypnuté: na telefóne sa ukáže len obrázok (šetrí dáta aj batériu)."
+#: includes/modules.php:283
+msgid ""
+"Makes a browse-only shop possible. The mode itself is switched on in this "
+"module's settings."
+msgstr ""
+"Umožní obchod len na prezeranie. Samotný režim sa zapína v nastaveniach "
+"tohto modulu."
 
-msgid "Whole banner link"
-msgstr "Odkaz celého bannera"
-
-msgid "Optional. The whole banner area becomes clickable; the buttons keep their own links."
-msgstr "Nepovinné. Klikateľná bude celá plocha bannera, tlačidlá si ponechajú vlastné odkazy."
-
-#. translators: %s: banner heading
-msgid "Background video: %s"
-msgstr "Video na pozadí: %s"
-
-msgid "Show more"
-msgstr "Zobraziť viac"
-
-msgid "Banners"
-msgstr "Bannery"
-
-msgid "carousel"
-msgstr "karusel"
-
-msgid "slide"
-msgstr "snímka"
-
-msgid "Previous slide"
-msgstr "Predchádzajúca snímka"
-
-msgid "Next slide"
-msgstr "Ďalšia snímka"
-
-msgid "Pause slide show"
-msgstr "Pozastaviť prezentáciu"
-
-msgid "Play slide show"
-msgstr "Spustiť prezentáciu"
-
-msgid "Choose slide"
-msgstr "Výber snímky"
-
-#. translators: 1: slide number, 2: number of slides
-msgid "%1$d of %2$d"
-msgstr "%1$d z %2$d"
-
+#: includes/modules.php:286
 msgid "Old term slugs"
 msgstr "Staré slugy termov"
 
-msgid "Remembers the previous slug when a category, tag or brand is renamed and redirects its old address (301) to the new one, like WordPress does for posts. Also covers subcategories whose parent was renamed."
-msgstr "Pri zmene slugu kategórie, značky či štítku si zapamätá predchádzajúci a starú adresu presmeruje (301) na novú, ako to WordPress robí pri príspevkoch. Platí aj pre podkategórie, ktorých rodič dostal nový slug."
+#: includes/modules.php:287
+msgid ""
+"Remembers the previous slug when a category, tag or brand is renamed and "
+"redirects its old address (301) to the new one, like WordPress does for "
+"posts. Also covers subcategories whose parent was renamed."
+msgstr ""
+"Pri zmene slugu kategórie, značky či štítku si zapamätá predchádzajúci a "
+"starú adresu presmeruje (301) na novú, ako to WordPress robí pri "
+"príspevkoch. Platí aj pre podkategórie, ktorých rodič dostal nový slug."
 
-msgid "Old slugs"
-msgstr "Staré slugy"
-
-#. translators: %s: old slug.
-msgid "Remove %s"
-msgstr "Odstrániť %s"
-
-msgid "Addresses with these slugs are redirected (301) to this term. They are recorded automatically when the slug changes."
-msgstr "Adresy s týmito slugmi sa presmerujú (301) na tento term. Zapisujú sa automaticky pri zmene slugu."
-
-msgid "Sorry, you are not allowed to edit this item."
-msgstr "Na úpravu tejto položky nemáte oprávnenie."
-
+#: includes/modules.php:290
 msgid "Product media for MCP"
 msgstr "Médiá produktov pre MCP"
 
-msgid "Abilities API (WordPress 6.9+) for an MCP connector: read and set product images and gallery, from the media library or a URL, and fix alt text. Switch it on only on a site with an MCP connector."
-msgstr "Abilities API (WordPress 6.9+) pre MCP konektor: čítanie a nastavenie obrázkov a galérie produktu z knižnice médií alebo z URL a oprava alt textu. Zapnite len na webe s MCP konektorom."
+#: includes/modules.php:291
+msgid ""
+"Abilities API (WordPress 6.9+) for an MCP connector: read and set product "
+"images and gallery, from the media library or a URL, and fix alt text. "
+"Switch it on only on a site with an MCP connector."
+msgstr ""
+"Abilities API (WordPress 6.9+) pre MCP konektor: čítanie a nastavenie "
+"obrázkov a galérie produktu z knižnice médií alebo z URL a oprava alt textu. "
+"Zapnite len na webe s MCP konektorom."
 
-msgid "Registration (My account)"
-msgstr "Registrácia (Môj účet)"
+#: templates/consent/banner.php:35
+msgid "We care about your privacy"
+msgstr "Záleží nám na vašom súkromí"
 
-msgid "Lost password"
-msgstr "Zabudnuté heslo"
+#: templates/consent/banner.php:44
+msgid ""
+"We use cookies to run the shop, to measure how it is used and to make our "
+"offers relevant. The necessary ones are always on, everything else is up to "
+"you."
+msgstr ""
+"Cookies používame na fungovanie obchodu, na meranie jeho používania a na to, "
+"aby naše ponuky dávali zmysel. Nevyhnutné sú zapnuté vždy, o zvyšku "
+"rozhodujete vy."
 
-msgid "Product reviews"
-msgstr "Recenzie produktov"
+#: templates/consent/banner.php:63 templates/consent/modal.php:177
+msgid "Accept all"
+msgstr "Prijať všetko"
 
-msgid "Withdrawal and claim forms (px-wc-requests)"
-msgstr "Formuláre odstúpenia a reklamácie (px-wc-requests)"
+#: templates/consent/banner.php:66 templates/consent/modal.php:180
+msgid "Reject all"
+msgstr "Odmietnuť všetko"
 
-msgid "Login (My account, checkout)"
-msgstr "Prihlásenie (Môj účet, pokladňa)"
+#: templates/consent/banner.php:69
+msgid "Settings"
+msgstr "Nastavenia"
 
-msgid "Anti-spam"
-msgstr "Antispam"
+#. translators: %s: service name, e.g. YouTube.
+#: templates/consent/embed.php:41
+#, php-format
+msgid "Content from %s is blocked"
+msgstr "Obsah zo služby %s je zablokovaný"
 
-msgid "Service"
-msgstr "Služba"
+#. translators: %s: service name, e.g. YouTube.
+#: templates/consent/embed.php:56
+#, php-format
+msgid "Allow %s and show the content"
+msgstr "Povoliť %s a zobraziť obsah"
 
-msgid "Cloudflare Turnstile"
-msgstr "Cloudflare Turnstile"
+#: templates/consent/embed.php:65
+msgid "Open the content in a new window"
+msgstr "Otvoriť obsah v novom okne"
 
-msgid "Google reCAPTCHA v2 (checkbox)"
-msgstr "Google reCAPTCHA v2 (zaškrtávacie políčko)"
+#: templates/consent/embed.php:68 templates/consent/modal.php:33
+msgid "Cookie settings"
+msgstr "Nastavenia cookies"
 
-msgid "Site key"
-msgstr "Kľúč webu (site key)"
+#: templates/consent/modal.php:34
+msgid "Close settings"
+msgstr "Zavrieť nastavenia"
 
-msgid "Secret key"
-msgstr "Tajný kľúč (secret key)"
+#: templates/consent/modal.php:40
+msgid ""
+"Choose what you allow. You can change your choice at any time - the link in "
+"the footer opens this window again."
+msgstr ""
+"Vyberte, čo povolíte. Voľbu môžete kedykoľvek zmeniť — odkaz v pätičke "
+"otvorí toto okno znova."
 
-msgid "Prefer the PX_ANTISPAM_SECRET_KEY constant in wp-config.php - a key in the database travels with every backup and export."
-msgstr "Radšej konštanta PX_ANTISPAM_SECRET_KEY vo wp-config.php – kľúč v databáze putuje s každou zálohou a exportom."
+#. translators: %d: number of services.
+#: templates/consent/modal.php:63
+#, php-format
+msgid "%d service"
+msgid_plural "%d services"
+msgstr[0] "%d služba"
+msgstr[1] "%d služby"
+msgstr[2] "%d služieb"
 
-msgid "Protect"
-msgstr "Chrániť"
+#. translators: %s: category name.
+#. translators: %s: service name.
+#: templates/consent/modal.php:72 templates/consent/modal.php:98
+#, php-format
+msgid "Allow %s"
+msgstr "Povoliť %s"
 
-msgid "A challenge on public forms against spam bots. Turnstile is free in any Cloudflare account and works even when the site does not run through Cloudflare (add the domain to a Turnstile widget). reCAPTCHA sets Google cookies - mention it in the privacy policy, and a consent tool (Complianz) may block it until consent, leaving the forms unusable; prefer Turnstile there. The checkout is never guarded: a failed challenge there costs orders. Only the WooCommerce forms are guarded - wp-login.php is left to the security plugin (Wordfence). After changing the service or the keys, clear the page cache."
-msgstr "Overenie na verejných formulároch proti spamovým robotom. Turnstile je zadarmo v každom Cloudflare účte a funguje, aj keď web nejde cez Cloudflare (doménu pridajte do Turnstile widgetu). reCAPTCHA ukladá cookies Googlu – uveďte ju v zásadách ochrany osobných údajov; nástroj na súhlas (Complianz) ju môže do súhlasu blokovať a formuláre sa potom nedajú odoslať, tam radšej Turnstile. Pokladňa sa nechráni nikdy: neúspešné overenie tam stojí objednávky. Chránia sa len formuláre WooCommerce – wp-login.php stráži bezpečnostný plugin (Wordfence). Po zmene služby alebo kľúčov vyčistite page cache."
+#: templates/consent/modal.php:76
+msgid "Always on"
+msgstr "Vždy zapnuté"
 
-msgid "Set in wp-config.php: %s."
-msgstr "Nastavené vo wp-config.php: %s."
+#: templates/consent/modal.php:105
+msgid "Details"
+msgstr "Podrobnosti"
 
-msgid "Both keys are missing or incomplete - no form is guarded yet."
-msgstr "Chýba jeden alebo oba kľúče – zatiaľ sa nechráni žiadny formulár."
+#. translators: %s: name and address of the provider.
+#: templates/consent/modal.php:120
+#, php-format
+msgid "Provider: %s"
+msgstr "Prevádzkovateľ: %s"
 
-msgid "Please confirm that you are not a robot."
-msgstr "Potvrďte, prosím, že nie ste robot."
+#: templates/consent/modal.php:128 templates/consent/policy.php:68
+msgid "Privacy policy"
+msgstr "Zásady ochrany osobných údajov"
 
-msgid "Review not saved"
-msgstr "Recenzia sa neuložila"
+#. translators: %s: service name.
+#: templates/consent/modal.php:139 templates/consent/policy.php:79
+#, php-format
+msgid "Cookies stored by %s"
+msgstr "Cookies, ktoré ukladá %s"
 
-msgid "Seller details"
-msgstr "Údaje predávajúceho"
+#: templates/consent/modal.php:146 templates/consent/modal.php:154
+#: templates/consent/policy.php:86 templates/consent/policy.php:94
+msgid "Name"
+msgstr "Názov"
 
-msgid "Entered once, shown wherever the law asks for them: %s."
-msgstr "Zadané raz, zobrazené všade, kde ich vyžaduje zákon: %s."
+#: templates/consent/modal.php:147 templates/consent/modal.php:155
+#: templates/consent/policy.php:87 templates/consent/policy.php:95
+msgid "Expiry"
+msgstr "Platnosť"
 
-msgid "Trade name"
-msgstr "Obchodné meno"
+#: templates/consent/modal.php:148 templates/consent/modal.php:156
+#: templates/consent/policy.php:49 templates/consent/policy.php:88
+#: templates/consent/policy.php:96
+msgid "Purpose"
+msgstr "Účel"
 
-msgid "Exactly as in the register, including the legal form (s. r. o.)."
-msgstr "Presne ako v registri, vrátane právnej formy (s. r. o.)."
+#: templates/consent/modal.php:183
+msgid "Save choice"
+msgstr "Uložiť výber"
 
-msgid "Registered address"
-msgstr "Sídlo"
+#: templates/consent/policy.php:54
+msgid "Provider"
+msgstr "Prevádzkovateľ"
 
-msgid "Empty uses the store address from WooCommerce → Settings → General."
-msgstr "Prázdne = adresa obchodu z WooCommerce → Nastavenia → Všeobecné."
+#: templates/consent/policy.php:58
+msgid "Legal basis"
+msgstr "Právny základ"
 
-msgid "Company ID (IČO)"
-msgstr "IČO"
+#: templates/consent/policy.php:62
+msgid "Necessary for the service you asked for - no consent needed"
+msgstr "Nevyhnutné pre službu, ktorú ste si vyžiadali — súhlas sa nevyžaduje"
 
-msgid "Tax ID (DIČ)"
-msgstr "DIČ"
+#: templates/consent/policy.php:63
+msgid "Your consent, which you can withdraw at any time"
+msgstr "Váš súhlas, ktorý môžete kedykoľvek odvolať"
 
-msgid "VAT ID (IČ DPH)"
-msgstr "IČ DPH"
+#: templates/consent/policy.php:111
+msgid "Change cookie settings"
+msgstr "Zmeniť nastavenia cookies"
 
-msgid "Leave empty when the seller is not a VAT payer."
-msgstr "Prázdne, ak predávajúci nie je platiteľ DPH."
+#: templates/content/parts/banner-link.php:44
+msgid "Show more"
+msgstr "Zobraziť viac"
 
-msgid "Register entry"
-msgstr "Zápis v registri"
+#. translators: %s: banner heading
+#: templates/content/parts/banner-video.php:57
+#, php-format
+msgid "Background video: %s"
+msgstr "Video na pozadí: %s"
 
-msgid "E.g. \"Commercial register of the City Court Bratislava III, section Sro, insert no. 12345/B\" or the trade licence office."
-msgstr "Napr. „Obchodný register Mestského súdu Bratislava III, oddiel Sro, vložka č. 12345/B“ alebo živnostenský register okresného úradu."
+#. translators: 1: customer e-mail, 2: product name.
+#: templates/emails/plain/px-waitlist-admin.php:14
+#: templates/emails/px-waitlist-admin.php:18
+#, php-format
+msgid "%1$s is waiting for %2$s."
+msgstr "%1$s čaká na %2$s."
 
-msgid "Customer e-mail"
-msgstr "E-mail pre zákazníkov"
+#: templates/emails/plain/px-waitlist-admin.php:21
+#: templates/emails/px-waitlist-admin.php:27
+msgid "SKU:"
+msgstr "SKU:"
 
-msgid "Customer phone"
-msgstr "Telefón pre zákazníkov"
+#: templates/emails/plain/px-waitlist-admin.php:24
+#: templates/emails/px-waitlist-admin.php:28
+msgid "Waiting in total:"
+msgstr "Čakajúcich spolu:"
 
-msgid "Supervisory authority"
-msgstr "Orgán dozoru"
+#. translators: %s: product name.
+#: templates/emails/plain/px-waitlist-confirm.php:14
+#: templates/emails/px-waitlist-confirm.php:18
+#, php-format
+msgid ""
+"Somebody (we hope you) asked us to send an e-mail as soon as %s is available "
+"again."
+msgstr ""
+"Niekto (dúfame, že vy) nás požiadal, aby sme vám dali vedieť, keď bude %s "
+"opäť dostupný."
 
-msgid "Slovak Trade Inspection inspectorate for the seat region, with its address. Used in the terms: [px_seller field=\"supervisor\"]."
-msgstr "Inšpektorát Slovenskej obchodnej inšpekcie pre kraj sídla aj s adresou. V obchodných podmienkach: [px_seller field=\"supervisor\"]."
+#: templates/emails/plain/px-waitlist-confirm.php:19
+#: templates/emails/px-waitlist-confirm.php:24
+msgid ""
+"Confirm the address and we will do exactly that - nothing else, no "
+"newsletter."
+msgstr "Potvrďte adresu a presne to urobíme — nič iné, žiadny newsletter."
 
-msgid "E-mail"
-msgstr "E-mail"
+#: templates/emails/plain/px-waitlist-confirm.php:26
+msgid ""
+"If it was not you, just ignore this message - without the link above nothing "
+"happens."
+msgstr ""
+"Ak ste to neboli vy, správu pokojne ignorujte — bez odkazu vyššie sa nič "
+"nestane."
 
-msgid "Phone"
-msgstr "Telefón"
+#. translators: %s: product name.
+#: templates/emails/plain/px-waitlist-in-stock.php:14
+#: templates/emails/px-waitlist-in-stock.php:18
+#, php-format
+msgid "Good news - %s is available again."
+msgstr "Dobrá správa – %s je opäť dostupný."
 
-msgid "Trade name, address, IČO, DIČ, IČ DPH, register entry and contact entered once and shown through [px_seller] on the contact page, in the footer and the terms, and through {px_seller} in order e-mails."
-msgstr "Obchodné meno, sídlo, IČO, DIČ, IČ DPH, zápis v registri a kontakt zadané raz a zobrazené cez [px_seller] na stránke Kontakt, v pätke a v obchodných podmienkach a cez {px_seller} v e-mailoch objednávok."
+#: templates/emails/plain/px-waitlist-in-stock.php:21
+#: templates/emails/px-waitlist-in-stock.php:31
+msgid "Stock is limited - this message went to everybody who was waiting."
+msgstr "Zásoba je obmedzená — správa odišla všetkým, ktorí čakali."
 
-msgid "Cloudflare Turnstile or Google reCAPTCHA v2 on the waitlist, registration, lost password, reviews and the withdrawal and claim forms. Off by default; does nothing until both keys are set."
-msgstr "Cloudflare Turnstile alebo Google reCAPTCHA v2 na strážení dostupnosti, registrácii, zabudnutom hesle, recenziách a formulároch odstúpenia a reklamácie. Predvolene vypnutý; kým nie sú zadané oba kľúče, nerobí nič."
+#. translators: %s: product name.
+#: templates/emails/plain/px-waitlist-subscribed.php:14
+#: templates/emails/px-waitlist-subscribed.php:18
+#, php-format
+msgid "Thank you - we will e-mail you as soon as %s is back in stock."
+msgstr "Ďakujeme — ozveme sa hneď, ako bude %s opäť skladom."
+
+#: templates/emails/plain/px-waitlist-subscribed.php:28
+msgid "Stop e-mailing me about availability:"
+msgstr "Nechcem už e-maily o dostupnosti:"
+
+#: templates/emails/px-waitlist-admin.php:29
+msgid "Edit product"
+msgstr "Upraviť produkt"
+
+#: templates/emails/px-waitlist-confirm.php:29
+msgid "Yes, let me know"
+msgstr "Áno, dajte mi vedieť"
+
+#: templates/emails/px-waitlist-confirm.php:33
+msgid "If the button does not work, open this address:"
+msgstr "Ak tlačidlo nefunguje, otvorte túto adresu:"
+
+#: templates/emails/px-waitlist-confirm.php:39
+msgid ""
+"If it was not you, just ignore this message - without the click above "
+"nothing happens."
+msgstr ""
+"Ak ste to neboli vy, správu pokojne ignorujte — bez kliknutia vyššie sa nič "
+"nestane."
+
+#: templates/emails/px-waitlist-subscribed.php:36
+msgid "Stop e-mailing me about availability"
+msgstr "Nechcem už e-maily o dostupnosti"
