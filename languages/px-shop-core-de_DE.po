@@ -1,0 +1,2907 @@
+# Copyright (C) 2026 Pixelers
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: PX Shop Core 1.13.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/px-shop-core\n"
+"POT-Creation-Date: 2026-10-16T17:13:46+00:00\n"
+"PO-Revision-Date: 2026-10-16 20:00+0000\n"
+"Last-Translator: Pixelers\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: px-shop-core\n"
+"X-Generator: WP-CLI 2.12.0\n"
+
+#. Plugin Name of the plugin
+#: px-shop-core.php
+msgid "PX Shop Core"
+msgstr "PX Shop Core"
+
+#. Description of the plugin
+#: px-shop-core.php
+msgid ""
+"WooCommerce extensions shared across Pixelers shop projects - live product "
+"search endpoint, brand product tab and future shop features. Presentation "
+"lives in the theme; this plugin only provides functionality."
+msgstr ""
+"WooCommerce-Erweiterungen, die in allen Pixelers-Shopprojekten gemeinsam "
+"genutzt werden – Endpunkt für die Live-Produktsuche, Marken-Produkt-Tab und "
+"künftige Shopfunktionen. Die Darstellung liegt im Theme; dieses Plugin "
+"stellt nur die Funktionalität bereit."
+
+#. Author of the plugin
+#: px-shop-core.php
+msgid "Pixelers"
+msgstr "Pixelers"
+
+#. Author URI of the plugin
+#: px-shop-core.php
+msgid "https://pixeler.sk/"
+msgstr "https://pixeler.sk/"
+
+#: includes/abilities-media.php:46
+msgid "PX Shop - media produktu"
+msgstr "PX Shop – Produktmedien"
+
+#: includes/abilities-media.php:47
+msgid ""
+"Abilities for WooCommerce product media: featured image, gallery and "
+"attachment alt texts."
+msgstr ""
+"Abilities für WooCommerce-Produktmedien: Beitragsbild, Galerie und "
+"Alternativtexte von Anhängen."
+
+#: includes/abilities-media.php:169
+msgid "No product found for the given product_id."
+msgstr "Zur angegebenen product_id wurde kein Produkt gefunden."
+
+#. translators: %d: parent product ID.
+#: includes/abilities-media.php:184
+#, php-format
+msgid "Product variations are not supported. Use the parent product (ID %d)."
+msgstr ""
+"Produktvarianten werden nicht unterstützt. Verwenden Sie das übergeordnete "
+"Produkt (ID %d)."
+
+#: includes/abilities-media.php:281
+msgid "An image must be given as an attachment ID or as an http(s) image URL."
+msgstr ""
+"Ein Bild muss als Anhang-ID oder als http(s)-Bild-URL angegeben werden."
+
+#. translators: %s: the rejected value.
+#: includes/abilities-media.php:294
+#, php-format
+msgid ""
+"\"%s\" is neither an attachment ID nor an absolute http(s) URL. Relative "
+"paths and data URIs are not supported."
+msgstr ""
+"„%s“ ist weder eine Anhang-ID noch eine absolute http(s)-URL. Relative Pfade"
+" und Data-URIs werden nicht unterstützt."
+
+#. translators: 1: the rejected URL, 2: list of allowed extensions.
+#: includes/abilities-media.php:307
+#, php-format
+msgid "The URL %1$s has no supported image extension. Allowed: %2$s."
+msgstr "Die URL %1$s hat keine unterstützte Bilddateiendung. Erlaubt: %2$s."
+
+#. translators: %d: attachment ID.
+#: includes/abilities-media.php:346
+#, php-format
+msgid "Attachment %d does not exist."
+msgstr "Anhang %d existiert nicht."
+
+#. translators: %d: attachment ID.
+#: includes/abilities-media.php:357
+#, php-format
+msgid "Attachment %d is not an image."
+msgstr "Anhang %d ist kein Bild."
+
+#: includes/abilities-media.php:371
+msgid "The image URL is not a valid, publicly reachable http(s) URL."
+msgstr "Die Bild-URL ist keine gültige, öffentlich erreichbare http(s)-URL."
+
+#: includes/abilities-media.php:428
+msgid "The downloaded file is not an image."
+msgstr "Die heruntergeladene Datei ist kein Bild."
+
+#. translators: 1: file size, 2: maximum allowed size, 3: attachment ID.
+#: includes/abilities-media.php:446
+#, php-format
+msgid ""
+"The downloaded image is too large (%1$s, limit %2$s). It stays in the media "
+"library as attachment %3$d - delete it there if you do not want it."
+msgstr ""
+"Das heruntergeladene Bild ist zu groß (%1$s, Limit %2$s). Es bleibt als "
+"Anhang %3$d in der Mediathek – löschen Sie es dort, wenn Sie es nicht "
+"benötigen."
+
+#. translators: 1: MIME type of the remote file, 2: list of allowed MIME
+#. types.
+#: includes/abilities-media.php:491
+#, php-format
+msgid "The URL returns %1$s. Allowed image types: %2$s."
+msgstr "Die URL liefert %1$s. Erlaubte Bildtypen: %2$s."
+
+#. translators: 1: file size, 2: maximum allowed size.
+#: includes/abilities-media.php:506
+#, php-format
+msgid "The image is too large (%1$s, limit %2$s)."
+msgstr "Das Bild ist zu groß (%1$s, Limit %2$s)."
+
+#: includes/abilities-media.php:553
+msgid "Product images"
+msgstr "Produktbilder"
+
+#: includes/abilities-media.php:554
+msgid ""
+"Returns the featured image and the gallery of a WooCommerce product, "
+"including attachment ID, URL, alt text and title for every image. Product "
+"variations are not supported - ask for the parent product."
+msgstr ""
+"Gibt das Beitragsbild und die Galerie eines WooCommerce-Produkts zurück, "
+"einschließlich Anhang-ID, URL, Alternativtext und Titel jedes Bildes. "
+"Produktvarianten werden nicht unterstützt – fragen Sie nach dem "
+"übergeordneten Produkt."
+
+#: includes/abilities-media.php:592
+msgid "Set product images"
+msgstr "Produktbilder festlegen"
+
+#: includes/abilities-media.php:593
+msgid ""
+"Sets the featured image and/or the gallery of a WooCommerce product. Each "
+"image is either an existing attachment ID or an image URL, which is "
+"downloaded into the media library and attached to the product. In "
+"\"replace\" mode the product stops pointing at its previous images - the "
+"attachments themselves are never deleted. All inputs are resolved before "
+"anything is written: if one fails, the product is left untouched."
+msgstr ""
+"Legt das Beitragsbild und/oder die Galerie eines WooCommerce-Produkts fest. "
+"Jedes Bild ist entweder eine vorhandene Anhang-ID oder eine Bild-URL, die in"
+" die Mediathek heruntergeladen und dem Produkt zugeordnet wird. Im Modus "
+"„replace“ verweist das Produkt nicht mehr auf seine bisherigen Bilder – die "
+"Anhänge selbst werden nie gelöscht. Alle Eingaben werden aufgelöst, bevor "
+"etwas gespeichert wird: Schlägt eine fehl, bleibt das Produkt unverändert."
+
+#: includes/abilities-media.php:665
+msgid "Set attachment alt text"
+msgstr "Alternativtext des Anhangs festlegen"
+
+#: includes/abilities-media.php:666
+msgid ""
+"Sets the alt text (and optionally the title and caption) of a media library "
+"attachment. Used to make product images accessible (WCAG 1.1.1)."
+msgstr ""
+"Legt den Alternativtext (und optional Titel und Bildunterschrift) eines "
+"Anhangs in der Mediathek fest. Dient dazu, Produktbilder barrierefrei zu "
+"machen (WCAG 1.1.1)."
+
+#: includes/abilities-media.php:784
+msgid "Provide at least \"featured\" or \"gallery\"."
+msgstr "Geben Sie mindestens „featured“ oder „gallery“ an."
+
+#. translators: %d: number of inputs that could not be resolved.
+#: includes/abilities-media.php:840
+#, php-format
+msgid "%d image input could not be resolved; the product was not changed."
+msgid_plural ""
+"%d image inputs could not be resolved; the product was not changed."
+msgstr[0] ""
+"%d Bildeingabe konnte nicht aufgelöst werden; das Produkt wurde nicht "
+"geändert."
+msgstr[1] ""
+"%d Bildeingaben konnten nicht aufgelöst werden; das Produkt wurde nicht "
+"geändert."
+
+#: includes/abilities-media.php:927
+msgid "No attachment found for the given attachment_id."
+msgstr "Zur angegebenen attachment_id wurde kein Anhang gefunden."
+
+#: includes/admin/class-px-settings.php:27
+msgid "PX Shop"
+msgstr "PX Shop"
+
+#: includes/admin/class-px-settings.php:39
+#: includes/admin/class-px-settings.php:75
+msgid "Modules"
+msgstr "Module"
+
+#: includes/admin/class-px-settings.php:77
+msgid ""
+"Only the modules switched on here are loaded. A module that is off registers"
+" no hooks, no REST routes and no admin screens; stored data (waitlist "
+"subscribers, wishlists, GPSR fields) stays untouched and comes back with it."
+msgstr ""
+"Es werden nur die hier eingeschalteten Module geladen. Ein ausgeschaltetes "
+"Modul registriert keine Hooks, keine REST-Routen und keine Admin-Seiten; "
+"gespeicherte Daten (Abonnenten der Verfügbarkeitsbenachrichtigung, "
+"Merklisten, GPSR-Felder) bleiben unberührt und sind mit dem Modul wieder da."
+
+#: includes/admin/class-px-settings.php:105
+msgid "Overridden in code - the switch below has no effect."
+msgstr "Im Code überschrieben – der Schalter unten hat keine Wirkung."
+
+#: includes/class-px-antispam.php:81 includes/modules.php:258
+msgid "Back-in-stock waitlist"
+msgstr "Verfügbarkeitsbenachrichtigung"
+
+#: includes/class-px-antispam.php:82
+msgid "Registration (My account)"
+msgstr "Registrierung (Mein Konto)"
+
+#: includes/class-px-antispam.php:83
+msgid "Lost password"
+msgstr "Passwort vergessen"
+
+#: includes/class-px-antispam.php:84
+msgid "Product reviews"
+msgstr "Produktbewertungen"
+
+#: includes/class-px-antispam.php:85
+msgid "Withdrawal and claim forms (px-wc-requests)"
+msgstr "Widerrufs- und Reklamationsformulare (px-wc-requests)"
+
+#: includes/class-px-antispam.php:86
+msgid "Login (My account, checkout)"
+msgstr "Anmeldung (Mein Konto, Kasse)"
+
+#: includes/class-px-antispam.php:117 includes/modules.php:242
+msgid "Anti-spam"
+msgstr "Anti-Spam"
+
+#: includes/class-px-antispam.php:126
+msgid "Service"
+msgstr "Dienst"
+
+#: includes/class-px-antispam.php:131
+msgid "Cloudflare Turnstile"
+msgstr "Cloudflare Turnstile"
+
+#: includes/class-px-antispam.php:132
+msgid "Google reCAPTCHA v2 (checkbox)"
+msgstr "Google reCAPTCHA v2 (Kontrollkästchen)"
+
+#: includes/class-px-antispam.php:139
+msgid "Site key"
+msgstr "Websiteschlüssel (Site Key)"
+
+#: includes/class-px-antispam.php:147
+msgid "Secret key"
+msgstr "Geheimer Schlüssel (Secret Key)"
+
+#: includes/class-px-antispam.php:148
+msgid ""
+"Prefer the PX_ANTISPAM_SECRET_KEY constant in wp-config.php - a key in the "
+"database travels with every backup and export."
+msgstr ""
+"Verwenden Sie besser die Konstante PX_ANTISPAM_SECRET_KEY in wp-config.php –"
+" ein Schlüssel in der Datenbank wandert mit jedem Backup und Export mit."
+
+#: includes/class-px-antispam.php:159
+msgid "Protect"
+msgstr "Schützen"
+
+#: includes/class-px-antispam.php:178
+msgid ""
+"A challenge on public forms against spam bots. Turnstile is free in any "
+"Cloudflare account and works even when the site does not run through "
+"Cloudflare (add the domain to a Turnstile widget). reCAPTCHA sets Google "
+"cookies - mention it in the privacy policy, and a consent tool (Complianz) "
+"may block it until consent, leaving the forms unusable; prefer Turnstile "
+"there. The checkout is never guarded: a failed challenge there costs orders."
+" Only the WooCommerce forms are guarded - wp-login.php is left to the "
+"security plugin (Wordfence). After changing the service or the keys, clear "
+"the page cache."
+msgstr ""
+"Eine Prüfung auf öffentlichen Formularen gegen Spam-Bots. Turnstile ist in "
+"jedem Cloudflare-Konto kostenlos und funktioniert auch, wenn die Website "
+"nicht über Cloudflare läuft (fügen Sie die Domain einem Turnstile-Widget "
+"hinzu). reCAPTCHA setzt Google-Cookies – erwähnen Sie das in der "
+"Datenschutzerklärung; ein Einwilligungstool (Complianz) kann es bis zur "
+"Einwilligung blockieren, sodass sich die Formulare nicht absenden lassen – "
+"verwenden Sie dort besser Turnstile. Die Kasse wird nie geschützt: Eine "
+"fehlgeschlagene Prüfung kostet dort Bestellungen. Geschützt werden nur die "
+"WooCommerce-Formulare – wp-login.php überlässt man dem Sicherheits-Plugin "
+"(Wordfence). Leeren Sie nach einer Änderung des Dienstes oder der Schlüssel "
+"den Seiten-Cache."
+
+#. translators: %s: list of constant names.
+#: includes/class-px-antispam.php:188
+#, php-format
+msgid "Set in wp-config.php: %s."
+msgstr "In wp-config.php festgelegt: %s."
+
+#: includes/class-px-antispam.php:192
+msgid "Both keys are missing or incomplete - no form is guarded yet."
+msgstr ""
+"Ein oder beide Schlüssel fehlen oder sind unvollständig – noch ist kein "
+"Formular geschützt."
+
+#: includes/class-px-antispam.php:375
+msgid "Please confirm that you are not a robot."
+msgstr "Bitte bestätigen Sie, dass Sie kein Roboter sind."
+
+#: includes/class-px-antispam.php:521
+msgid "Review not saved"
+msgstr "Bewertung nicht gespeichert"
+
+#: includes/class-px-attribute-image.php:63
+#: includes/class-px-attribute-image.php:117
+msgid "Select image"
+msgstr "Bild auswählen"
+
+#: includes/class-px-attribute-image.php:64
+msgid "Use image"
+msgstr "Bild verwenden"
+
+#: includes/class-px-attribute-image.php:118
+msgid "Remove image"
+msgstr "Bild entfernen"
+
+#: includes/class-px-attribute-image.php:127
+#: includes/class-px-attribute-image.php:138
+#: includes/class-px-attribute-image.php:193 includes/class-px-content.php:658
+msgid "Image"
+msgstr "Bild"
+
+#: includes/class-px-attribute-image.php:129
+#: includes/class-px-attribute-image.php:141
+msgid "Optional image for this attribute value (swatch, logo, ...)."
+msgstr "Optionales Bild für diesen Attributwert (Farbmuster, Logo, ...)."
+
+#. translators: %s: brand name.
+#: includes/class-px-brand-tab.php:55
+#, php-format
+msgid "About %s"
+msgstr "Über %s"
+
+#: includes/class-px-brand-tab.php:56
+msgid "About the brand"
+msgstr "Über die Marke"
+
+#. translators: %s: brand name.
+#: includes/class-px-brand-tab.php:90
+#, php-format
+msgid "All products by %s"
+msgstr "Alle Produkte von %s"
+
+#: includes/class-px-catalog.php:39 includes/class-px-catalog.php:45
+#: includes/modules.php:282
+msgid "Catalog mode"
+msgstr "Katalogmodus"
+
+#: includes/class-px-catalog.php:41
+msgid ""
+"Turn the shop into a browse-only catalog: add-to-cart buttons and the cart "
+"are hidden. Useful for showrooms or price-on-request shops."
+msgstr ""
+"Macht den Shop zu einem reinen Ansichtskatalog: „In den Warenkorb“-Buttons "
+"und der Warenkorb werden ausgeblendet. Nützlich für Showrooms oder Shops mit"
+" Preisen auf Anfrage."
+
+#: includes/class-px-catalog.php:46
+msgid "Enable catalog mode"
+msgstr "Katalogmodus aktivieren"
+
+#: includes/class-px-catalog.php:52
+msgid "Prices"
+msgstr "Preise"
+
+#: includes/class-px-catalog.php:53
+msgid "Also hide prices"
+msgstr "Auch Preise ausblenden"
+
+#: includes/class-px-catalog.php:59
+msgid "Replacement button text"
+msgstr "Text des Ersatz-Buttons"
+
+#: includes/class-px-catalog.php:60
+msgid "Shown instead of \"Add to cart\". Empty falls back to \"View product\"."
+msgstr ""
+"Wird statt „In den Warenkorb“ angezeigt. Leer bedeutet „Produkt ansehen“."
+
+#: includes/class-px-catalog.php:66
+msgid "Replacement button link"
+msgstr "Link des Ersatz-Buttons"
+
+#: includes/class-px-catalog.php:67
+msgid "Where the button points. Empty links to the product page."
+msgstr "Wohin der Button führt. Leer verlinkt auf die Produktseite."
+
+#: includes/class-px-catalog.php:152
+#: templates/emails/px-waitlist-in-stock.php:27
+#: templates/emails/px-waitlist-subscribed.php:25
+msgid "View product"
+msgstr "Produkt ansehen"
+
+#: includes/class-px-company-fields.php:145
+msgid ""
+"PX Shop Core: the \"Company details\" module is switched on, but WPify Woo "
+"still handles IČO and DIČ. Turn off its \"IČ DIČ\" module (or deactivate the"
+" plugin) and the fields will be served by PX Shop Core - the stored data is "
+"the same and stays where it is."
+msgstr ""
+"PX Shop Core: Das Modul „Firmendaten“ ist eingeschaltet, aber IČO und DIČ "
+"werden noch von WPify Woo verarbeitet. Schalten Sie dort das Modul „IČ DIČ“ "
+"aus (oder deaktivieren Sie das Plugin), dann übernimmt PX Shop Core die "
+"Felder – die gespeicherten Daten sind dieselben und bleiben, wo sie sind."
+
+#: includes/class-px-company-fields.php:159
+msgid "Checkout fields"
+msgstr "Kassenfelder"
+
+#: includes/class-px-company-fields.php:161
+msgid ""
+"IČO, DIČ and IČ DPH are stored as _billing_ic, _billing_dic and "
+"_billing_dic_dph, the keys invoicing plugins and exports already expect. IČ "
+"DPH is only shown for Slovak billing addresses; elsewhere the VAT id belongs"
+" in DIČ. The company name field is part of the block even when WooCommerce "
+"is set to hide it - an invoice needs a name, not just a number."
+msgstr ""
+"IČO, DIČ und IČ DPH werden unter _billing_ic, _billing_dic und "
+"_billing_dic_dph gespeichert – den Schlüsseln, die Rechnungs-Plugins und "
+"Exporte bereits erwarten. IČ DPH wird nur bei slowakischen Rechnungsadressen"
+" angezeigt; anderswo gehört die USt-IdNr. ins Feld DIČ. Das Feld für den "
+"Firmennamen gehört zum Block, auch wenn WooCommerce es ausblenden soll – "
+"eine Rechnung braucht einen Namen, nicht nur eine Nummer."
+
+#: includes/class-px-company-fields.php:165
+msgid "Company checkbox"
+msgstr "Kontrollkästchen „Firmenkauf“"
+
+#: includes/class-px-company-fields.php:166
+msgid ""
+"Show the \"I'm buying for a company\" checkbox and keep the fields hidden "
+"until it is ticked"
+msgstr ""
+"Das Kontrollkästchen „Ich kaufe für ein Unternehmen“ anzeigen und die Felder"
+" erst nach dem Anhaken einblenden"
+
+#: includes/class-px-company-fields.php:172
+msgid "Field position"
+msgstr "Position der Felder"
+
+#: includes/class-px-company-fields.php:173
+msgid "Keep the company block together right after the name"
+msgstr "Den Firmenblock direkt nach dem Namen zusammenhalten"
+
+#: includes/class-px-company-fields.php:177
+msgid ""
+"Name, then the checkbox, then the company name and the numbers - all above "
+"the address, so the register lookup has somewhere to fill in. With this off "
+"the block follows wherever the company field already sits."
+msgstr ""
+"Name, dann das Kontrollkästchen, dann Firmenname und Nummern – alles "
+"oberhalb der Adresse, damit die Registerabfrage etwas ausfüllen kann. Ist "
+"dies ausgeschaltet, folgt der Block dort, wo das Firmenfeld bereits steht."
+
+#. translators: %s: field label
+#: includes/class-px-company-fields.php:180
+#: includes/class-px-company-fields.php:318
+#: includes/class-px-company-fields.php:763
+msgid "Company name"
+msgstr "Firmenname"
+
+#: includes/class-px-company-fields.php:181
+msgid "Required when buying for a company"
+msgstr "Pflichtfeld beim Kauf für ein Unternehmen"
+
+#: includes/class-px-company-fields.php:187
+msgid "Identification number"
+msgstr "Firmen-ID"
+
+#: includes/class-px-company-fields.php:188
+msgid "When is IČO required?"
+msgstr "Wann ist die Firmen-ID (IČO) erforderlich?"
+
+#: includes/class-px-company-fields.php:193
+msgid "When the company checkbox is ticked"
+msgstr "Wenn das Kontrollkästchen „Firmenkauf“ angehakt ist"
+
+#: includes/class-px-company-fields.php:194
+msgid "When the company name is filled in"
+msgstr "Wenn der Firmenname ausgefüllt ist"
+
+#: includes/class-px-company-fields.php:195
+msgid "Never"
+msgstr "Nie"
+
+#: includes/class-px-company-fields.php:199
+msgid "Format check"
+msgstr "Formatprüfung"
+
+#: includes/class-px-company-fields.php:200
+msgid "Reject numbers that cannot be right before the order is placed"
+msgstr ""
+"Nummern ablehnen, die nicht stimmen können, bevor die Bestellung aufgegeben "
+"wird"
+
+#: includes/class-px-company-fields.php:204
+msgid ""
+"IČO 8 digits, SK DIČ 10 digits, SK IČ DPH SK + 10 digits, other EU VAT ids "
+"country prefix + number."
+msgstr ""
+"IČO 8 Ziffern, SK DIČ 10 Ziffern, SK IČ DPH SK + 10 Ziffern, andere EU-USt-"
+"IdNr. Länderpräfix + Nummer."
+
+#: includes/class-px-company-fields.php:212
+msgid "Public registers"
+msgstr "Öffentliche Register"
+
+#: includes/class-px-company-fields.php:214
+msgid ""
+"RPO (Statistical Office) for Slovak numbers, ARES (Ministry of Finance) for "
+"Czech ones. Both are free, need no key and are queried straight from the "
+"shop; answers are cached for a week."
+msgstr ""
+"RPO (Statistisches Amt) für slowakische Nummern, ARES (Finanzministerium) "
+"für tschechische. Beide sind kostenlos, brauchen keinen Schlüssel und werden"
+" direkt aus dem Shop abgefragt; Antworten werden eine Woche lang "
+"zwischengespeichert."
+
+#: includes/class-px-company-fields.php:218
+msgid "Fill in from the register"
+msgstr "Aus dem Register ausfüllen"
+
+#: includes/class-px-company-fields.php:219
+msgid "Offer a \"Load from register\" button next to IČO"
+msgstr "Neben der IČO einen Button „Aus Register laden“ anbieten"
+
+#: includes/class-px-company-fields.php:223
+msgid ""
+"Fills the company name and registered address. The customer can still edit "
+"everything afterwards."
+msgstr ""
+"Füllt Firmenname und Firmensitz aus. Der Kunde kann danach weiterhin alles "
+"bearbeiten."
+
+#: includes/class-px-company-fields.php:226
+msgid "Verify the number"
+msgstr "Nummer überprüfen"
+
+#: includes/class-px-company-fields.php:227
+msgid "Refuse an IČO the register does not know"
+msgstr "Eine IČO ablehnen, die das Register nicht kennt"
+
+#: includes/class-px-company-fields.php:231
+msgid ""
+"Checked when the order is placed. If the register is down the order goes "
+"through - the outage is ours to log, not the customer's to solve."
+msgstr ""
+"Wird beim Aufgeben der Bestellung geprüft. Ist das Register nicht "
+"erreichbar, geht die Bestellung durch – den Ausfall protokollieren wir, "
+"nicht der Kunde muss ihn lösen."
+
+#: includes/class-px-company-fields.php:239
+msgid "VAT id verification (VIES)"
+msgstr "Prüfung der USt-IdNr. (VIES)"
+
+#: includes/class-px-company-fields.php:241
+msgid ""
+"VIES is the European Commission register of VAT identification numbers. It "
+"is the only evidence that a reverse-charge invoice was issued to a real VAT "
+"payer, so keep it on wherever the reverse charge is on."
+msgstr ""
+"VIES ist das Register der Umsatzsteuer-Identifikationsnummern der "
+"Europäischen Kommission. Es ist der einzige Nachweis, dass eine Rechnung mit"
+" Umkehr der Steuerschuld an einen echten Steuerpflichtigen ausgestellt wurde"
+" – lassen Sie es daher überall eingeschaltet, wo die Umkehr der Steuerschuld"
+" aktiv ist."
+
+#: includes/class-px-company-fields.php:245
+msgid "VIES check"
+msgstr "VIES-Prüfung"
+
+#: includes/class-px-company-fields.php:250
+msgid "Off"
+msgstr "Aus"
+
+#: includes/class-px-company-fields.php:251
+msgid "Check and warn, let the order through"
+msgstr "Prüfen und warnen, Bestellung durchlassen"
+
+#: includes/class-px-company-fields.php:252
+msgid "Check and refuse an unverified VAT id"
+msgstr "Prüfen und eine nicht bestätigte USt-IdNr. ablehnen"
+
+#: includes/class-px-company-fields.php:254
+msgid ""
+"A VIES outage never blocks an order, not even in the strict setting - only "
+"an answer saying the number is unknown does."
+msgstr ""
+"Ein VIES-Ausfall blockiert nie eine Bestellung, auch nicht in der strengen "
+"Einstellung – nur eine Antwort, dass die Nummer unbekannt ist."
+
+#: includes/class-px-company-fields.php:262
+msgid "VAT exemption"
+msgstr "Steuerbefreiung"
+
+#: includes/class-px-company-fields.php:266
+#, php-format
+msgid ""
+"Which country decides follows the WooCommerce setting <em>Calculate tax "
+"based on</em> (%s): the shipping country for goods, the billing country for "
+"services. Leave both switches off in a shop that sells at home only."
+msgstr ""
+"Welches Land entscheidet, richtet sich nach der WooCommerce-Einstellung "
+"<em>Steuer berechnen auf Basis von</em> (%s): bei Waren das Lieferland, bei "
+"Dienstleistungen das Rechnungsland. Lassen Sie in einem Shop, der nur im "
+"Inland verkauft, beide Schalter ausgeschaltet."
+
+#: includes/class-px-company-fields.php:267
+msgid "WooCommerce → Settings → Tax"
+msgstr "WooCommerce → Einstellungen → Steuer"
+
+#: includes/class-px-company-fields.php:272
+msgid "EU reverse charge"
+msgstr "EU-Umkehr der Steuerschuld (Reverse Charge)"
+
+#: includes/class-px-company-fields.php:273
+msgid "No VAT for a business customer in another EU country"
+msgstr "Keine MwSt. für Geschäftskunden in einem anderen EU-Land"
+
+#: includes/class-px-company-fields.php:277
+msgid ""
+"The invoice has to carry the \"reverse charge\" notice and the order belongs"
+" in the EC Sales List."
+msgstr ""
+"Die Rechnung muss den Hinweis „Steuerschuldnerschaft des "
+"Leistungsempfängers“ tragen, und die Bestellung gehört in die "
+"Zusammenfassende Meldung."
+
+#: includes/class-px-company-fields.php:280
+msgid "Export outside the EU"
+msgstr "Ausfuhr außerhalb der EU"
+
+#: includes/class-px-company-fields.php:281
+msgid "No VAT when the goods leave the EU"
+msgstr "Keine MwSt., wenn die Ware die EU verlässt"
+
+#: includes/class-px-company-fields.php:285
+msgid ""
+"Applies to consumers as well as businesses. You need the customs proof of "
+"export to defend it."
+msgstr ""
+"Gilt für Verbraucher wie für Unternehmen. Zur Absicherung benötigen Sie den "
+"zollamtlichen Ausfuhrnachweis."
+
+#: includes/class-px-company-fields.php:288
+msgid "Proof required"
+msgstr "Nachweis erforderlich"
+
+#: includes/class-px-company-fields.php:289
+msgid "Only drop the VAT when VIES confirms the VAT id"
+msgstr "MwSt. nur entfallen lassen, wenn VIES die USt-IdNr. bestätigt"
+
+#: includes/class-px-company-fields.php:293
+msgid ""
+"With this off, any correctly formatted VAT id is enough and the tax risk is "
+"the shop's. Turning it on with the VIES check off leaves the reverse charge "
+"inactive."
+msgstr ""
+"Ist dies ausgeschaltet, genügt jede korrekt formatierte USt-IdNr. und das "
+"Steuerrisiko trägt der Shop. Wird es bei ausgeschalteter VIES-Prüfung "
+"eingeschaltet, bleibt die Umkehr der Steuerschuld inaktiv."
+
+#. translators: %s: field label
+#: includes/class-px-company-fields.php:348
+#: includes/class-px-company-fields.php:773
+#: includes/class-px-company-fields.php:1191
+#: includes/class-px-company-fields.php:1220
+#: includes/class-px-company-fields.php:1259
+#: includes/class-px-company-fields.php:1519 includes/class-px-seller.php:93
+msgid "Company ID"
+msgstr "Firmen-ID"
+
+#: includes/class-px-company-fields.php:349
+msgid "12345678"
+msgstr "12345678"
+
+#: includes/class-px-company-fields.php:357
+#: includes/class-px-company-fields.php:1196
+#: includes/class-px-company-fields.php:1225
+#: includes/class-px-company-fields.php:1260
+#: includes/class-px-company-fields.php:1520 includes/class-px-seller.php:94
+msgid "Tax ID"
+msgstr "Steuernummer"
+
+#: includes/class-px-company-fields.php:365
+#: includes/class-px-company-fields.php:1201
+#: includes/class-px-company-fields.php:1230
+#: includes/class-px-company-fields.php:1261
+#: includes/class-px-company-fields.php:1521 includes/class-px-seller.php:95
+msgid "VAT ID"
+msgstr "USt-IdNr."
+
+#: includes/class-px-company-fields.php:366
+msgid "SK1234567890"
+msgstr "SK1234567890"
+
+#: includes/class-px-company-fields.php:415
+msgid "I'm buying for a company"
+msgstr "Ich kaufe für ein Unternehmen"
+
+#: includes/class-px-company-fields.php:637
+msgid "Load from register"
+msgstr "Aus Register laden"
+
+#: includes/class-px-company-fields.php:638
+msgid "Loading…"
+msgstr "Wird geladen…"
+
+#: includes/class-px-company-fields.php:639
+msgid "Details filled in from the register."
+msgstr "Daten aus dem Register übernommen."
+
+#: includes/class-px-company-fields.php:640
+msgid "VAT id verified in VIES."
+msgstr "USt-IdNr. in VIES bestätigt."
+
+#: includes/class-px-company-fields.php:641
+msgid "VIES does not know this VAT id."
+msgstr "VIES kennt diese USt-IdNr. nicht."
+
+#: includes/class-px-company-fields.php:642
+msgid "VIES did not answer, the number could not be verified."
+msgstr "VIES hat nicht geantwortet, die Nummer konnte nicht überprüft werden."
+
+#: includes/class-px-company-fields.php:643
+#: includes/class-px-company-lookup.php:460
+msgid "The register did not answer. Please fill the details in by hand."
+msgstr ""
+"Das Register hat nicht geantwortet. Bitte füllen Sie die Daten manuell aus."
+
+#: includes/class-px-company-fields.php:701
+msgid ""
+"The VAT id was not found in VIES. Please check it, or leave it empty and the"
+" order will be invoiced with VAT."
+msgstr ""
+"Die USt-IdNr. wurde in VIES nicht gefunden. Bitte prüfen Sie sie oder lassen"
+" Sie das Feld leer – die Bestellung wird dann mit MwSt. abgerechnet."
+
+#. translators: %s: field label
+#: includes/class-px-company-fields.php:763
+#: includes/class-px-company-fields.php:773
+#, php-format
+msgid "%s is a required field when buying for a company."
+msgstr "%s ist beim Kauf für ein Unternehmen ein Pflichtfeld."
+
+#: includes/class-px-company-fields.php:892
+msgid "The company ID is not in the expected format (8 digits, no spaces)."
+msgstr ""
+"Die Firmen-ID hat nicht das erwartete Format (8 Ziffern, ohne Leerzeichen)."
+
+#: includes/class-px-company-fields.php:893
+msgid "The company ID is not in the expected format."
+msgstr "Die Firmen-ID hat nicht das erwartete Format."
+
+#: includes/class-px-company-fields.php:903
+msgid "The tax ID is not in the expected format (10 digits, no spaces)."
+msgstr ""
+"Die Steuernummer hat nicht das erwartete Format (10 Ziffern, ohne "
+"Leerzeichen)."
+
+#: includes/class-px-company-fields.php:907
+msgid "The VAT ID is not in the expected format (SK followed by 10 digits)."
+msgstr ""
+"Die USt-IdNr. hat nicht das erwartete Format (SK gefolgt von 10 Ziffern)."
+
+#: includes/class-px-company-fields.php:912
+msgid "The VAT ID has to be the tax ID with an SK prefix."
+msgstr "Die USt-IdNr. muss die Steuernummer mit dem Präfix SK sein."
+
+#. translators: %s: country prefix of a VAT id, e.g. CZ
+#: includes/class-px-company-fields.php:924
+#, php-format
+msgid ""
+"The tax ID is not in the expected format (prefix %s followed by the number)."
+msgstr ""
+"Die Steuernummer hat nicht das erwartete Format (Präfix %s gefolgt von der "
+"Nummer)."
+
+#: includes/class-px-company-fields.php:1372
+msgid "Domestic sale, VAT charged."
+msgstr "Inlandsverkauf, MwSt. berechnet."
+
+#: includes/class-px-company-fields.php:1373
+msgid "VAT charged."
+msgstr "MwSt. berechnet."
+
+#: includes/class-px-company-fields.php:1374
+msgid "Export outside the EU, VAT not charged."
+msgstr "Ausfuhr außerhalb der EU, keine MwSt. berechnet."
+
+#: includes/class-px-company-fields.php:1375
+msgid "EU reverse charge, VAT not charged (VAT id verified)."
+msgstr "EU-Reverse-Charge, keine MwSt. berechnet (USt-IdNr. bestätigt)."
+
+#: includes/class-px-company-fields.php:1376
+msgid "VAT id could not be verified, VAT charged."
+msgstr "USt-IdNr. konnte nicht bestätigt werden, MwSt. berechnet."
+
+#: includes/class-px-company-fields.php:1379
+msgid "VAT"
+msgstr "MwSt."
+
+#: includes/class-px-company-fields.php:1421
+msgid "Register lookup is switched off."
+msgstr "Die Registerabfrage ist ausgeschaltet."
+
+#: includes/class-px-company-fields.php:1425
+#: includes/class-px-company-fields.php:1452
+msgid "Too many requests, please wait a moment."
+msgstr "Zu viele Anfragen, bitte warten Sie einen Moment."
+
+#: includes/class-px-company-fields.php:1448
+msgid "VAT id verification is switched off."
+msgstr "Die Prüfung der USt-IdNr. ist ausgeschaltet."
+
+#: includes/class-px-company-lookup.php:80
+msgid "Enter an identification number first."
+msgstr "Geben Sie zuerst eine Firmen-ID ein."
+
+#: includes/class-px-company-lookup.php:87
+msgid "There is no register available for this country."
+msgstr "Für dieses Land ist kein Register verfügbar."
+
+#: includes/class-px-company-lookup.php:182
+msgid "This company is no longer registered in RPO."
+msgstr "Dieses Unternehmen ist im RPO nicht mehr eingetragen."
+
+#: includes/class-px-company-lookup.php:240
+msgid "This company is no longer registered in ARES."
+msgstr "Dieses Unternehmen ist im ARES nicht mehr eingetragen."
+
+#: includes/class-px-company-lookup.php:363
+msgid "Not found in the register."
+msgstr "Im Register nicht gefunden."
+
+#: includes/class-px-company-lookup.php:452
+msgid "This identification number is not in the ARES register."
+msgstr "Diese Firmen-ID ist im Register ARES nicht enthalten."
+
+#: includes/class-px-company-lookup.php:453
+msgid "This identification number is not in the RPO register."
+msgstr "Diese Firmen-ID ist im Register RPO nicht enthalten."
+
+#: includes/class-px-compare.php:106 includes/class-px-waitlist.php:201
+#: includes/class-px-waitlist.php:467 includes/class-px-wishlist.php:128
+msgid "Invalid product."
+msgstr "Ungültiges Produkt."
+
+#: includes/class-px-compare.php:126
+msgid "No products to compare yet."
+msgstr "Noch keine Produkte zum Vergleichen."
+
+#: includes/class-px-compare.php:129 includes/class-px-wishlist.php:160
+msgid "Browse products"
+msgstr "Produkte durchsuchen"
+
+#: includes/class-px-compare.php:151 includes/class-px-content.php:526
+msgid "Remove"
+msgstr "Entfernen"
+
+#: includes/class-px-compare.php:158
+msgid "Product"
+msgstr "Produkt"
+
+#: includes/class-px-compare.php:165
+msgid "Price"
+msgstr "Preis"
+
+#: includes/class-px-compare.php:172
+msgid "Availability"
+msgstr "Verfügbarkeit"
+
+#: includes/class-px-compare.php:174
+msgid "In stock"
+msgstr "Auf Lager"
+
+#: includes/class-px-compare.php:174
+msgid "Out of stock"
+msgstr "Nicht vorrätig"
+
+#: includes/class-px-compare.php:251 includes/modules.php:250
+msgid "Compare"
+msgstr "Produktvergleich"
+
+#: includes/class-px-compare.php:253
+msgid ""
+"Page where the comparison table is rendered. Themes link to it from the "
+"compare counter; with no page set the link is simply not rendered."
+msgstr ""
+"Seite, auf der die Vergleichstabelle angezeigt wird. Themes verlinken sie "
+"über den Vergleichszähler; ist keine Seite festgelegt, wird der Link einfach"
+" nicht angezeigt."
+
+#: includes/class-px-compare.php:257
+msgid "Compare page"
+msgstr "Vergleichsseite"
+
+#: includes/class-px-consent.php:219
+msgid ""
+"Not loaded: the \"Cookie consent\" module sends the consent signals itself. "
+"Switch this one off."
+msgstr ""
+"Nicht geladen: Das Modul „Cookie-Einwilligung“ sendet die "
+"Einwilligungssignale selbst. Schalten Sie dieses Modul aus."
+
+#. translators: %s: name of the other consent plugin.
+#: includes/class-px-consent.php:235
+#, php-format
+msgid ""
+"PX Shop Core: the \"Cookie consent\" module is switched on, but %s is active"
+" as well. Two consent banners would fight over one answer, so this module is"
+" doing nothing. Deactivate the other plugin, or switch this module off."
+msgstr ""
+"PX Shop Core: Das Modul „Cookie-Einwilligung“ ist eingeschaltet, aber %s ist"
+" ebenfalls aktiv. Zwei Einwilligungsbanner würden um eine Antwort "
+"konkurrieren, daher tut dieses Modul nichts. Deaktivieren Sie das andere "
+"Plugin oder schalten Sie dieses Modul aus."
+
+#: includes/class-px-consent.php:260
+msgid ""
+"PX Shop Core: the \"Google Consent Mode v2\" module (the Complianz bridge) "
+"is not loaded - the \"Cookie consent\" module sends the signals itself. "
+"Switch the bridge off, so the screen does not promise something the site no "
+"longer does."
+msgstr ""
+"PX Shop Core: Das Modul „Google Consent Mode v2“ (die Complianz-Brücke) wird"
+" nicht geladen – das Modul „Cookie-Einwilligung“ sendet die Signale selbst. "
+"Schalten Sie die Brücke aus, damit die Seite nichts verspricht, was die "
+"Website nicht mehr tut."
+
+#. translators: %s: comma separated service names.
+#: includes/class-px-consent.php:270
+#, php-format
+msgid ""
+"PX Shop Core: these services are switched on but have no id filled in, so "
+"they are not loaded: %s"
+msgstr ""
+"PX Shop Core: Diese Dienste sind eingeschaltet, haben aber keine ID, daher "
+"werden sie nicht geladen: %s"
+
+#: includes/class-px-consent.php:287 includes/modules.php:274
+#: templates/consent/banner.php:48
+msgid "Cookie consent"
+msgstr "Cookie-Einwilligung"
+
+#: includes/class-px-consent.php:289
+msgid ""
+"The shop's own consent banner. Switch on only the services the site really "
+"uses - each one adds a row to the banner, to the cookie policy page and, "
+"where it applies, a script to the page. Known limit: without IAB TCF "
+"certification this banner is not enough for AdSense or Ad Manager; GA4 and "
+"Ads conversion measurement are unaffected."
+msgstr ""
+"Das eigene Einwilligungsbanner des Shops. Schalten Sie nur die Dienste ein, "
+"die die Website wirklich nutzt – jeder fügt dem Banner und der Cookie-"
+"Richtlinie eine Zeile hinzu und, wo zutreffend, der Seite ein Skript. "
+"Bekannte Einschränkung: Ohne IAB-TCF-Zertifizierung reicht dieses Banner für"
+" AdSense oder Ad Manager nicht aus; GA4 und die Conversion-Messung in Ads "
+"sind nicht betroffen."
+
+#: includes/class-px-consent.php:293
+msgid "Policy version"
+msgstr "Version der Richtlinie"
+
+#: includes/class-px-consent.php:294
+msgid ""
+"Change it whenever a service or a purpose changes - everyone is asked again."
+" Any short value works: 1, 2, 2026-08."
+msgstr ""
+"Ändern Sie sie, sobald sich ein Dienst oder ein Zweck ändert – dann werden "
+"alle erneut gefragt. Jeder kurze Wert genügt: 1, 2, 2026-08."
+
+#: includes/class-px-consent.php:301
+msgid "Cookie policy page"
+msgstr "Seite der Cookie-Richtlinie"
+
+#: includes/class-px-consent.php:302
+msgid ""
+"The banner links to it. The page holding [px_cookie_policy] is created as a "
+"draft when this module is switched on; publish it and link it from the "
+"footer."
+msgstr ""
+"Das Banner verlinkt darauf. Die Seite mit [px_cookie_policy] wird beim "
+"Einschalten dieses Moduls als Entwurf angelegt; veröffentlichen Sie sie und "
+"verlinken Sie sie im Footer."
+
+#: includes/class-px-consent.php:310 includes/modules.php:278
+msgid "Google Consent Mode v2"
+msgstr "Google Consent Mode v2"
+
+#: includes/class-px-consent.php:311
+msgid "Send the consent signals to Google"
+msgstr "Einwilligungssignale an Google senden"
+
+#: includes/class-px-consent.php:315
+msgid ""
+"Keep it on even when the tags come from somewhere else - the \"denied by "
+"default\" state has to be in the page before any Google tag runs."
+msgstr ""
+"Lassen Sie dies eingeschaltet, auch wenn die Tags von woanders kommen – der "
+"Zustand „standardmäßig abgelehnt“ muss in der Seite stehen, bevor irgendein "
+"Google-Tag ausgeführt wird."
+
+#: includes/class-px-consent.php:340
+msgid "On"
+msgstr "Ein"
+
+#: includes/class-px-content.php:126
+msgid "Content"
+msgstr "Inhalt"
+
+#: includes/class-px-content.php:127
+msgid "Content item"
+msgstr "Inhaltselement"
+
+#: includes/class-px-content.php:128
+msgid "Add content item"
+msgstr "Inhaltselement hinzufügen"
+
+#: includes/class-px-content.php:129
+msgid "Edit content item"
+msgstr "Inhaltselement bearbeiten"
+
+#: includes/class-px-content.php:130
+msgid "Search content"
+msgstr "Inhalte durchsuchen"
+
+#: includes/class-px-content.php:131
+msgid "No content items found."
+msgstr "Keine Inhaltselemente gefunden."
+
+#: includes/class-px-content.php:133
+msgid "Reusable content blocks (banners etc.) rendered by the theme."
+msgstr ""
+"Wiederverwendbare Inhaltsblöcke (Banner usw.), die vom Theme angezeigt "
+"werden."
+
+#: includes/class-px-content.php:151
+msgid "Content categories"
+msgstr "Inhaltskategorien"
+
+#: includes/class-px-content.php:152
+msgid "Content category"
+msgstr "Inhaltskategorie"
+
+#: includes/class-px-content.php:153
+msgid "Add content category"
+msgstr "Inhaltskategorie hinzufügen"
+
+#: includes/class-px-content.php:154
+msgid "Edit content category"
+msgstr "Inhaltskategorie bearbeiten"
+
+#: includes/class-px-content.php:155
+msgid "Search content categories"
+msgstr "Inhaltskategorien durchsuchen"
+
+#: includes/class-px-content.php:259
+msgid "Text left, image right"
+msgstr "Text links, Bild rechts"
+
+#: includes/class-px-content.php:264
+msgid "Image left, text right"
+msgstr "Bild links, Text rechts"
+
+#: includes/class-px-content.php:269
+msgid "Image background, text over it"
+msgstr "Bild im Hintergrund, Text darüber"
+
+#: includes/class-px-content.php:275
+msgid "Text and buttons only"
+msgstr "Nur Text und Buttons"
+
+#: includes/class-px-content.php:348
+msgid "Banner display"
+msgstr "Banner-Darstellung"
+
+#: includes/class-px-content.php:381
+#: templates/content/parts/banner-video.php:58
+msgid "Background video"
+msgstr "Hintergrundvideo"
+
+#: includes/class-px-content.php:382
+msgid "Use this video"
+msgstr "Dieses Video verwenden"
+
+#: includes/class-px-content.php:407
+msgid ""
+"Title = heading, Excerpt = intro text above the buttons, editor = free text,"
+" Featured image = banner image. Empty fields are simply not rendered."
+msgstr ""
+"Titel = Überschrift, Textauszug = Einleitungstext über den Buttons, Editor ="
+" freier Text, Beitragsbild = Bannerbild. Leere Felder werden einfach nicht "
+"angezeigt."
+
+#: includes/class-px-content.php:413 includes/class-px-content.php:664
+msgid "Layout"
+msgstr "Layout"
+
+#: includes/class-px-content.php:424
+msgid "Eyebrow"
+msgstr "Dachzeile"
+
+#: includes/class-px-content.php:426
+msgid "Small line above the heading."
+msgstr "Kurze Zeile über der Überschrift."
+
+#: includes/class-px-content.php:430
+msgid "Text alignment"
+msgstr "Textausrichtung"
+
+#: includes/class-px-content.php:441
+msgid "Image dimming (%)"
+msgstr "Bildabdunkelung (%)"
+
+#: includes/class-px-content.php:443
+msgid "Dark layer between image and text, so the text stays readable."
+msgstr "Dunkle Ebene zwischen Bild und Text, damit der Text lesbar bleibt."
+
+#: includes/class-px-content.php:451
+msgid "Button text"
+msgstr "Button-Text"
+
+#: includes/class-px-content.php:456
+msgid "Button link"
+msgstr "Button-Link"
+
+#: includes/class-px-content.php:461
+msgid "Second button text"
+msgstr "Text des zweiten Buttons"
+
+#: includes/class-px-content.php:466
+msgid "Second button link"
+msgstr "Link des zweiten Buttons"
+
+#: includes/class-px-content.php:477
+msgid "Whole banner link"
+msgstr "Link für das ganze Banner"
+
+#: includes/class-px-content.php:479
+msgid ""
+"Optional. The whole banner area becomes clickable; the buttons keep their "
+"own links."
+msgstr ""
+"Optional. Die gesamte Bannerfläche wird klickbar; die Buttons behalten ihre "
+"eigenen Links."
+
+#. translators: %s: shortcode example
+#: includes/class-px-content.php:488
+#, php-format
+msgid ""
+"A button shows only when both its fields are filled. Place the banner "
+"anywhere with %s."
+msgstr ""
+"Ein Button wird nur angezeigt, wenn beide Felder ausgefüllt sind. Platzieren"
+" Sie das Banner an beliebiger Stelle mit %s."
+
+#: includes/class-px-content.php:512
+msgid "Background video (YouTube / Vimeo)"
+msgstr "Hintergrundvideo (YouTube / Vimeo)"
+
+#: includes/class-px-content.php:514
+msgid ""
+"Plays muted in a loop behind the text; the banner image is shown until it "
+"starts and whenever it cannot play."
+msgstr ""
+"Wird stumm in einer Schleife hinter dem Text abgespielt; bis es startet und "
+"überall, wo es nicht abgespielt werden kann, wird das Bannerbild angezeigt."
+
+#: includes/class-px-content.php:516
+msgid ""
+"This address is not a YouTube or Vimeo video - the banner shows only the "
+"image."
+msgstr ""
+"Diese Adresse ist kein YouTube- oder Vimeo-Video – das Banner zeigt nur das "
+"Bild."
+
+#: includes/class-px-content.php:521
+msgid "Or a video file (MP4 / WebM)"
+msgstr "Oder eine Videodatei (MP4 / WebM)"
+
+#: includes/class-px-content.php:525
+msgid "Choose video"
+msgstr "Video auswählen"
+
+#: includes/class-px-content.php:528
+msgid ""
+"From the media library; needs no cookie consent. When both are filled, the "
+"file is used."
+msgstr ""
+"Aus der Mediathek; benötigt keine Cookie-Einwilligung. Sind beide Felder "
+"ausgefüllt, wird die Datei verwendet."
+
+#: includes/class-px-content.php:534
+msgid "Play on mobile too"
+msgstr "Auch auf Mobilgeräten abspielen"
+
+#: includes/class-px-content.php:536
+msgid "Off: phones show only the image (saves data and battery)."
+msgstr "Aus: Smartphones zeigen nur das Bild (spart Daten und Akku)."
+
+#: includes/class-px-content.php:550
+msgid "Left"
+msgstr "Links"
+
+#: includes/class-px-content.php:551
+msgid "Center"
+msgstr "Zentriert"
+
+#: includes/class-px-content.php:552
+msgid "Right"
+msgstr "Rechts"
+
+#: includes/class-px-content.php:1421
+msgid "Banners"
+msgstr "Banner"
+
+#: includes/class-px-content.php:1422
+msgid "carousel"
+msgstr "Karussell"
+
+#: includes/class-px-content.php:1423
+msgid "slide"
+msgstr "Folie"
+
+#: includes/class-px-content.php:1424
+msgid "Previous slide"
+msgstr "Vorherige Folie"
+
+#: includes/class-px-content.php:1425
+msgid "Next slide"
+msgstr "Nächste Folie"
+
+#: includes/class-px-content.php:1426
+msgid "Pause slide show"
+msgstr "Diashow pausieren"
+
+#: includes/class-px-content.php:1427
+msgid "Play slide show"
+msgstr "Diashow abspielen"
+
+#: includes/class-px-content.php:1428
+msgid "Choose slide"
+msgstr "Folie auswählen"
+
+#. translators: 1: slide number, 2: number of slides
+#: includes/class-px-content.php:1450
+#, php-format
+msgid "%1$d of %2$d"
+msgstr "%1$d von %2$d"
+
+#: includes/class-px-gpsr.php:40
+msgid "Manufacturer"
+msgstr "Hersteller"
+
+#: includes/class-px-gpsr.php:41
+msgid "EU responsible person"
+msgstr "Verantwortliche Person in der EU"
+
+#: includes/class-px-gpsr.php:42
+msgid "Country of origin"
+msgstr "Herkunftsland"
+
+#: includes/class-px-gpsr.php:43
+msgid "Safety warnings"
+msgstr "Sicherheitshinweise"
+
+#: includes/class-px-gpsr.php:44
+msgid "Safety documentation"
+msgstr "Sicherheitsdokumentation"
+
+#: includes/class-px-gpsr.php:76
+msgid "Product safety (GPSR)"
+msgstr "Produktsicherheit (GPSR)"
+
+#: includes/class-px-gpsr.php:144
+msgid "Edit source"
+msgstr "Quelle bearbeiten"
+
+#: includes/class-px-gpsr.php:150
+msgid ""
+"Filled in on the product brand (Products → Brands) - it is then used by "
+"every product of that brand."
+msgstr ""
+"Wird bei der Produktmarke ausgefüllt (Produkte → Marken) – und dann für "
+"jedes Produkt dieser Marke verwendet."
+
+#. translators: %s: brand name.
+#: includes/class-px-gpsr.php:255
+#, php-format
+msgid "Taken from brand %s."
+msgstr "Übernommen von der Marke %s."
+
+#: includes/class-px-gpsr.php:352
+msgid ""
+"Filled in once here and shown on every product of this brand. A product "
+"overrides it only by filling the same field in its own Product safety (GPSR)"
+" tab."
+msgstr ""
+"Einmal hier ausgefüllt und bei jedem Produkt dieser Marke angezeigt. Ein "
+"Produkt überschreibt es nur, wenn es dasselbe Feld in seinem eigenen Tab "
+"„Produktsicherheit (GPSR)“ ausfüllt."
+
+#: includes/class-px-gpsr.php:404
+msgid "Safety & compliance"
+msgstr "Sicherheit & Konformität"
+
+#: includes/class-px-old-term-slugs.php:449
+msgid "Old slugs"
+msgstr "Alte Slugs"
+
+#. translators: %s: old slug.
+#: includes/class-px-old-term-slugs.php:472
+#, php-format
+msgid "Remove %s"
+msgstr "%s entfernen"
+
+#: includes/class-px-old-term-slugs.php:479
+msgid ""
+"Addresses with these slugs are redirected (301) to this term. They are "
+"recorded automatically when the slug changes."
+msgstr ""
+"Adressen mit diesen Slugs werden (301) auf diesen Begriff weitergeleitet. "
+"Sie werden bei einer Änderung des Slugs automatisch erfasst."
+
+#: includes/class-px-old-term-slugs.php:498
+msgid "Sorry, you are not allowed to edit this item."
+msgstr "Sie sind leider nicht berechtigt, dieses Element zu bearbeiten."
+
+#. translators: %s: formatted price.
+#: includes/class-px-omnibus.php:623
+#, php-format
+msgid "Lowest price in the last 30 days: %s"
+msgstr "Niedrigster Preis der letzten 30 Tage: %s"
+
+#: includes/class-px-related-cats.php:85
+#: includes/class-px-related-cats.php:664
+#: includes/class-px-related-cats.php:684 includes/modules.php:266
+msgid "Related categories"
+msgstr "Verwandte Kategorien"
+
+#: includes/class-px-related-cats.php:87
+msgid ""
+"Which categories go with which is set on the category itself (Products → "
+"Categories). Subcategories inherit from their parent, so one setting usually"
+" covers a whole branch."
+msgstr ""
+"Welche Kategorien zusammengehören, wird direkt an der Kategorie festgelegt "
+"(Produkte → Kategorien). Unterkategorien erben von ihrer übergeordneten "
+"Kategorie, sodass eine Einstellung meist einen ganzen Zweig abdeckt."
+
+#: includes/class-px-related-cats.php:91
+msgid "Number of products"
+msgstr "Anzahl der Produkte"
+
+#: includes/class-px-related-cats.php:92
+msgid ""
+"How many products the theme gets. They are taken in turn from each related "
+"category, so one category cannot fill the whole row."
+msgstr ""
+"Wie viele Produkte das Theme erhält. Sie werden abwechselnd aus jeder "
+"verwandten Kategorie genommen, sodass eine Kategorie nicht die ganze Reihe "
+"füllen kann."
+
+#: includes/class-px-related-cats.php:103
+msgid "Which products first"
+msgstr "Welche Produkte zuerst"
+
+#: includes/class-px-related-cats.php:104
+msgid "Order inside each related category."
+msgstr "Reihenfolge innerhalb jeder verwandten Kategorie."
+
+#: includes/class-px-related-cats.php:110
+msgid "Best selling"
+msgstr "Meistverkauft"
+
+#: includes/class-px-related-cats.php:111
+msgid "Newest"
+msgstr "Neueste"
+
+#: includes/class-px-related-cats.php:112
+msgid "Category order (menu order)"
+msgstr "Kategoriereihenfolge (Menüreihenfolge)"
+
+#: includes/class-px-related-cats.php:116
+#: includes/class-px-related-cats.php:669
+#: includes/class-px-related-cats.php:692
+msgid "Heading"
+msgstr "Überschrift"
+
+#: includes/class-px-related-cats.php:117
+msgid ""
+"Used when the category does not set its own. Empty falls back to \"Goes well"
+" with this\"."
+msgstr ""
+"Wird verwendet, wenn die Kategorie keine eigene festlegt. Leer bedeutet "
+"„Passt gut dazu“."
+
+#: includes/class-px-related-cats.php:123
+msgid "Cart"
+msgstr "Warenkorb"
+
+#: includes/class-px-related-cats.php:124
+msgid "Offer them in the cart as well"
+msgstr "Auch im Warenkorb anbieten"
+
+#. translators: no placeholders.
+#: includes/class-px-related-cats.php:129
+msgid ""
+"Adds them to the cart cross-sells, after the ones the products name "
+"themselves. Applies to the classic cart; the block cart draws its own."
+msgstr ""
+"Fügt sie den Cross-Sells im Warenkorb hinzu, nach denen, die die Produkte "
+"selbst angeben. Gilt für den klassischen Warenkorb; der Block-Warenkorb "
+"zeigt eigene an."
+
+#: includes/class-px-related-cats.php:132
+msgid "Cache"
+msgstr "Cache"
+
+#: includes/class-px-related-cats.php:133
+msgid ""
+"Hours before the product list is looked up again. 0 turns caching off "
+"(development only)."
+msgstr ""
+"Stunden, bis die Produktliste erneut ermittelt wird. 0 schaltet den Cache "
+"aus (nur für die Entwicklung)."
+
+#: includes/class-px-related-cats.php:225
+msgid "Goes well with this"
+msgstr "Passt gut dazu"
+
+#: includes/class-px-related-cats.php:671
+#: includes/class-px-related-cats.php:696
+msgid "Optional. Shown above the products instead of the default one."
+msgstr ""
+"Optional. Wird über den Produkten statt der Standardüberschrift angezeigt."
+
+#: includes/class-px-related-cats.php:706
+msgid ""
+"Products in this category will offer products from the categories ticked "
+"here. Subcategories inherit this, so ticking it on the top category is "
+"usually enough."
+msgstr ""
+"Produkte in dieser Kategorie bieten Produkte aus den hier angehakten "
+"Kategorien an. Unterkategorien erben dies, daher genügt es meist, es bei der"
+" obersten Kategorie anzuhaken."
+
+#. translators: %s: name of the parent category the setting is inherited from.
+#: includes/class-px-related-cats.php:737
+#, php-format
+msgid "Nothing ticked: the list is inherited from %s."
+msgstr "Nichts angehakt: Die Liste wird von %s geerbt."
+
+#: includes/class-px-related-cats.php:768
+msgid "No product categories yet."
+msgstr "Noch keine Produktkategorien."
+
+#: includes/class-px-related-cats.php:796
+msgid "Search categories…"
+msgstr "Kategorien suchen…"
+
+#: includes/class-px-related-cats.php:799
+msgid "Selected only"
+msgstr "Nur ausgewählte"
+
+#: includes/class-px-related-cats.php:970
+msgid "Related"
+msgstr "Verwandt"
+
+#: includes/class-px-related-cats.php:989
+msgid "inherited"
+msgstr "geerbt"
+
+#: includes/class-px-sale-dates.php:58 includes/modules.php:222
+msgid "Sale validity"
+msgstr "Angebotsgültigkeit"
+
+#: includes/class-px-sale-dates.php:60
+msgid ""
+"Shows how long a discounted price applies. The date comes from the product "
+"(Sale price dates); products discounted by a plugin that sets no dates fall "
+"back to the shop-wide campaign end below."
+msgstr ""
+"Zeigt, wie lange ein reduzierter Preis gilt. Das Datum stammt vom Produkt "
+"(Zeitraum des Angebotspreises); Produkte, die über ein Plugin ohne "
+"Datumsangaben reduziert werden, verwenden das unten festgelegte shopweite "
+"Kampagnenende."
+
+#: includes/class-px-sale-dates.php:64
+msgid "Product cards"
+msgstr "Produktkarten"
+
+#: includes/class-px-sale-dates.php:65
+msgid "Show the end of the sale on product cards"
+msgstr "Ende des Angebots auf Produktkarten anzeigen"
+
+#: includes/class-px-sale-dates.php:71
+msgid "Product detail"
+msgstr "Produktdetail"
+
+#: includes/class-px-sale-dates.php:72
+msgid "Show the end of the sale on the product page"
+msgstr "Ende des Angebots auf der Produktseite anzeigen"
+
+#: includes/class-px-sale-dates.php:78
+msgid "Live countdown under"
+msgstr "Live-Countdown ab weniger als"
+
+#: includes/class-px-sale-dates.php:79
+msgid ""
+"hours before the end. The date turns into a ticking countdown; 0 keeps the "
+"date."
+msgstr ""
+"Stunden vor dem Ende. Das Datum wird zu einem laufenden Countdown; 0 behält "
+"das Datum bei."
+
+#: includes/class-px-sale-dates.php:89
+msgid "Hide when further away than"
+msgstr "Ausblenden, wenn das Ende weiter entfernt ist als"
+
+#: includes/class-px-sale-dates.php:90
+msgid "days. A sale running for months is not news; 0 always shows the date."
+msgstr ""
+"Tage. Ein Angebot, das seit Monaten läuft, ist keine Neuigkeit; 0 zeigt das "
+"Datum immer an."
+
+#: includes/class-px-sale-dates.php:100
+msgid "Shop-wide campaign end"
+msgstr "Shopweites Kampagnenende"
+
+#: includes/class-px-sale-dates.php:101
+msgid ""
+"Used for products whose discount carries no date of its own - typically a "
+"sitewide discount plugin. Leave empty when every sale has its own dates."
+msgstr ""
+"Wird für Produkte verwendet, deren Rabatt kein eigenes Datum hat – "
+"typischerweise ein Plugin für shopweite Rabatte. Lassen Sie es leer, wenn "
+"jedes Angebot eigene Daten hat."
+
+#. translators: %s: date the sale price stops applying.
+#: includes/class-px-sale-dates.php:285
+#, php-format
+msgid "Sale price valid until %s"
+msgstr "Angebotspreis gültig bis %s"
+
+#. translators: %d: maximum number of characters.
+#: includes/class-px-search.php:72
+#, php-format
+msgid "The search phrase must be a string of at most %d characters."
+msgstr "Der Suchbegriff muss eine Zeichenkette mit höchstens %d Zeichen sein."
+
+#: includes/class-px-seller.php:60 includes/modules.php:238
+msgid "Seller details"
+msgstr "Angaben zum Verkäufer"
+
+#. translators: %s: shortcode and placeholder examples.
+#: includes/class-px-seller.php:63
+#, php-format
+msgid "Entered once, shown wherever the law asks for them: %s."
+msgstr "Einmal eingegeben, überall angezeigt, wo das Gesetz sie verlangt: %s."
+
+#: includes/class-px-seller.php:66
+msgid "Trade name"
+msgstr "Firmenname"
+
+#: includes/class-px-seller.php:66
+msgid "Exactly as in the register, including the legal form (s. r. o.)."
+msgstr "Genau wie im Register, einschließlich der Rechtsform (s. r. o.)."
+
+#: includes/class-px-seller.php:67
+msgid "Registered address"
+msgstr "Firmensitz"
+
+#: includes/class-px-seller.php:67
+msgid "Empty uses the store address from WooCommerce → Settings → General."
+msgstr ""
+"Leer verwendet die Shopadresse aus WooCommerce → Einstellungen → Allgemein."
+
+#: includes/class-px-seller.php:68
+msgid "Company ID (IČO)"
+msgstr "Firmen-ID (IČO)"
+
+#: includes/class-px-seller.php:69
+msgid "Tax ID (DIČ)"
+msgstr "Steuernummer (DIČ)"
+
+#: includes/class-px-seller.php:70
+msgid "VAT ID (IČ DPH)"
+msgstr "USt-IdNr. (IČ DPH)"
+
+#: includes/class-px-seller.php:70
+msgid "Leave empty when the seller is not a VAT payer."
+msgstr "Leer lassen, wenn der Verkäufer nicht umsatzsteuerpflichtig ist."
+
+#: includes/class-px-seller.php:71
+msgid "Register entry"
+msgstr "Registereintrag"
+
+#: includes/class-px-seller.php:71
+msgid ""
+"E.g. \"Commercial register of the City Court Bratislava III, section Sro, "
+"insert no. 12345/B\" or the trade licence office."
+msgstr ""
+"Z. B. „Handelsregister des Stadtgerichts Bratislava III, Abteilung Sro, "
+"Einlage Nr. 12345/B“ oder das Gewerbeamt."
+
+#: includes/class-px-seller.php:72
+msgid "Customer e-mail"
+msgstr "E-Mail für Kunden"
+
+#: includes/class-px-seller.php:73
+msgid "Customer phone"
+msgstr "Telefon für Kunden"
+
+#: includes/class-px-seller.php:74 includes/class-px-seller.php:99
+msgid "Supervisory authority"
+msgstr "Aufsichtsbehörde"
+
+#: includes/class-px-seller.php:74
+msgid ""
+"Slovak Trade Inspection inspectorate for the seat region, with its address. "
+"Used in the terms: [px_seller field=\"supervisor\"]."
+msgstr ""
+"Inspektorat der Slowakischen Handelsinspektion für die Region des Sitzes, "
+"mit Adresse. Wird in den AGB verwendet: [px_seller field=\"supervisor\"]."
+
+#: includes/class-px-seller.php:97
+msgid "E-mail"
+msgstr "E-Mail"
+
+#: includes/class-px-seller.php:98
+msgid "Phone"
+msgstr "Telefon"
+
+#: includes/class-px-size-guide.php:115 includes/modules.php:262
+msgid "Size guides"
+msgstr "Größentabellen"
+
+#: includes/class-px-size-guide.php:116 includes/class-px-size-guide.php:325
+#: includes/class-px-size-guide.php:499 includes/class-px-size-guide.php:682
+#: includes/class-px-size-guide.php:699
+msgid "Size guide"
+msgstr "Größentabelle"
+
+#: includes/class-px-size-guide.php:117
+msgid "Add size guide"
+msgstr "Größentabelle hinzufügen"
+
+#: includes/class-px-size-guide.php:118
+msgid "Edit size guide"
+msgstr "Größentabelle bearbeiten"
+
+#: includes/class-px-size-guide.php:119
+msgid "Search size guides"
+msgstr "Größentabellen durchsuchen"
+
+#: includes/class-px-size-guide.php:120 includes/class-px-size-guide.php:644
+msgid "No size guides yet."
+msgstr "Noch keine Größentabellen."
+
+#: includes/class-px-size-guide.php:121
+msgid "No size guides in the trash."
+msgstr "Keine Größentabellen im Papierkorb."
+
+#: includes/class-px-size-guide.php:338
+msgid "Close"
+msgstr "Schließen"
+
+#: includes/class-px-size-guide.php:490
+msgid "Size table"
+msgstr "Größentabelle"
+
+#: includes/class-px-size-guide.php:524
+msgid ""
+"One row per line, cells separated by | (a table pasted from a spreadsheet "
+"works too). The first row is the header."
+msgstr ""
+"Eine Tabellenzeile pro Zeile, Zellen durch | getrennt (eine aus einer "
+"Tabellenkalkulation eingefügte Tabelle funktioniert auch). Die erste Zeile "
+"ist die Kopfzeile."
+
+#: includes/class-px-size-guide.php:531
+msgid "Hide the table and show only the content above"
+msgstr "Tabelle ausblenden und nur den Inhalt darüber anzeigen"
+
+#: includes/class-px-size-guide.php:540
+msgid "Assigned categories:"
+msgstr "Zugewiesene Kategorien:"
+
+#: includes/class-px-size-guide.php:553
+msgid ""
+"Not assigned to any category yet - a guide is picked on the product, or on "
+"the product category screen."
+msgstr ""
+"Noch keiner Kategorie zugewiesen – eine Tabelle wird beim Produkt oder auf "
+"der Seite der Produktkategorie ausgewählt."
+
+#: includes/class-px-size-guide.php:650
+msgid "— inherit from category —"
+msgstr "— von der Kategorie übernehmen —"
+
+#: includes/class-px-size-guide.php:657
+msgid "— do not show —"
+msgstr "— nicht anzeigen —"
+
+#: includes/class-px-size-guide.php:684 includes/class-px-size-guide.php:702
+msgid "Used by products in this category that do not pick a guide themselves."
+msgstr ""
+"Wird für Produkte dieser Kategorie verwendet, die selbst keine Tabelle "
+"auswählen."
+
+#: includes/class-px-size-guide.php:718
+msgid "— none —"
+msgstr "— keine —"
+
+#: includes/class-px-size-guide.php:839
+msgid "do not show"
+msgstr "nicht anzeigen"
+
+#. translators: %s: name of the size guide inherited from the old theme.
+#: includes/class-px-size-guide.php:845
+#, php-format
+msgid "Still using the guide from the old theme: %s"
+msgstr "Es gilt noch die Tabelle aus dem alten Theme: %s"
+
+#: includes/class-px-unit-price.php:114
+msgctxt "unit: piece"
+msgid "pc"
+msgstr "Stk."
+
+#: includes/class-px-unit-price.php:147
+msgctxt "unit price reference: one piece"
+msgid "1 pc"
+msgstr "1 Stk."
+
+#: includes/class-px-unit-price.php:382
+msgid "Unit price:"
+msgstr "Grundpreis:"
+
+#. translators: 1: formatted price, 2: reference quantity ("1 l", "1 kg").
+#: includes/class-px-unit-price.php:385
+#, php-format
+msgctxt "unit price line"
+msgid "%1$s / %2$s"
+msgstr "%1$s / %2$s"
+
+#: includes/class-px-unit-price.php:445 includes/class-px-unit-price.php:477
+msgid "Package content"
+msgstr "Packungsinhalt"
+
+#: includes/class-px-unit-price.php:446
+msgid ""
+"Quantity in the package, for the unit price the price marking rules require "
+"(per 1 kg, 1 l, 1 m or 1 piece). Leave empty for goods sold as one piece and"
+" for sets of different goods at one price; packs of at most 50 g / 50 ml "
+"show no unit price either way."
+msgstr ""
+"Menge in der Packung für den Grundpreis, den die Preisangabevorschriften "
+"verlangen (pro 1 kg, 1 l, 1 m oder 1 Stück). Lassen Sie das Feld leer bei "
+"Waren, die als einzelnes Stück verkauft werden, und bei Sets verschiedener "
+"Waren zu einem Preis; Packungen bis 50 g / 50 ml zeigen ohnehin keinen "
+"Grundpreis."
+
+#: includes/class-px-unit-price.php:454 includes/class-px-unit-price.php:488
+msgid "Unit"
+msgstr "Einheit"
+
+#: includes/class-px-unit-price.php:478
+msgid "Empty inherits the parent product."
+msgstr "Leer übernimmt den Wert des übergeordneten Produkts."
+
+#: includes/class-px-waitlist.php:196
+msgid "Please enter a valid e-mail address."
+msgstr "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+
+#: includes/class-px-waitlist.php:214
+msgid "The waitlist for this product is full."
+msgstr "Die Warteliste für dieses Produkt ist voll."
+
+#: includes/class-px-waitlist.php:355
+msgid "This link is no longer valid."
+msgstr "Dieser Link ist nicht mehr gültig."
+
+#: includes/class-px-waitlist.php:427
+msgid "Done - we will e-mail you as soon as the product is back in stock."
+msgstr ""
+"Erledigt – wir benachrichtigen Sie per E-Mail, sobald das Produkt wieder auf"
+" Lager ist."
+
+#: includes/class-px-waitlist.php:428
+msgid "Done - we will not e-mail you about product availability again."
+msgstr ""
+"Erledigt – wir schreiben Ihnen nicht mehr zur Verfügbarkeit von Produkten."
+
+#: includes/class-px-waitlist.php:470
+msgid "This product is already in stock."
+msgstr "Dieses Produkt ist bereits auf Lager."
+
+#: includes/class-px-waitlist.php:488
+msgid "Almost there - open the e-mail we just sent and confirm your address."
+msgstr ""
+"Fast geschafft – öffnen Sie die E-Mail, die wir Ihnen gerade gesendet haben,"
+" und bestätigen Sie Ihre Adresse."
+
+#: includes/class-px-waitlist.php:489
+msgid "Thank you! We will e-mail you as soon as the product is back in stock."
+msgstr ""
+"Vielen Dank! Wir benachrichtigen Sie per E-Mail, sobald das Produkt wieder "
+"auf Lager ist."
+
+#: includes/class-px-waitlist.php:609
+msgid "Out of stock. Leave your e-mail and we will tell you when it is back."
+msgstr ""
+"Nicht vorrätig. Hinterlassen Sie Ihre E-Mail-Adresse, und wir sagen Ihnen "
+"Bescheid, wenn es wieder da ist."
+
+#: includes/class-px-waitlist.php:611
+msgid "Your e-mail"
+msgstr "Ihre E-Mail-Adresse"
+
+#: includes/class-px-waitlist.php:619
+msgid "your@email.com"
+msgstr "ihre@email.de"
+
+#: includes/class-px-waitlist.php:621
+msgid "Notify me"
+msgstr "Benachrichtigen"
+
+#: includes/class-px-waitlist.php:704 includes/class-px-waitlist.php:705
+msgid "Something went wrong, please try again."
+msgstr "Etwas ist schiefgelaufen, bitte versuchen Sie es erneut."
+
+#: includes/class-px-waitlist.php:743
+msgid "Waitlist"
+msgstr "Warteliste"
+
+#. translators: %d: number of subscribers.
+#: includes/class-px-waitlist.php:796
+#, php-format
+msgid "Customers waiting for this product: %d"
+msgstr "Kunden, die auf dieses Produkt warten: %d"
+
+#: includes/class-px-waitlist.php:807
+msgid "(not confirmed)"
+msgstr "(nicht bestätigt)"
+
+#: includes/class-px-wishlist.php:157
+msgid "Your wishlist is empty."
+msgstr "Ihre Merkliste ist leer."
+
+#: includes/class-px-wishlist.php:195 includes/modules.php:246
+msgid "Wishlist"
+msgstr "Merkliste"
+
+#: includes/class-px-wishlist.php:197
+msgid ""
+"Page holding the [px_wishlist] shortcode. Themes link to it from the header "
+"icon; with no page set the link is simply not rendered."
+msgstr ""
+"Seite mit dem Shortcode [px_wishlist]. Themes verlinken sie über das Symbol "
+"im Header; ist keine Seite festgelegt, wird der Link einfach nicht "
+"angezeigt."
+
+#: includes/class-px-wishlist.php:201
+msgid "Wishlist page"
+msgstr "Merklisten-Seite"
+
+#: includes/consent/class-px-consent-page.php:59
+#: templates/consent/banner.php:56 templates/consent/modal.php:42
+msgid "Cookie policy"
+msgstr "Cookie-Richtlinie"
+
+#: includes/consent/class-px-consent-page.php:87
+msgid ""
+"Cookies are small files that a website stores in your browser. Some are "
+"needed for the shop to work at all - without them the cart would forget what"
+" you put in it. Others are only used with your consent: they measure how the"
+" site is used or make our advertising more relevant."
+msgstr ""
+"Cookies sind kleine Dateien, die eine Website in Ihrem Browser speichert. "
+"Einige sind nötig, damit der Shop überhaupt funktioniert – ohne sie würde "
+"der Warenkorb vergessen, was Sie hineingelegt haben. Andere verwenden wir "
+"nur mit Ihrer Einwilligung: Sie messen, wie die Website genutzt wird, oder "
+"machen unsere Werbung relevanter."
+
+#: includes/consent/class-px-consent-page.php:88
+msgid ""
+"You decide about the optional ones when you first arrive and you can change "
+"your mind at any time - the button at the end of this page opens the "
+"settings again. Withdrawing consent is as easy as giving it and does not "
+"affect what happened before."
+msgstr ""
+"Über die optionalen Cookies entscheiden Sie bei Ihrem ersten Besuch, und Sie"
+" können Ihre Meinung jederzeit ändern – die Schaltfläche am Ende dieser "
+"Seite öffnet die Einstellungen erneut. Der Widerruf der Einwilligung ist so "
+"einfach wie ihre Erteilung und berührt nicht, was zuvor geschehen ist."
+
+#: includes/consent/class-px-consent-page.php:89
+msgid ""
+"You also have the right to access your data, to have it corrected or erased,"
+" to restrict or object to its processing and to lodge a complaint with the "
+"supervisory authority. Details are in the privacy policy."
+msgstr ""
+"Sie haben außerdem das Recht auf Auskunft über Ihre Daten, auf Berichtigung "
+"oder Löschung, auf Einschränkung der Verarbeitung, auf Widerspruch gegen die"
+" Verarbeitung sowie auf Beschwerde bei der Aufsichtsbehörde. Einzelheiten "
+"finden Sie in der Datenschutzerklärung."
+
+#: includes/consent/class-px-consent-services.php:71
+msgid "Necessary"
+msgstr "Notwendig"
+
+#: includes/consent/class-px-consent-services.php:72
+msgid ""
+"Needed for the site to work - the cart, logging in, remembering the choice "
+"you are making right now. They cannot be switched off."
+msgstr ""
+"Nötig, damit die Website funktioniert – Warenkorb, Anmeldung, das Speichern "
+"der Auswahl, die Sie gerade treffen. Sie können nicht ausgeschaltet werden."
+
+#: includes/consent/class-px-consent-services.php:76
+msgid "Preferences"
+msgstr "Präferenzen"
+
+#: includes/consent/class-px-consent-services.php:77
+msgid ""
+"Remember your settings, such as the language or the way products are listed,"
+" so you do not have to choose again."
+msgstr ""
+"Speichern Ihre Einstellungen, etwa die Sprache oder die Art der "
+"Produktauflistung, damit Sie nicht erneut wählen müssen."
+
+#: includes/consent/class-px-consent-services.php:81
+msgid "Statistics"
+msgstr "Statistik"
+
+#: includes/consent/class-px-consent-services.php:82
+msgid ""
+"Tell us how the site is used - which pages are visited and where visitors "
+"get lost. The data is used to improve the shop."
+msgstr ""
+"Zeigen uns, wie die Website genutzt wird – welche Seiten besucht werden und "
+"wo Besucher nicht weiterkommen. Die Daten dienen der Verbesserung des Shops."
+
+#: includes/consent/class-px-consent-services.php:86
+msgid "Marketing"
+msgstr "Marketing"
+
+#: includes/consent/class-px-consent-services.php:87
+msgid ""
+"Used to measure the results of advertising and to show you offers that are "
+"relevant to you, here and on other sites."
+msgstr ""
+"Dienen dazu, den Erfolg von Werbung zu messen und Ihnen hier und auf anderen"
+" Websites Angebote zu zeigen, die für Sie relevant sind."
+
+#. translators: %d: number of days.
+#: includes/consent/class-px-consent-services.php:359
+#, php-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d Tag"
+msgstr[1] "%d Tage"
+
+#: includes/consent/class-px-consent-services.php:362
+msgid "Your cookie choice, so you are not asked on every page."
+msgstr "Ihre Cookie-Auswahl, damit Sie nicht auf jeder Seite gefragt werden."
+
+#: includes/consent/class-px-consent-services.php:370
+msgid "30 days"
+msgstr "30 Tage"
+
+#: includes/consent/class-px-consent-services.php:371
+msgid "How many products you chose to see on one page."
+msgstr "Wie viele Produkte Sie auf einer Seite sehen möchten."
+
+#: includes/consent/class-px-consent-services.php:377
+#: includes/consent/class-px-consent-services.php:385
+msgid "1 month"
+msgstr "1 Monat"
+
+#: includes/consent/class-px-consent-services.php:378
+msgid "Products added to favourites by a visitor who is not logged in."
+msgstr ""
+"Produkte, die ein nicht angemeldeter Besucher auf die Merkliste gesetzt hat."
+
+#: includes/consent/class-px-consent-services.php:386
+msgid "Products added to the comparison."
+msgstr "Produkte, die zum Vergleich hinzugefügt wurden."
+
+#: includes/consent/class-px-consent-services.php:409
+msgid ""
+"Keeps you logged in and remembers settings of the administration. Without "
+"them the site cannot tell one visitor from another."
+msgstr ""
+"Sorgen dafür, dass Sie angemeldet bleiben, und speichern Einstellungen der "
+"Administration. Ohne sie kann die Website einen Besucher nicht vom anderen "
+"unterscheiden."
+
+#: includes/consent/class-px-consent-services.php:415
+msgid "Session, or 14 days when \"remember me\" is used"
+msgstr "Sitzung, oder 14 Tage bei „Angemeldet bleiben“"
+
+#: includes/consent/class-px-consent-services.php:416
+msgid "Identifies a logged-in user."
+msgstr "Identifiziert einen angemeldeten Benutzer."
+
+#: includes/consent/class-px-consent-services.php:420
+#: includes/consent/class-px-consent-services.php:546
+#: includes/consent/class-px-consent-services.php:577
+#: includes/consent/class-px-consent-services.php:582
+#: includes/consent/class-px-consent-services.php:599
+msgid "1 year"
+msgstr "1 Jahr"
+
+#: includes/consent/class-px-consent-services.php:421
+msgid "Settings of the administration screens."
+msgstr "Einstellungen der Administrationsseiten."
+
+#: includes/consent/class-px-consent-services.php:429
+msgid ""
+"Runs the cart and the checkout - remembers what you put in the cart and "
+"keeps the order together until it is placed."
+msgstr ""
+"Betreiben Warenkorb und Kasse – speichern, was Sie in den Warenkorb gelegt "
+"haben, und halten die Bestellung zusammen, bis sie aufgegeben wird."
+
+#: includes/consent/class-px-consent-services.php:435
+#: includes/consent/class-px-consent-services.php:440
+#: includes/consent/class-px-consent-services.php:684
+msgid "Session"
+msgstr "Sitzung"
+
+#: includes/consent/class-px-consent-services.php:436
+msgid "Tells the site the cart has changed."
+msgstr "Teilt der Website mit, dass sich der Warenkorb geändert hat."
+
+#: includes/consent/class-px-consent-services.php:441
+msgid "Says whether the cart holds anything."
+msgstr "Gibt an, ob der Warenkorb etwas enthält."
+
+#: includes/consent/class-px-consent-services.php:445
+msgid "2 days"
+msgstr "2 Tage"
+
+#: includes/consent/class-px-consent-services.php:446
+msgid "Links the browser to its cart on the server."
+msgstr "Verknüpft den Browser mit seinem Warenkorb auf dem Server."
+
+#: includes/consent/class-px-consent-services.php:454
+msgid ""
+"Remembers your cookie choice, the way you set the product listing and the "
+"products you added to favourites or to the comparison - each of them stored "
+"only after you clicked."
+msgstr ""
+"Speichert Ihre Cookie-Auswahl, die Einstellung der Produktauflistung und die"
+" Produkte, die Sie auf die Merkliste oder zum Vergleich hinzugefügt haben – "
+"jeweils erst nach Ihrem Klick."
+
+#: includes/consent/class-px-consent-services.php:463
+msgid ""
+"Protects forms from automated abuse. Without it the contact and registration"
+" forms would be filled by robots."
+msgstr ""
+"Schützt Formulare vor automatisiertem Missbrauch. Ohne ihn würden Kontakt- "
+"und Registrierungsformulare von Robotern ausgefüllt."
+
+#: includes/consent/class-px-consent-services.php:469
+msgid ""
+"Switch on only when the site really runs reCAPTCHA. Classified as necessary:"
+" it only runs on forms you submit yourself and is not used for advertising. "
+"A site that would rather ask for consent moves it with the "
+"px_consent_services filter."
+msgstr ""
+"Nur einschalten, wenn die Website reCAPTCHA wirklich verwendet. Als "
+"notwendig eingestuft: Es läuft nur auf Formularen, die Sie selbst absenden, "
+"und wird nicht für Werbung verwendet. Eine Website, die lieber um "
+"Einwilligung bittet, verschiebt es mit dem Filter px_consent_services."
+
+#: includes/consent/class-px-consent-services.php:473
+#: includes/consent/class-px-consent-services.php:679
+#: includes/consent/class-px-consent-services.php:700
+msgid "6 months"
+msgstr "6 Monate"
+
+#: includes/consent/class-px-consent-services.php:474
+msgid "Distinguishes a person from a robot."
+msgstr "Unterscheidet einen Menschen von einem Roboter."
+
+#: includes/consent/class-px-consent-services.php:485
+msgid ""
+"Measures traffic: which pages are visited, how visitors got here and where "
+"they leave. The results are used to improve the shop."
+msgstr ""
+"Misst die Besucherzahlen: welche Seiten besucht werden, wie Besucher hierher"
+" gekommen sind und wo sie die Website verlassen. Die Ergebnisse dienen der "
+"Verbesserung des Shops."
+
+#: includes/consent/class-px-consent-services.php:490
+msgid "Measurement ID"
+msgstr "Mess-ID (Measurement ID)"
+
+#: includes/consent/class-px-consent-services.php:499
+#: includes/consent/class-px-consent-services.php:504
+msgid "2 years"
+msgstr "2 Jahre"
+
+#: includes/consent/class-px-consent-services.php:500
+msgid "Tells one visitor from another."
+msgstr "Unterscheidet einen Besucher vom anderen."
+
+#: includes/consent/class-px-consent-services.php:505
+msgid "Keeps the state of the visit."
+msgstr "Speichert den Status des Besuchs."
+
+#: includes/consent/class-px-consent-services.php:514
+msgid ""
+"Loads the measurement tags of the shop. On its own it stores nothing; the "
+"tags inside it follow the choice you make here."
+msgstr ""
+"Lädt die Mess-Tags des Shops. Allein speichert er nichts; die darin "
+"enthaltenen Tags richten sich nach der Auswahl, die Sie hier treffen."
+
+#: includes/consent/class-px-consent-services.php:519
+msgid "Container ID"
+msgstr "Container-ID"
+
+#: includes/consent/class-px-consent-services.php:525
+msgid ""
+"The container is loaded with Consent Mode already set to denied, so tags "
+"inside it stay quiet until consent. Do not also switch on Google Analytics 4"
+" here when the container already carries the GA4 tag - it would be measured "
+"twice."
+msgstr ""
+"Der Container wird mit bereits auf „abgelehnt“ gesetztem Consent Mode "
+"geladen, sodass die darin enthaltenen Tags bis zur Einwilligung inaktiv "
+"bleiben. Schalten Sie hier nicht zusätzlich Google Analytics 4 ein, wenn der"
+" Container bereits das GA4-Tag enthält – es würde doppelt gemessen."
+
+#: includes/consent/class-px-consent-services.php:531
+msgid ""
+"Records how the site is used - movement of the mouse, scrolling and clicks -"
+" so we can see where the shop is confusing."
+msgstr ""
+"Zeichnet auf, wie die Website genutzt wird – Mausbewegungen, Scrollen und "
+"Klicks –, damit wir sehen, wo der Shop unübersichtlich ist."
+
+#: includes/consent/class-px-consent-services.php:536
+msgid "Project ID"
+msgstr "Projekt-ID"
+
+#: includes/consent/class-px-consent-services.php:547
+msgid "Keeps the visitor id for the recording."
+msgstr "Speichert die Besucher-ID für die Aufzeichnung."
+
+#: includes/consent/class-px-consent-services.php:551
+msgid "1 day"
+msgstr "1 Tag"
+
+#: includes/consent/class-px-consent-services.php:552
+msgid "Joins the page views of one visit."
+msgstr "Verbindet die Seitenaufrufe eines Besuchs."
+
+#: includes/consent/class-px-consent-services.php:561
+msgid ""
+"Live chat with the shop. It remembers the conversation between page views "
+"and records the visit, so the operator knows what you were looking at."
+msgstr ""
+"Live-Chat mit dem Shop. Er merkt sich die Unterhaltung zwischen "
+"Seitenaufrufen und zeichnet den Besuch auf, damit der Mitarbeiter weiß, was "
+"Sie sich angesehen haben."
+
+#: includes/consent/class-px-consent-services.php:566
+msgid "Chat key"
+msgstr "Chat-Schlüssel"
+
+#: includes/consent/class-px-consent-services.php:573
+msgid ""
+"Filed under statistics because Smartsupp also records the visit. A shop that"
+" only uses the chat itself can move it to preferences with the "
+"px_consent_services filter."
+msgstr ""
+"Unter Statistik eingeordnet, weil Smartsupp auch den Besuch aufzeichnet. Ein"
+" Shop, der nur den Chat selbst nutzt, kann ihn mit dem Filter "
+"px_consent_services zu den Präferenzen verschieben."
+
+#: includes/consent/class-px-consent-services.php:578
+msgid "Visitor id of the chat."
+msgstr "Besucher-ID des Chats."
+
+#: includes/consent/class-px-consent-services.php:583
+msgid "Number of visits, shown to the operator."
+msgstr "Anzahl der Besuche, die dem Mitarbeiter angezeigt wird."
+
+#: includes/consent/class-px-consent-services.php:592
+msgid ""
+"After an order it lets Heureka send you a questionnaire about the purchase "
+"and measures how many visits from Heureka end in an order."
+msgstr ""
+"Ermöglicht es Heureka, Ihnen nach einer Bestellung einen Fragebogen zum "
+"Einkauf zu senden, und misst, wie viele Besuche von Heureka mit einer "
+"Bestellung enden."
+
+#: includes/consent/class-px-consent-services.php:595
+msgid ""
+"The measuring code is inserted by the Heureka integration of the shop, not "
+"by this module. For it to wait for consent, give the script the attributes "
+"type=\"text/plain\" and data-px-consent=\"statistics\" data-px-"
+"service=\"heureka\"."
+msgstr ""
+"Der Messcode wird von der Heureka-Integration des Shops eingefügt, nicht von"
+" diesem Modul. Damit er auf die Einwilligung wartet, geben Sie dem Skript "
+"die Attribute type=\"text/plain\" und data-px-consent=\"statistics\" data-"
+"px-service=\"heureka\"."
+
+#: includes/consent/class-px-consent-services.php:600
+msgid "Joins the visit from Heureka to the order."
+msgstr "Verknüpft den Besuch von Heureka mit der Bestellung."
+
+#: includes/consent/class-px-consent-services.php:611
+msgid ""
+"Measures which advertisement led to an order and allows us to show you our "
+"offer again on other sites."
+msgstr ""
+"Misst, welche Werbung zu einer Bestellung geführt hat, und ermöglicht es "
+"uns, Ihnen unser Angebot auf anderen Websites erneut zu zeigen."
+
+#: includes/consent/class-px-consent-services.php:616
+msgid "Conversion ID"
+msgstr "Conversion-ID"
+
+#: includes/consent/class-px-consent-services.php:625
+#: includes/consent/class-px-consent-services.php:655
+#: includes/consent/class-px-consent-services.php:660
+msgid "3 months"
+msgstr "3 Monate"
+
+#: includes/consent/class-px-consent-services.php:626
+msgid "Remembers the click on the advertisement that brought you here."
+msgstr ""
+"Speichert den Klick auf die Werbung, über die Sie hierher gekommen sind."
+
+#: includes/consent/class-px-consent-services.php:630
+msgid "13 months"
+msgstr "13 Monate"
+
+#: includes/consent/class-px-consent-services.php:631
+msgid "Third-party cookies of the advertising system, set on Google domains."
+msgstr "Drittanbieter-Cookies des Werbesystems, gesetzt auf Google-Domains."
+
+#: includes/consent/class-px-consent-services.php:640
+msgid ""
+"Measures the results of advertising on Facebook and Instagram and allows us "
+"to address you there with the products you looked at."
+msgstr ""
+"Misst die Ergebnisse von Werbung auf Facebook und Instagram und ermöglicht "
+"es uns, Sie dort mit den Produkten anzusprechen, die Sie sich angesehen "
+"haben."
+
+#: includes/consent/class-px-consent-services.php:645
+msgid "Pixel ID"
+msgstr "Pixel-ID"
+
+#: includes/consent/class-px-consent-services.php:656
+msgid "Identifies the browser for advertising measurement."
+msgstr "Identifiziert den Browser für die Werbemessung."
+
+#: includes/consent/class-px-consent-services.php:661
+msgid "Third-party cookie of the advertising system on Meta domains."
+msgstr "Drittanbieter-Cookie des Werbesystems auf Meta-Domains."
+
+#: includes/consent/class-px-consent-services.php:670
+msgid ""
+"Plays videos inserted into the pages. YouTube learns which video you played "
+"and can link it to your Google account."
+msgstr ""
+"Spielt in die Seiten eingebettete Videos ab. YouTube erfährt, welches Video "
+"Sie abgespielt haben, und kann dies mit Ihrem Google-Konto verknüpfen."
+
+#: includes/consent/class-px-consent-services.php:680
+msgid "Player settings and measurement of playback."
+msgstr "Player-Einstellungen und Messung der Wiedergabe."
+
+#: includes/consent/class-px-consent-services.php:685
+msgid "Counts the views of a video."
+msgstr "Zählt die Aufrufe eines Videos."
+
+#: includes/consent/class-px-consent-services.php:693
+msgid ""
+"Shows the interactive map with our address. Google learns that the map was "
+"loaded from this site."
+msgstr ""
+"Zeigt die interaktive Karte mit unserer Adresse. Google erfährt, dass die "
+"Karte von dieser Website geladen wurde."
+
+#: includes/consent/class-px-consent-services.php:701
+msgid "Third-party cookies of Google needed to draw the map."
+msgstr ""
+"Drittanbieter-Cookies von Google, die zum Darstellen der Karte nötig sind."
+
+#: includes/emails/class-px-email-waitlist-admin.php:24
+msgid "Waitlist: new subscriber (admin)"
+msgstr "Verfügbarkeitsbenachrichtigung: neuer Abonnent (Admin)"
+
+#: includes/emails/class-px-email-waitlist-admin.php:25
+msgid ""
+"Tells the shop that somebody is waiting for a product that is out of stock."
+msgstr ""
+"Teilt dem Shop mit, dass jemand auf ein nicht vorrätiges Produkt wartet."
+
+#: includes/emails/class-px-email-waitlist-admin.php:38
+msgid "Waitlist: somebody is waiting for {product_name}"
+msgstr "Verfügbarkeitsbenachrichtigung: Jemand wartet auf {product_name}"
+
+#: includes/emails/class-px-email-waitlist-admin.php:42
+msgid "New waitlist subscriber"
+msgstr "Neuer Abonnent der Verfügbarkeitsbenachrichtigung"
+
+#: includes/emails/class-px-email-waitlist-admin.php:64
+msgid "Recipient(s)"
+msgstr "Empfänger"
+
+#. translators: %s: admin e-mail address.
+#: includes/emails/class-px-email-waitlist-admin.php:67
+#, php-format
+msgid "Comma separated. Defaults to %s."
+msgstr "Durch Kommas getrennt. Standard: %s."
+
+#: includes/emails/class-px-email-waitlist-confirm.php:21
+msgid "Waitlist: confirm the address"
+msgstr "Verfügbarkeitsbenachrichtigung: Adresse bestätigen"
+
+#: includes/emails/class-px-email-waitlist-confirm.php:22
+msgid ""
+"Sent right after someone asks to be told when a product is back in stock. "
+"Until they click the link in it, they are not on the list."
+msgstr ""
+"Wird gesendet, sobald jemand benachrichtigt werden möchte, wenn ein Produkt "
+"wieder auf Lager ist. Bis der Link darin angeklickt wird, steht die Person "
+"nicht auf der Liste."
+
+#: includes/emails/class-px-email-waitlist-confirm.php:33
+msgid "Confirm you want to hear about {product_name}"
+msgstr ""
+"Bestätigen Sie, dass Sie über {product_name} informiert werden möchten"
+
+#: includes/emails/class-px-email-waitlist-confirm.php:37
+msgid "One click and you are on the list"
+msgstr "Ein Klick, und Sie stehen auf der Liste"
+
+#: includes/emails/class-px-email-waitlist-in-stock.php:21
+msgid "Waitlist: product is back in stock"
+msgstr "Verfügbarkeitsbenachrichtigung: Produkt wieder auf Lager"
+
+#: includes/emails/class-px-email-waitlist-in-stock.php:22
+msgid ""
+"Sent to confirmed subscribers when the product they are waiting for is "
+"available again."
+msgstr ""
+"Wird an bestätigte Abonnenten gesendet, wenn das Produkt, auf das sie "
+"warten, wieder verfügbar ist."
+
+#: includes/emails/class-px-email-waitlist-in-stock.php:33
+msgid "{product_name} is back in stock"
+msgstr "{product_name} ist wieder auf Lager"
+
+#: includes/emails/class-px-email-waitlist-in-stock.php:37
+msgid "Back in stock"
+msgstr "Wieder auf Lager"
+
+#: includes/emails/class-px-email-waitlist-subscribed.php:21
+msgid "Waitlist: subscription confirmed"
+msgstr "Verfügbarkeitsbenachrichtigung: Anmeldung bestätigt"
+
+#: includes/emails/class-px-email-waitlist-subscribed.php:22
+msgid ""
+"Sent after the customer confirms the address. Carries the unsubscribe link."
+msgstr ""
+"Wird gesendet, nachdem der Kunde die Adresse bestätigt hat. Enthält den "
+"Abmeldelink."
+
+#: includes/emails/class-px-email-waitlist-subscribed.php:33
+msgid "We will let you know about {product_name}"
+msgstr "Wir benachrichtigen Sie, sobald {product_name} verfügbar ist"
+
+#: includes/emails/class-px-email-waitlist-subscribed.php:37
+msgid "You are on the list"
+msgstr "Sie stehen auf der Liste"
+
+#: includes/modules.php:206
+msgid "Content blocks"
+msgstr "Inhaltsblöcke"
+
+#: includes/modules.php:207
+msgid ""
+"Non-public \"Content\" post type for reusable blocks (banners, USP strips) "
+"rendered by the theme."
+msgstr ""
+"Nicht öffentlicher Beitragstyp „Inhalt“ für wiederverwendbare Blöcke "
+"(Banner, Vorteilsleisten), die vom Theme angezeigt werden."
+
+#: includes/modules.php:210
+msgid "Live search"
+msgstr "Live-Suche"
+
+#: includes/modules.php:211
+msgid "REST endpoint behind the search field in the header."
+msgstr "REST-Endpunkt hinter dem Suchfeld im Header."
+
+#: includes/modules.php:214
+msgid "Brand tab"
+msgstr "Marken-Tab"
+
+#: includes/modules.php:215
+msgid ""
+"Adds an \"About the brand\" product tab from the product_brand term "
+"description."
+msgstr ""
+"Fügt einen Produkt-Tab „Über die Marke“ aus der Beschreibung des "
+"product_brand-Begriffs hinzu."
+
+#: includes/modules.php:218
+msgid "EU Omnibus"
+msgstr "EU Omnibus"
+
+#: includes/modules.php:219
+msgid ""
+"Records price history and shows the lowest price of the last 30 days on "
+"discounted products."
+msgstr ""
+"Zeichnet den Preisverlauf auf und zeigt bei reduzierten Produkten den "
+"niedrigsten Preis der letzten 30 Tage."
+
+#: includes/modules.php:223
+msgid ""
+"Shows until when a discounted price applies, as a date or a countdown near "
+"the end."
+msgstr ""
+"Zeigt, bis wann ein reduzierter Preis gilt – als Datum oder kurz vor dem "
+"Ende als Countdown."
+
+#: includes/modules.php:226
+msgid "Unit price"
+msgstr "Grundpreis"
+
+#: includes/modules.php:227
+msgid ""
+"Price per 1 kg / 1 l / 1 m / 1 piece next to the selling price, as the price"
+" marking rules require (Directive 98/6/EC; act 108/2024 § 6). Package "
+"content is entered under the price of each product; without it nothing is "
+"shown."
+msgstr ""
+"Preis pro 1 kg / 1 l / 1 m / 1 Stück neben dem Verkaufspreis, wie es die "
+"Preisangabevorschriften verlangen (Richtlinie 98/6/EG; Gesetz 108/2024 § 6)."
+" Der Packungsinhalt wird unter dem Preis jedes Produkts eingegeben; ohne ihn"
+" wird nichts angezeigt."
+
+#: includes/modules.php:230
+msgid "GPSR product safety"
+msgstr "GPSR-Produktsicherheit"
+
+#: includes/modules.php:231
+msgid ""
+"Manufacturer, safety warnings and instructions on products, with the data "
+"tab in admin."
+msgstr ""
+"Hersteller, Sicherheitshinweise und Anleitungen bei Produkten, mit dem "
+"Daten-Tab in der Administration."
+
+#: includes/modules.php:234
+msgid "Company details"
+msgstr "Firmendaten"
+
+#: includes/modules.php:235
+msgid ""
+"IČO, DIČ and IČ DPH on the checkout, filled in from the RPO/ARES register, "
+"VAT id verified in VIES, EU reverse charge and export outside the EU. Off by"
+" default - switch it on only once the plugin that used to handle these "
+"fields is gone, or the checkout shows them twice."
+msgstr ""
+"IČO, DIČ und IČ DPH in der Kasse, ausgefüllt aus dem Register RPO/ARES, USt-"
+"IdNr. in VIES geprüft, EU-Reverse-Charge und Ausfuhr außerhalb der EU. "
+"Standardmäßig aus – schalten Sie es erst ein, wenn das Plugin, das diese "
+"Felder bisher verarbeitet hat, entfernt ist, sonst erscheinen sie in der "
+"Kasse doppelt."
+
+#: includes/modules.php:239
+msgid ""
+"Trade name, address, IČO, DIČ, IČ DPH, register entry and contact entered "
+"once and shown through [px_seller] on the contact page, in the footer and "
+"the terms, and through {px_seller} in order e-mails."
+msgstr ""
+"Firmenname, Sitz, IČO, DIČ, IČ DPH, Registereintrag und Kontakt einmal "
+"eingegeben und über [px_seller] auf der Kontaktseite, im Footer und in den "
+"AGB sowie über {px_seller} in Bestell-E-Mails angezeigt."
+
+#: includes/modules.php:243
+msgid ""
+"Cloudflare Turnstile or Google reCAPTCHA v2 on the waitlist, registration, "
+"lost password, reviews and the withdrawal and claim forms. Off by default; "
+"does nothing until both keys are set."
+msgstr ""
+"Cloudflare Turnstile oder Google reCAPTCHA v2 auf "
+"Verfügbarkeitsbenachrichtigung, Registrierung, Passwort vergessen, "
+"Bewertungen sowie Widerrufs- und Reklamationsformularen. Standardmäßig aus; "
+"ohne beide Schlüssel tut es nichts."
+
+#: includes/modules.php:247
+msgid ""
+"Favourite products per customer (user meta, cookie for guests) with REST "
+"endpoints."
+msgstr ""
+"Merkliste pro Kunde (User-Meta, Cookie für Gäste) mit REST-Endpunkten."
+
+#: includes/modules.php:251
+msgid ""
+"Side-by-side comparison of up to four products (cookie based) with REST "
+"endpoints."
+msgstr ""
+"Direkter Vergleich von bis zu vier Produkten (cookiebasiert) mit REST-"
+"Endpunkten."
+
+#: includes/modules.php:254
+msgid "Free shipping bar"
+msgstr "Leiste für kostenlosen Versand"
+
+#: includes/modules.php:255
+msgid ""
+"Data for the \"how much is left to free shipping\" progress bar drawn by the"
+" theme."
+msgstr ""
+"Daten für den vom Theme angezeigten Fortschrittsbalken „Wie viel fehlt noch "
+"bis zum kostenlosen Versand“."
+
+#: includes/modules.php:259
+msgid ""
+"Visitors subscribe to an out-of-stock product (double opt-in) and are mailed"
+" once it is back."
+msgstr ""
+"Besucher abonnieren ein nicht vorrätiges Produkt (Double-Opt-in) und "
+"erhalten eine E-Mail, sobald es wieder da ist."
+
+#: includes/modules.php:263
+msgid "Size tables assigned to a product or inherited from its category."
+msgstr ""
+"Größentabellen, die einem Produkt zugewiesen oder von seiner Kategorie "
+"geerbt werden."
+
+#: includes/modules.php:267
+msgid ""
+"Accessories set once per product category instead of product by product "
+"(\"bicycles\" go with \"lights\" and \"bottle cages\"). Subcategories "
+"inherit from their parent."
+msgstr ""
+"Zubehör wird einmal pro Produktkategorie statt Produkt für Produkt "
+"festgelegt („Fahrräder“ passen zu „Leuchten“ und „Flaschenhaltern“). "
+"Unterkategorien erben von ihrer übergeordneten Kategorie."
+
+#: includes/modules.php:270
+msgid "Attribute images"
+msgstr "Attributbilder"
+
+#: includes/modules.php:271
+msgid ""
+"Image field on every product attribute term (pa_*), used by swatches and "
+"filters."
+msgstr ""
+"Bildfeld für jeden Begriff eines Produktattributs (pa_*), verwendet von "
+"Farbmustern und Filtern."
+
+#: includes/modules.php:275
+msgid ""
+"The shop's own consent banner: a service is asked about before it loads, the"
+" answer is kept in a first-party cookie and translated into Google Consent "
+"Mode v2 signals. Replaces Complianz and friends - it does not run next to "
+"them. Off by default; a site that keeps an external CMP leaves it off and "
+"nothing of this module is loaded."
+msgstr ""
+"Das eigene Einwilligungsbanner des Shops: Jeder Dienst wird abgefragt, bevor"
+" er geladen wird, die Antwort wird in einem First-Party-Cookie gespeichert "
+"und in Signale des Google Consent Mode v2 übersetzt. Ersetzt Complianz und "
+"Co. – es läuft nicht parallel dazu. Standardmäßig aus; eine Website, die "
+"eine externe CMP behält, lässt es ausgeschaltet, und von diesem Modul wird "
+"nichts geladen."
+
+#: includes/modules.php:279
+msgid ""
+"Sends Google the consent signals the free Complianz build cannot. Complianz "
+"stays the consent banner, this only translates its decisions for gtag. Needs"
+" Complianz; off by default, so switch it on only once nothing else on the "
+"site emits gtag - otherwise it loads twice."
+msgstr ""
+"Sendet Google die Einwilligungssignale, die die kostenlose Complianz-Version"
+" nicht senden kann. Complianz bleibt das Einwilligungsbanner, dieses Modul "
+"übersetzt nur dessen Entscheidungen für gtag. Erfordert Complianz; "
+"standardmäßig aus – schalten Sie es erst ein, wenn nichts anderes auf der "
+"Website gtag ausgibt, sonst wird es doppelt geladen."
+
+#: includes/modules.php:283
+msgid ""
+"Makes a browse-only shop possible. The mode itself is switched on in this "
+"module's settings."
+msgstr ""
+"Ermöglicht einen reinen Ansichtsshop. Der Modus selbst wird in den "
+"Einstellungen dieses Moduls eingeschaltet."
+
+#: includes/modules.php:286
+msgid "Old term slugs"
+msgstr "Alte Begriff-Slugs"
+
+#: includes/modules.php:287
+msgid ""
+"Remembers the previous slug when a category, tag or brand is renamed and "
+"redirects its old address (301) to the new one, like WordPress does for "
+"posts. Also covers subcategories whose parent was renamed."
+msgstr ""
+"Merkt sich den vorherigen Slug, wenn eine Kategorie, ein Schlagwort oder "
+"eine Marke umbenannt wird, und leitet die alte Adresse (301) auf die neue "
+"weiter, wie es WordPress bei Beiträgen tut. Gilt auch für Unterkategorien, "
+"deren übergeordnete Kategorie umbenannt wurde."
+
+#: includes/modules.php:290
+msgid "Product media for MCP"
+msgstr "Produktmedien für MCP"
+
+#: includes/modules.php:291
+msgid ""
+"Abilities API (WordPress 6.9+) for an MCP connector: read and set product "
+"images and gallery, from the media library or a URL, and fix alt text. "
+"Switch it on only on a site with an MCP connector."
+msgstr ""
+"Abilities API (WordPress 6.9+) für einen MCP-Connector: Produktbilder und "
+"Galerie aus der Mediathek oder von einer URL lesen und festlegen sowie "
+"Alternativtexte korrigieren. Schalten Sie es nur auf einer Website mit MCP-"
+"Connector ein."
+
+#: templates/consent/banner.php:35
+msgid "We care about your privacy"
+msgstr "Ihre Privatsphäre ist uns wichtig"
+
+#: templates/consent/banner.php:44
+msgid ""
+"We use cookies to run the shop, to measure how it is used and to make our "
+"offers relevant. The necessary ones are always on, everything else is up to "
+"you."
+msgstr ""
+"Wir verwenden Cookies, um den Shop zu betreiben, seine Nutzung zu messen und"
+" unsere Angebote relevant zu machen. Die notwendigen sind immer aktiv, über "
+"alles andere entscheiden Sie."
+
+#: templates/consent/banner.php:63 templates/consent/modal.php:177
+msgid "Accept all"
+msgstr "Alle akzeptieren"
+
+#: templates/consent/banner.php:66 templates/consent/modal.php:180
+msgid "Reject all"
+msgstr "Alle ablehnen"
+
+#: templates/consent/banner.php:69
+msgid "Settings"
+msgstr "Einstellungen"
+
+#. translators: %s: service name, e.g. YouTube.
+#: templates/consent/embed.php:41
+#, php-format
+msgid "Content from %s is blocked"
+msgstr "Inhalte von %s sind blockiert"
+
+#. translators: %s: service name, e.g. YouTube.
+#: templates/consent/embed.php:56
+#, php-format
+msgid "Allow %s and show the content"
+msgstr "%s erlauben und Inhalt anzeigen"
+
+#: templates/consent/embed.php:65
+msgid "Open the content in a new window"
+msgstr "Inhalt in einem neuen Fenster öffnen"
+
+#: templates/consent/embed.php:68 templates/consent/modal.php:33
+msgid "Cookie settings"
+msgstr "Cookie-Einstellungen"
+
+#: templates/consent/modal.php:34
+msgid "Close settings"
+msgstr "Einstellungen schließen"
+
+#: templates/consent/modal.php:40
+msgid ""
+"Choose what you allow. You can change your choice at any time - the link in "
+"the footer opens this window again."
+msgstr ""
+"Wählen Sie, was Sie erlauben. Sie können Ihre Auswahl jederzeit ändern – der"
+" Link im Footer öffnet dieses Fenster erneut."
+
+#. translators: %d: number of services.
+#: templates/consent/modal.php:63
+#, php-format
+msgid "%d service"
+msgid_plural "%d services"
+msgstr[0] "%d Dienst"
+msgstr[1] "%d Dienste"
+
+#. translators: %s: category name.
+#. translators: %s: service name.
+#: templates/consent/modal.php:72 templates/consent/modal.php:98
+#, php-format
+msgid "Allow %s"
+msgstr "%s erlauben"
+
+#: templates/consent/modal.php:76
+msgid "Always on"
+msgstr "Immer aktiv"
+
+#: templates/consent/modal.php:105
+msgid "Details"
+msgstr "Details"
+
+#. translators: %s: name and address of the provider.
+#: templates/consent/modal.php:120
+#, php-format
+msgid "Provider: %s"
+msgstr "Anbieter: %s"
+
+#: templates/consent/modal.php:128 templates/consent/policy.php:68
+msgid "Privacy policy"
+msgstr "Datenschutzerklärung"
+
+#. translators: %s: service name.
+#: templates/consent/modal.php:139 templates/consent/policy.php:79
+#, php-format
+msgid "Cookies stored by %s"
+msgstr "Von %s gespeicherte Cookies"
+
+#: templates/consent/modal.php:146 templates/consent/modal.php:154
+#: templates/consent/policy.php:86 templates/consent/policy.php:94
+msgid "Name"
+msgstr "Name"
+
+#: templates/consent/modal.php:147 templates/consent/modal.php:155
+#: templates/consent/policy.php:87 templates/consent/policy.php:95
+msgid "Expiry"
+msgstr "Ablauf"
+
+#: templates/consent/modal.php:148 templates/consent/modal.php:156
+#: templates/consent/policy.php:49 templates/consent/policy.php:88
+#: templates/consent/policy.php:96
+msgid "Purpose"
+msgstr "Zweck"
+
+#: templates/consent/modal.php:183
+msgid "Save choice"
+msgstr "Auswahl speichern"
+
+#: templates/consent/policy.php:54
+msgid "Provider"
+msgstr "Anbieter"
+
+#: templates/consent/policy.php:58
+msgid "Legal basis"
+msgstr "Rechtsgrundlage"
+
+#: templates/consent/policy.php:62
+msgid "Necessary for the service you asked for - no consent needed"
+msgstr ""
+"Notwendig für den von Ihnen angeforderten Dienst – keine Einwilligung "
+"erforderlich"
+
+#: templates/consent/policy.php:63
+msgid "Your consent, which you can withdraw at any time"
+msgstr "Ihre Einwilligung, die Sie jederzeit widerrufen können"
+
+#: templates/consent/policy.php:111
+msgid "Change cookie settings"
+msgstr "Cookie-Einstellungen ändern"
+
+#: templates/content/parts/banner-link.php:44
+msgid "Show more"
+msgstr "Mehr anzeigen"
+
+#. translators: %s: banner heading
+#: templates/content/parts/banner-video.php:57
+#, php-format
+msgid "Background video: %s"
+msgstr "Hintergrundvideo: %s"
+
+#. translators: 1: customer e-mail, 2: product name.
+#: templates/emails/plain/px-waitlist-admin.php:14
+#: templates/emails/px-waitlist-admin.php:18
+#, php-format
+msgid "%1$s is waiting for %2$s."
+msgstr "%1$s wartet auf %2$s."
+
+#: templates/emails/plain/px-waitlist-admin.php:21
+#: templates/emails/px-waitlist-admin.php:27
+msgid "SKU:"
+msgstr "Artikelnummer:"
+
+#: templates/emails/plain/px-waitlist-admin.php:24
+#: templates/emails/px-waitlist-admin.php:28
+msgid "Waiting in total:"
+msgstr "Insgesamt wartend:"
+
+#. translators: %s: product name.
+#: templates/emails/plain/px-waitlist-confirm.php:14
+#: templates/emails/px-waitlist-confirm.php:18
+#, php-format
+msgid ""
+"Somebody (we hope you) asked us to send an e-mail as soon as %s is available"
+" again."
+msgstr ""
+"Jemand (hoffentlich Sie) hat uns gebeten, eine E-Mail zu senden, sobald %s "
+"wieder verfügbar ist."
+
+#: templates/emails/plain/px-waitlist-confirm.php:19
+#: templates/emails/px-waitlist-confirm.php:24
+msgid ""
+"Confirm the address and we will do exactly that - nothing else, no "
+"newsletter."
+msgstr ""
+"Bestätigen Sie die Adresse, und genau das werden wir tun – nichts anderes, "
+"kein Newsletter."
+
+#: templates/emails/plain/px-waitlist-confirm.php:26
+msgid ""
+"If it was not you, just ignore this message - without the link above nothing"
+" happens."
+msgstr ""
+"Wenn Sie das nicht waren, ignorieren Sie diese Nachricht einfach – ohne den "
+"Link oben passiert nichts."
+
+#. translators: %s: product name.
+#: templates/emails/plain/px-waitlist-in-stock.php:14
+#: templates/emails/px-waitlist-in-stock.php:18
+#, php-format
+msgid "Good news - %s is available again."
+msgstr "Gute Nachricht – %s ist wieder verfügbar."
+
+#: templates/emails/plain/px-waitlist-in-stock.php:21
+#: templates/emails/px-waitlist-in-stock.php:31
+msgid "Stock is limited - this message went to everybody who was waiting."
+msgstr ""
+"Der Vorrat ist begrenzt – diese Nachricht ging an alle, die gewartet haben."
+
+#. translators: %s: product name.
+#: templates/emails/plain/px-waitlist-subscribed.php:14
+#: templates/emails/px-waitlist-subscribed.php:18
+#, php-format
+msgid "Thank you - we will e-mail you as soon as %s is back in stock."
+msgstr ""
+"Vielen Dank – wir benachrichtigen Sie per E-Mail, sobald %s wieder auf Lager"
+" ist."
+
+#: templates/emails/plain/px-waitlist-subscribed.php:28
+msgid "Stop e-mailing me about availability:"
+msgstr "Keine E-Mails mehr zur Verfügbarkeit erhalten:"
+
+#: templates/emails/px-waitlist-admin.php:29
+msgid "Edit product"
+msgstr "Produkt bearbeiten"
+
+#: templates/emails/px-waitlist-confirm.php:29
+msgid "Yes, let me know"
+msgstr "Ja, bitte benachrichtigen"
+
+#: templates/emails/px-waitlist-confirm.php:33
+msgid "If the button does not work, open this address:"
+msgstr "Falls der Button nicht funktioniert, öffnen Sie diese Adresse:"
+
+#: templates/emails/px-waitlist-confirm.php:39
+msgid ""
+"If it was not you, just ignore this message - without the click above "
+"nothing happens."
+msgstr ""
+"Wenn Sie das nicht waren, ignorieren Sie diese Nachricht einfach – ohne den "
+"Klick oben passiert nichts."
+
+#: templates/emails/px-waitlist-subscribed.php:36
+msgid "Stop e-mailing me about availability"
+msgstr "Keine E-Mails mehr zur Verfügbarkeit erhalten"
