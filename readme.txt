@@ -3,7 +3,7 @@ Contributors: pixeler
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.13.0
+Stable tag: 1.14.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,6 +40,14 @@ no admin screens — so `class_exists( 'PX_Wishlist' )` stays the reliable test
 for themes.
 
 == Changelog ==
+
+= 1.14.0 =
+Preklady pre jazykové mutácie e-shopov. Kód sa nemení.
+
+* **Nemčina a čeština** – `languages/px-shop-core-de_DE` a `cs_CZ`
+  (515 reťazcov, neutrálne, vykanie).
+* **Slovenčina doplnená** o 28 chýbajúcich reťazcov (media abilities,
+  hlášky vyhľadávania).
 
 = 1.13.0 =
 Antispam na formulároch odstúpenia a reklamácie vyžaduje px-wc-requests 1.10.0 (filter `pxer_submit_check`).
